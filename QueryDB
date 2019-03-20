@@ -1,0 +1,70 @@
+﻿CREATE TABLE td_sch_inclusion.comentario (
+    asunto               VARCHAR (100 ),
+    mensaje              varchar (250 ),
+    id_comentario        INTEGER NOT NULL,
+    id_estudiante        INTEGER,
+    escuela_id_escuela   INTEGER NOT NULL
+);
+
+ALTER TABLE td_sch_inclusion.comentario ADD CONSTRAINT comentario_pk PRIMARY KEY ( id_comentario );
+
+
+
+CREATE TABLE td_sch_inclusion.curso (
+    id_curso             INTEGER NOT NULL,
+    nombre               varchar (50 ),
+    escuela_id_escuela   INTEGER NOT NULL
+);
+
+ALTER TABLE td_sch_inclusion.curso ADD CONSTRAINT curso_pk PRIMARY KEY ( id_curso );
+
+CREATE TABLE td_sch_inclusion.escuela (
+    id_escuela     INTEGER NOT NULL,
+    nombre         varchar (50 ),
+    sede_id_sede   INTEGER NOT NULL
+);
+
+ALTER TABLE td_sch_inclusion.escuela ADD CONSTRAINT escuela_pk PRIMARY KEY ( id_escuela );
+
+CREATE TABLE td_sch_inclusion.grupo (
+    id_grupo         INTEGER NOT NULL,
+    curso_id_curso   INTEGER NOT NULL
+);
+
+ALTER TABLE td_sch_inclusion.grupo ADD CONSTRAINT grupo_pk PRIMARY KEY ( id_grupo );
+
+CREATE TABLE td_sch_inclusion.inclusion (
+    id_estudiante    INTEGER,
+    id_inclusion     INTEGER NOT NULL,
+    grupo_id_grupo   INTEGER NOT NULL
+);
+
+ALTER TABLE td_sch_inclusion.inclusion ADD CONSTRAINT inclusion_pk PRIMARY KEY ( id_inclusion );
+
+CREATE TABLE sede (
+    ubicacion   varchar (50 ),
+    id_sede     INTEGER NOT NULL,
+    nombre      varchar (50 )
+);
+
+ALTER TABLE sede ADD CONSTRAINT sede_pk PRIMARY KEY ( id_sede );
+
+ALTER TABLE td_sch_inclusion.comentario
+    ADD CONSTRAINT comentario_escuela_fk FOREIGN KEY ( escuela_id_escuela )
+        REFERENCES td_sch_inclusion.escuela ( id_escuela );
+
+ALTER TABLE td_sch_inclusion.curso
+    ADD CONSTRAINT curso_escuela_fk FOREIGN KEY ( escuela_id_escuela )
+        REFERENCES td_sch_inclusion.escuela ( id_escuela );
+
+ALTER TABLE td_sch_inclusion.escuela
+    ADD CONSTRAINT escuela_sede_fk FOREIGN KEY ( sede_id_sede )
+        REFERENCES sede ( id_sede );
+
+ALTER TABLE td_sch_inclusion.grupo
+    ADD CONSTRAINT grupo_curso_fk FOREIGN KEY ( curso_id_curso )
+        REFERENCES td_sch_inclusion.curso ( id_curso );
+
+ALTER TABLE td_sch_inclusion.inclusion
+    ADD CONSTRAINT inclusion_grupo_fk FOREIGN KEY ( grupo_id_grupo )
+        REFERENCES td_sch_inclusion.grupo ( id_grupo );
