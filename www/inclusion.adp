@@ -24,7 +24,7 @@
 	  	<label>Sede</label>
 	  	<div class="dropdown">
 		<select class="form-control" id="sede" name="sede" ng-model="inclusion.sede" ng-repeat="sede in sedeQuery">
-		<option value="{{inclusion.sede}}">{{ inclusion.sede }}</option>
+		<option value="{{sede.nombre_sede}}">{{ sede.nombre_sede }}</option>
       	</select>
 		</div>
 
