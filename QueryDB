@@ -1,70 +1,135 @@
-﻿CREATE TABLE td_sch_inclusion.comentario (
-    asunto               VARCHAR (100 ),
-    mensaje              varchar (250 ),
-    id_comentario        INTEGER NOT NULL,
+CREATE TABLE sch_tda_inclusion.comentarios (
+    asunto                  VARCHAR(100),
+    mensaje                 VARCHAR(250),
+    comentario_escuela_fk   INTEGER NOT NULL,
+    id_estudiante           INTEGER,
+    comentario_pk           serial
+);
+
+ALTER TABLE sch_tda_inclusion.comentarios ADD CONSTRAINT comentario_pk PRIMARY KEY ( comentario_pk );
+
+CREATE TABLE sch_tda_inclusion.cursos (
+    curso_pk           serial,
+    nombre             VARCHAR(50),
+    curso_escuela_fk   INTEGER NOT NULL
+);
+
+ALTER TABLE sch_tda_inclusion.cursos ADD CONSTRAINT curso_pk PRIMARY KEY ( curso_pk );
+
+CREATE TABLE sch_tda_inclusion.escuelas (
+    escuela_pk        serial,
+    nombre            VARCHAR(50),
+    escuela_sede_fk   INTEGER NOT NULL
+);
+
+ALTER TABLE sch_tda_inclusion.escuelas ADD CONSTRAINT escuela_pk PRIMARY KEY ( escuela_pk );
+
+CREATE TABLE sch_tda_inclusion.grupos (
+	numero_grupo 	 INTEGER NOT NULL,
+    grupo_pk         serial,
+    modalidad        VARCHAR(5),
+    grupo_curso_fk   INTEGER NOT NULL
+);
+
+ALTER TABLE sch_tda_inclusion.grupos ADD CONSTRAINT grupo_pk PRIMARY KEY ( grupo_pk );
+
+CREATE TABLE sch_tda_inclusion.inclusiones (
     id_estudiante        INTEGER,
-    escuela_id_escuela   INTEGER NOT NULL
+    inclusion_pk         serial,
+    inclusion_grupo_fk   INTEGER NOT NULL
 );
 
-ALTER TABLE td_sch_inclusion.comentario ADD CONSTRAINT comentario_pk PRIMARY KEY ( id_comentario );
+ALTER TABLE sch_tda_inclusion.inclusiones ADD CONSTRAINT inclusion_pk PRIMARY KEY ( inclusion_pk );
 
-
-
-CREATE TABLE td_sch_inclusion.curso (
-    id_curso             INTEGER NOT NULL,
-    nombre               varchar (50 ),
-    escuela_id_escuela   INTEGER NOT NULL
+CREATE TABLE sch_tda_inclusion.sedes (
+    ubicacion   VARCHAR(50),
+    sede_pk     serial,
+    nombre      VARCHAR(50)
 );
 
-ALTER TABLE td_sch_inclusion.curso ADD CONSTRAINT curso_pk PRIMARY KEY ( id_curso );
+ALTER TABLE sch_tda_inclusion.sedes ADD CONSTRAINT sede_pk PRIMARY KEY ( sede_pk );
 
-CREATE TABLE td_sch_inclusion.escuela (
-    id_escuela     INTEGER NOT NULL,
-    nombre         varchar (50 ),
-    sede_id_sede   INTEGER NOT NULL
-);
+ALTER TABLE sch_tda_inclusion.comentarios
+    ADD CONSTRAINT comentario_escuela_fk FOREIGN KEY ( comentario_escuela_fk )
+        REFERENCES sch_tda_inclusion.escuelas ( escuela_pk );
 
-ALTER TABLE td_sch_inclusion.escuela ADD CONSTRAINT escuela_pk PRIMARY KEY ( id_escuela );
+ALTER TABLE sch_tda_inclusion.cursos
+    ADD CONSTRAINT curso_escuela_fk FOREIGN KEY ( curso_escuela_fk )
+        REFERENCES sch_tda_inclusion.escuelas ( escuela_pk );
 
-CREATE TABLE td_sch_inclusion.grupo (
-    id_grupo         INTEGER NOT NULL,
-    curso_id_curso   INTEGER NOT NULL
-);
+ALTER TABLE sch_tda_inclusion.escuelas
+    ADD CONSTRAINT escuela_sede_fk FOREIGN KEY ( escuela_sede_fk )
+        REFERENCES sch_tda_inclusion.sedes ( sede_pk );
 
-ALTER TABLE td_sch_inclusion.grupo ADD CONSTRAINT grupo_pk PRIMARY KEY ( id_grupo );
+ALTER TABLE sch_tda_inclusion.grupos
+    ADD CONSTRAINT grupo_curso_fk FOREIGN KEY ( grupo_curso_fk )
+        REFERENCES sch_tda_inclusion.cursos ( curso_pk );
 
-CREATE TABLE td_sch_inclusion.inclusion (
-    id_estudiante    INTEGER,
-    id_inclusion     INTEGER NOT NULL,
-    grupo_id_grupo   INTEGER NOT NULL
-);
+ALTER TABLE sch_tda_inclusion.inclusiones
+    ADD CONSTRAINT inclusion_grupo_fk FOREIGN KEY ( inclusion_grupo_fk )
+        REFERENCES sch_tda_inclusion.grupos ( grupo_pk );
 
-ALTER TABLE td_sch_inclusion.inclusion ADD CONSTRAINT inclusion_pk PRIMARY KEY ( id_inclusion );
 
-CREATE TABLE sede (
-    ubicacion   varchar (50 ),
-    id_sede     INTEGER NOT NULL,
-    nombre      varchar (50 )
-);
 
-ALTER TABLE sede ADD CONSTRAINT sede_pk PRIMARY KEY ( id_sede );
 
-ALTER TABLE td_sch_inclusion.comentario
-    ADD CONSTRAINT comentario_escuela_fk FOREIGN KEY ( escuela_id_escuela )
-        REFERENCES td_sch_inclusion.escuela ( id_escuela );
 
-ALTER TABLE td_sch_inclusion.curso
-    ADD CONSTRAINT curso_escuela_fk FOREIGN KEY ( escuela_id_escuela )
-        REFERENCES td_sch_inclusion.escuela ( id_escuela );
+insert into sch_tda_inclusion.sedes(ubicacion,nombre) values('alajuela','academico alajuela');
+insert into sch_tda_inclusion.sedes(ubicacion,nombre) values('san jose','academico san jose');
+insert into sch_tda_inclusion.sedes(ubicacion,nombre) values('san carlos','academico san carlos');
+insert into sch_tda_inclusion.sedes(ubicacion,nombre) values('limon','academico limon');
+insert into sch_tda_inclusion.sedes(ubicacion,nombre) values('cartago','central');
 
-ALTER TABLE td_sch_inclusion.escuela
-    ADD CONSTRAINT escuela_sede_fk FOREIGN KEY ( sede_id_sede )
-        REFERENCES sede ( id_sede );
+insert into sch_tda_inclusion.escuelas(escuela_sede_fk,nombre) values(1,'computacion');
+insert into sch_tda_inclusion.escuelas(escuela_sede_fk,nombre) values(2,'electronica');
+insert into sch_tda_inclusion.escuelas(escuela_sede_fk,nombre) values(3,'diseno');
+insert into sch_tda_inclusion.escuelas(escuela_sede_fk,nombre) values(4,'ambiental');
+insert into sch_tda_inclusion.escuelas(escuela_sede_fk,nombre) values(5,'matematica');
+insert into sch_tda_inclusion.escuelas(escuela_sede_fk,nombre) values(1,'electronica');
 
-ALTER TABLE td_sch_inclusion.grupo
-    ADD CONSTRAINT grupo_curso_fk FOREIGN KEY ( curso_id_curso )
-        REFERENCES td_sch_inclusion.curso ( id_curso );
+insert into sch_tda_inclusion.cursos(curso_escuela_fk,nombre) values(1,'lenguajes de programacion');
+insert into sch_tda_inclusion.cursos(curso_escuela_fk,nombre) values(2,'circuitos electricos');
+insert into sch_tda_inclusion.cursos(curso_escuela_fk,nombre) values(3,'dibujo tecnico');
+insert into sch_tda_inclusion.cursos(curso_escuela_fk,nombre) values(4,'biologia');
+insert into sch_tda_inclusion.cursos(curso_escuela_fk,nombre) values(5,'matematica discreta');
+insert into sch_tda_inclusion.cursos(curso_escuela_fk,nombre) values(3,'diseno avanzado');
 
-ALTER TABLE td_sch_inclusion.inclusion
-    ADD CONSTRAINT inclusion_grupo_fk FOREIGN KEY ( grupo_id_grupo )
-        REFERENCES td_sch_inclusion.grupo ( id_grupo );
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(1,3,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(2,1,'B');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(3,2,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(4,5,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(5,61,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(1,1,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(2,6,'B');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(3,2,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(4,8,'S');
+insert into sch_tda_inclusion.grupos(grupo_curso_fk,numero_grupo,modalidad) values(5,2,'S');
+
+
+
+SELECT s.nombre FROM sch_tda_inclusion.sedes s;
+
+SELECT e.nombre FROM sch_tda_inclusion.escuelas e WHERE e.escuela_sede_fk = 5;
+
+SELECT c.nombre FROM sch_tda_inclusion.cursos c WHERE c.curso_escuela_fk = 5;
+
+SELECT g.numero_grupo FROM sch_tda_inclusion.grupos g WHERE g.grupo_curso_fk = 5;
+
+
+SELECT s.sede_pk FROM sch_tda_inclusion.sedes s WHERE s.nombre = 'academico limon';
+
+SELECT e.escuela_pk FROM sch_tda_inclusion.escuelas e WHERE e.escuela_sede_fk = 5 and e.nombre = 'matematica';
+
+SELECT c.curso_pk FROM sch_tda_inclusion.cursos c WHERE c.curso_escuela_fk = 5 and c.nombre = 'matematica discreta';
+
+SELECT g.grupo_pk FROM sch_tda_inclusion.grupos g WHERE g.grupo_curso_fk = 5 and g.numero_grupo = 2;
+
+
+INSERT INTO sch_tda_inclusion.inclusiones (id_estudiante, inclusion_grupo_fk) values(1686692,8);
+
+SELECT * FROM sch_tda_inclusion.inclusiones i WHERE i.inclusion_grupo_fk = 10;
+
+INSERT INTO sch_tda_inclusion.comentarios (asunto, mensaje, id_estudiante, comentario_escuela_fk) values ('ayudame','me llamo juan de dios xdd',1686692,2);
+
+SELECT * FROM sch_tda_inclusion.comentarios c WHERE c.comentario_escuela_fk = 2;
+
+
