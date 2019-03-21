@@ -38,9 +38,9 @@
 
 
 		<label>Escuela</label>
-	  	<div class="dropdown">
+	  	<div class="dropdown">	
 		<select class="form-control" id="escuela" name="escuela" ng-model="inclusion.escuela" ng-repeat="escuela in escuelaQuery">
-		<option value="{{inclusion.escuela}}">{{ inclusion.escuela }}</option>
+		<option value="{{inclusion.escuelas}}">{{ inclusion.escuela }}</option>
       	</select>
 		</div>
 	    
