@@ -205,10 +205,17 @@ ad_proc -public incl::get_inclusiones_estudiante {
         set nombre_curso [lindex $elemento 0]
         set numero_grupo [lindex $elemento 1]
         set id_estudiante [lindex $elemento 2]
+        set carnet_estudiante [td_estudiante::obtener_carnet_estudiante -user_id $id_estudiante]
+        set nombre_estudiante [prematricula::get_name_students $carnet_estudiante]
+
+        set nombres_estudiante [lindex $nombres_estudiante 1]
+        set apellidos_estudiante [lindex $nombres_estudiante 2]
         set select_json "$select_json $json_comma \{
                     \"nombre_curso\": \"$nombre_curso\",
                     \"numero_grupo\": $numero_grupo,
-                    \"id_estudiante\": $id_estudiante
+                    \"carnet_estudiante\": $carnet_estudiante,
+                    \"nombres_estudiante\": $nombres_estudiante,
+                    \"apellidos_estudiante\": $apellidos_estudiante
 
             \}"
         set json_comma ","
