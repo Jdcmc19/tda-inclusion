@@ -37,7 +37,7 @@ ad_proc -public incl::get_sedes {
 
 
 ad_proc -public incl::get_escuelas {
-    -sede_nombre
+    -sede_id
 } {
     @author Jose Daniel Vega Alvarado
 } {
@@ -55,7 +55,7 @@ ad_proc -public incl::get_escuelas {
         set id_escuela [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
                     \"id_escuela\": $id_escuela,
-                    \"nombre_escuela\": $nombre_escuela\"
+                    \"nombre_escuela\": \"$nombre_escuela\"
             \}"
         set json_comma ","
     }
@@ -82,7 +82,7 @@ ad_proc -public incl::get_cursos {
         set id_curso [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
                     \"id_curso\": $id_curso,
-                    \"nombre_curso\": $nombre_curso\"
+                    \"nombre_curso\": \"$nombre_curso\"
             \}"
         set json_comma ","
     }
@@ -109,7 +109,7 @@ ad_proc -public incl::get_grupos {
         set id_grupo [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
                     \"id_grupo\": $id_grupo,
-                     \"numero_grupo\": $numero_grupo\"
+                     \"numero_grupo\": $numero_grupo
             \}"
         set json_comma ","
     }
@@ -119,7 +119,7 @@ ad_proc -public incl::get_grupos {
 }
 
 
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_sede_id {
     -nombre_sede
 } {
@@ -132,7 +132,7 @@ ad_proc -public incl::get_sede_id {
 
     return $result
 }
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_escuela_id {
     -sede_id
     -escuela_nombre
@@ -146,7 +146,7 @@ ad_proc -public incl::get_escuela_id {
 
     return $result
 }
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_curso_id {
     -escuela_id
     -curso_nombre
@@ -160,7 +160,7 @@ ad_proc -public incl::get_curso_id {
 
     return $result
 }
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_grupo_id {
     -curso_id
     -numero_grupo
@@ -206,9 +206,9 @@ ad_proc -public incl::get_inclusiones_estudiante {
         set numero_grupo [lindex $elemento 1]
         set id_estudiante [lindex $elemento 2]
         set select_json "$select_json $json_comma \{
-                    \"nombre_curso\": $nombre_curso,
+                    \"nombre_curso\": \"$nombre_curso\",
                     \"numero_grupo\": $numero_grupo,
-                    \"id_estudiante\": $id_estudiante\"
+                    \"id_estudiante\": $id_estudiante
 
             \}"
         set json_comma ","
