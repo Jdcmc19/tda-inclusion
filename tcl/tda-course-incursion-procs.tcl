@@ -22,8 +22,10 @@ ad_proc -public incl::get_sedes {
 
     foreach elemento $result {
         set nombre_sede [lindex $elemento 0]
+        set id_sede [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"nombre_sede\": $nombre_sede\"
+                    \"id_sede\": $id_sede,
+                    \"nombre_sede\": \"$nombre_sede\"
             \}"
         set json_comma ","
     }
@@ -35,10 +37,11 @@ ad_proc -public incl::get_sedes {
 
 
 ad_proc -public incl::get_escuelas {
-    -sede_id
+    -sede_nombre
 } {
     @author Jose Daniel Vega Alvarado
 } {
+
     if {[catch { set result [db_list_of_lists get_escuelas_query {}] } errmsg] } {
         puts "$errmsg" 
         return -1
@@ -49,7 +52,9 @@ ad_proc -public incl::get_escuelas {
 
     foreach elemento $result {
         set nombre_escuela [lindex $elemento 0]
+        set id_escuela [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
+                    \"id_escuela\": $id_escuela,
                     \"nombre_escuela\": $nombre_escuela\"
             \}"
         set json_comma ","
@@ -74,7 +79,9 @@ ad_proc -public incl::get_cursos {
 
     foreach elemento $result {
         set nombre_curso [lindex $elemento 0]
+        set id_curso [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
+                    \"id_curso\": $id_curso,
                     \"nombre_curso\": $nombre_curso\"
             \}"
         set json_comma ","
@@ -99,8 +106,10 @@ ad_proc -public incl::get_grupos {
 
     foreach elemento $result {
         set numero_grupo [lindex $elemento 0]
+        set id_grupo [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"numero_grupo\": $numero_grupo\"
+                    \"id_grupo\": $id_grupo,
+                     \"numero_grupo\": $numero_grupo\"
             \}"
         set json_comma ","
     }
@@ -166,7 +175,7 @@ ad_proc -public incl::get_grupo_id {
     return $result
 }
 
-ad_proc -public incl::insert_inclusion{
+ad_proc -public incl::insert_inclusion {
     -id_estudiante
     -id_grupo
 } {
@@ -180,7 +189,7 @@ ad_proc -public incl::insert_inclusion{
     return 1
 }
 
-ad_proc -public incl::get_inclusiones_estudiante{
+ad_proc -public incl::get_inclusiones_estudiante {
     -id_estudiante
 } {
     @author Jose Daniel Vega Alvarado
@@ -209,7 +218,7 @@ ad_proc -public incl::get_inclusiones_estudiante{
     return $select_json
 
 }
-ad_proc -public incl::insert_comentario{
+ad_proc -public incl::insert_comentario {
     -asunto
     -mensaje
     -id_estudiante
@@ -225,7 +234,7 @@ ad_proc -public incl::insert_comentario{
     return 1
 }
 
-ad_proc -public incl::get_comentario_escuela{
+ad_proc -public incl::get_comentario_escuela {
     -id_escuela
 } {
     @author Jose Daniel Vega Alvarado

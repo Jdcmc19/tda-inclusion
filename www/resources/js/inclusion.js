@@ -16,6 +16,23 @@ $scope.inclusion = {
     };
 
 
+
+    $scope.prueba = [
+            {
+                "id": 1,
+                "label": "label 1"
+            },
+                       {
+                "id": 2,
+                "label": "label 2"
+            },
+                        {
+                "id": 3,
+                "label": "label 3"
+            } 
+    ];
+
+
     
     $scope.sedeQuery = [];
 
@@ -26,8 +43,6 @@ $scope.inclusion = {
     }).then(function(response){
         console.dir(response);
         $scope.sedeQuery = response.data;
-    }, function(error) {
-        console.error(error);
     });
 
 
