@@ -109,6 +109,153 @@ ad_proc -public incl::get_grupos {
 
 
 
+ad_proc -public incl::get_sede_id {
+    -nombre_sede
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_string get_sede_id_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    return $result
+}
+
+ad_proc -public incl::get_escuela_id {
+    -sede_id
+    -escuela_nombre
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_string get_escuela_id_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    return $result
+}
+
+ad_proc -public incl::get_curso_id {
+    -escuela_id
+    -curso_nombre
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_string get_cruso_id_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    return $result
+}
+
+ad_proc -public incl::get_grupo_id {
+    -curso_id
+    -numero_grupo
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_string get_grupo_id_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    return $result
+}
+
+ad_proc -public incl::insert_inclusion{
+    -id_estudiante
+    -id_grupo
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch {[db_dml insert_inclusion_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
+ad_proc -public incl::get_inclusiones_estudiante{
+    -id_estudiante
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set nombre_curso [lindex $elemento 0]
+        set numero_grupo [lindex $elemento 1]
+        set id_estudiante [lindex $elemento 2]
+        set select_json "$select_json $json_comma \{
+                    \"nombre_curso\": $nombre_curso,
+                    \"numero_grupo\": $numero_grupo,
+                    \"id_estudiante\": $id_estudiante\"
+
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+
+}
+ad_proc -public incl::insert_comentario{
+    -asunto
+    -mensaje
+    -id_estudiante
+    -id_escuela
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch {[db_dml insert_comentario_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
+ad_proc -public incl::get_comentario_escuela{
+    -id_escuela
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch {[db_list_of_lists get_comentario_escuela_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+        foreach elemento $result {
+        set asunto [lindex $elemento 0]
+        set mensaje [lindex $elemento 1]
+        set escuela [lindex $elemento 2]
+        set id_estudiante [lindex $elemento 3]
+        set id_comentario [lindex $elemento 4]
+        set select_json "$select_json $json_comma \{
+                    \"asunto\": $asunto,
+                    \"mensaje\": $mensaje,
+                    \"escuela\": $escuela,
+                    \"id_estudiante\": $id_estudiante,
+                    \"id_comentario\": $id_comentario\"
+
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+}
+
+
+
+
 
 
 
