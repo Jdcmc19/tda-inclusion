@@ -7,7 +7,10 @@ app.controller('inclusionController', function($scope, $http){
 $scope.inclusion = {
         "userName": "",
         "userCarnet": "",
-        "sede": "",
+        "sedeSeleccionada": {
+            "sede_id": 0,
+            "nombre_sede": "" 
+        },
         "modalidad": "",
         "escuela": "",
         "curso": "",
@@ -15,26 +18,10 @@ $scope.inclusion = {
 
     };
 
-
-
-    $scope.prueba = [
-            {
-                "id": 1,
-                "label": "label 1"
-            },
-                       {
-                "id": 2,
-                "label": "label 2"
-            },
-                        {
-                "id": 3,
-                "label": "label 3"
-            } 
-    ];
-
-
+   
     
     $scope.sedeQuery = [];
+    $scope.escuelaQuery = [];
 
 
     $http({
@@ -61,10 +48,35 @@ $scope.enviarInclusion = function(){
             },
             data : { name: $scope.inclusion.userName, carnet: $scope.inclusion.userCarnet, sede: $scope.inclusion.sede , modalidad: $scope.inclusion.modalidad, escuela: $scope.inclusion.escuela, curso: $scope.inclusion.curso, grupo: $scope.inclusion.grupo}
         }).then(function(response){
-            console.dir(data);
+            console.dir(response);
 
         }, function(error) {
             console.error(error);
+        });
+    }
+
+
+$scope.getEscuelas = function(){
+    console.dir($scope.inclusion.sedeSeleccionada.id_sede);
+
+    $http({
+            method: 'POST',
+            url: 'api/get_escuelas',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { sede_id: $scope.inclusion.sedeSeleccionada.id_sede }
+        }).then(function(response){
+            console.dir(response);
+            $scope.escuelaQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
         });
     }
 

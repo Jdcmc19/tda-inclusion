@@ -24,32 +24,22 @@
 
 			<div class="form-group">
 	          <label for="sede_select">Seleccione la sede</label>
-
-
-
-<select class="form-control" ng-model="sedeSeleccionada" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" >
-  <option value="">--Elige opcion--</option>
-</select>
-
-
-
-
-<!-- 
-	          <select class="form-control" id="sede" name="sede">
-	            <option ng-repeat="sede in sedeQuery">{{ sede.nombre_sede }}</option>
-	          </select>
-	           -->
+			<select class="form-control" ng-model="inclusion.sedeSeleccionada" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()">
+			  <option value="">--Elige opcion--</option>
+			</select>
 	          <pre> {{ sedeQuery | json }} </pre>
-	          <pre> {{ sedeSeleccionada }} </pre>
-
+	          <pre> {{ inclusion.sedeSeleccionada }} </pre>
 	      </div>
 
-			<label>Modalidad</label>
-		  	<div class="dropdown">
-			<select class="form-control" id="modalidad" name="modalidad" ng-model="inclusion.modalidad" ng-repeat="modalidad in escuelaQuery">
-			<option value="{{inclusion.modalidad}}">{{ inclusion.modalidad }}</option>
-	      	</select>
-			</div>
+	       
+	       <div class="form-group">
+	          <label for="escuela_select">Seleccione la Escuela</label>
+			<select class="form-control" ng-model="escuelaSeleccionada" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" >
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <pre> {{ escuelaQuery | json }} </pre>
+	          <pre> {{ escuelaSeleccionada }} </pre>
+	      </div>
 
 
 			<label>Escuela</label>
