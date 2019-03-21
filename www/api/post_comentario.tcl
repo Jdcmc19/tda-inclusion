@@ -3,13 +3,14 @@ ad_page_contract {
 	@author juan_jop96@hotmail.com sebaspf1997@gmail.com
 	@creation-date Mar 2019
 } {
-	usuario ""
-	carnet ""
-	cometario ""
+	id_estudiante ""
+	id_escuela ""
+	mensaje ""
+	asunto  ""
 }
 
 
-set answer [incl::post_comentario -usuario $usuario -carnet $carnet -comentario $comentario]
+set answer [incl::post_comentario -asunto $asunto -mensaje $mensaje -id_estudiante $id_estudiante -id_escuela $id_escuela]
 
 if {$answer eq -1} {
     set answer "\{\"title\":\"Bad Request\",\"body\":\"Problem to get admin page.\"\}"

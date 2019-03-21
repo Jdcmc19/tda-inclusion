@@ -18,9 +18,8 @@
 
 		<form>
 		  <div class="form-group">
-		  	<input type="hidden" id="userName" name="userName" value= "@user_name@" ng-model="inclusion.userName">
-	  		<input type="hidden" id="userCarnet" name="userCarnet" value= "@user_carnet@" ng-model="inclusion.userCarnet">
-
+		  	<input type="hidden"  ng-model="inclusion.user_id" id="user_id" name="user_id" value= "@user_id@" >
+		  	
 
 			<div class="form-group">
 	          <label for="sede_select">Seleccione la Sede</label>

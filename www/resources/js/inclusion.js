@@ -5,8 +5,10 @@ app.controller('inclusionController', function($scope, $http){
 
 
 $scope.inclusion = {
-        "userName": "",
+        "user_id": 0,
         "userCarnet": "",
+        "asusnto": "",
+        "comentario": "",
         "sedeSeleccionada": {},
         "modalidad": "",
         "escuelaSeleccionada": {},
@@ -45,8 +47,7 @@ $scope.enviarInclusion = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data : { name: $scope.inclusion.userName, carnet: $scope.inclusion.userCarnet, sede: $scope.inclusion.sedeSeleccionada.nombre_sede ,
-                escuela: $scope.inclusion.escuelaSeleccionada.nombre_escuela, curso: $scope.inclusion.cursoSeleccionada.nombre_curso, grupo: $scope.inclusion.grupoSeleccionada.numero_grupo}
+            data : { user_id: $scope.inclusion.user_id, grupo: $scope.inclusion.grupoSeleccionada.numero_grupo}
         }).then(function(response){
             console.dir(response);
 
@@ -123,6 +124,29 @@ $scope.getGrupos = function(){
         }, function(error) {
             console.error(error);
 
+        });
+    }
+
+
+
+$scope.enviarComentario = function(){
+
+        $http({
+            method: 'POST',
+            url: 'api/post_comentario',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data : { id_estudiante: $scope.inclusion.user_id, id_escuela: $scope.inclusion.escuelaSeleccionada.id_escuela, mensaje: $scope.inclusion.comentario , asunto: $scope.inclusion.asusnto}
+        }).then(function(response){
+            console.dir(response);
+
+        }, function(error) {
+            console.error(error);
         });
     }
 
