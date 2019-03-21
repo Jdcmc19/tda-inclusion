@@ -7,14 +7,11 @@ app.controller('inclusionController', function($scope, $http){
 $scope.inclusion = {
         "userName": "",
         "userCarnet": "",
-        "sedeSeleccionada": {
-            "sede_id": 0,
-            "nombre_sede": "" 
-        },
+        "sedeSeleccionada": {},
         "modalidad": "",
-        "escuela": "",
-        "curso": "",
-        "grupo": ""
+        "escuelaSeleccionada": {},
+        "cursoSeleccionada": {},
+        "grupoSeleccionada": {}
 
     };
 
@@ -22,6 +19,8 @@ $scope.inclusion = {
     
     $scope.sedeQuery = [];
     $scope.escuelaQuery = [];
+    $scope.cursoQuery = [];
+    $scope.grupoQuery = [];
 
 
     $http({
@@ -46,7 +45,8 @@ $scope.enviarInclusion = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data : { name: $scope.inclusion.userName, carnet: $scope.inclusion.userCarnet, sede: $scope.inclusion.sede , modalidad: $scope.inclusion.modalidad, escuela: $scope.inclusion.escuela, curso: $scope.inclusion.curso, grupo: $scope.inclusion.grupo}
+            data : { name: $scope.inclusion.userName, carnet: $scope.inclusion.userCarnet, sede: $scope.inclusion.sedeSeleccionada.nombre_sede ,
+                escuela: $scope.inclusion.escuelaSeleccionada.nombre_escuela, curso: $scope.inclusion.cursoSeleccionada.nombre_curso, grupo: $scope.inclusion.grupoSeleccionada.numero_grupo}
         }).then(function(response){
             console.dir(response);
 
@@ -57,7 +57,6 @@ $scope.enviarInclusion = function(){
 
 
 $scope.getEscuelas = function(){
-    console.dir($scope.inclusion.sedeSeleccionada.id_sede);
 
     $http({
             method: 'POST',
@@ -79,5 +78,56 @@ $scope.getEscuelas = function(){
 
         });
     }
+
+
+
+$scope.getCursos = function(){
+    console.dir($scope.inclusion.escuelaSeleccionada);
+    $http({
+            method: 'POST',
+            url: 'api/get_cursos',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela }
+        }).then(function(response){
+            console.dir(response);
+            $scope.cursoQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+    }
+
+$scope.getGrupos = function(){
+    $http({
+            method: 'POST',
+            url: 'api/get_grupos',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { curso_id: $scope.inclusion.cursoSeleccionada.id_curso }
+        }).then(function(response){
+            console.dir(response);
+            $scope.grupoQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+    }
+
+
+
+
 
 });

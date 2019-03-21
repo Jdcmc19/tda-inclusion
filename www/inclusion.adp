@@ -19,50 +19,52 @@
 		<form>
 		  <div class="form-group">
 		  	<input type="hidden" id="userName" name="userName" value= "@user_name@" ng-model="inclusion.userName">
-	 		<input type="hidden" id="userCarnet" name="userCarnet" value= "@user_carnet@" ng-model="comentario.userCarnet">
+	  		<input type="hidden" id="userCarnet" name="userCarnet" value= "@user_carnet@" ng-model="inclusion.userCarnet">
 
 
 			<div class="form-group">
-	          <label for="sede_select">Seleccione la sede</label>
+	          <label for="sede_select">Seleccione la Sede</label>
 			<select class="form-control" ng-model="inclusion.sedeSeleccionada" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()">
 			  <option value="">--Elige opcion--</option>
 			</select>
-	          <pre> {{ sedeQuery | json }} </pre>
-	          <pre> {{ inclusion.sedeSeleccionada }} </pre>
+	          <!--<pre> {{ sedeQuery | json }} </pre>
+	          <pre> {{ inclusion.sedeSeleccionada }} </pre>-->
 	      </div>
 
 	       
 	       <div class="form-group">
 	          <label for="escuela_select">Seleccione la Escuela</label>
-			<select class="form-control" ng-model="escuelaSeleccionada" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" >
+			<select class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="getCursos()">
 			  <option value="">--Elige opcion--</option>
 			</select>
-	          <pre> {{ escuelaQuery | json }} </pre>
-	          <pre> {{ escuelaSeleccionada }} </pre>
+	          <!--<pre> {{ escuelaQuery | json }} </pre>
+	          <pre> {{ escuelaSeleccionada }} </pre>-->
 	      </div>
 
 
-			<label>Escuela</label>
-		  	<div class="dropdown">	
-			<select class="form-control" id="escuela" name="escuela" ng-model="inclusion.escuela" ng-repeat="escuela in escuelaQuery">
-			<option value="{{inclusion.escuelas}}">{{ inclusion.escuela }}</option>
-	      	</select>
-			</div>
+
+
+
+	      <div class="form-group">
+	          <label for="curso_select">Seleccione la Curso</label>
+			<select class="form-control" ng-model="inclusion.cursoSeleccionada" ng-options="curso as curso.nombre_curso for curso in cursoQuery track by curso.id_curso" ng-change="getGrupos()">
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <!--<pre> {{ cursoQuery | json }} </pre>
+	          <pre> {{ cursoSeleccionada }} </pre>-->
+	      </div>
+
+
+			<div class="form-group">
+	          <label for="grupo_select">Seleccione la Grupo</label>
+			<select class="form-control" ng-model="inclusion.grupoSeleccionada" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo" >
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <!--<pre> {{ grupoQuery | json }} </pre>
+	          <pre> {{ grupoSeleccionada }} </pre>-->
+	      </div>
+
 		    
-
-		    <label>Curso</label>
-		  	<div class="dropdown">
-			<select class="form-control" id="curso" name="curso" ng-model="inclusion.curso" ng-repeat="curso in escuelaQuery">
-			<option value="{{inclusion.curso}}">{{ inclusion.curso }}</option>
-	      	</select>
-			</div>
-
-			<label>Grupo</label>
-		  	<div class="dropdown">
-			<select class="form-control" id="grupo" name="grupo" ng-model="inclusion.grupo" ng-repeat="grupo in escuelaQuery">
-			<option value="{{inclusion.grupo}}">{{ inclusion.grupo }}</option>
-	      	</select>
-			</div>
 
 
 		  </div>
