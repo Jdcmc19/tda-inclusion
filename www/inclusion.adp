@@ -21,13 +21,15 @@
 	  	<input type="hidden" id="userName" name="userName" value= "@user_name@" ng-model="inclusion.userName">
  		<input type="hidden" id="userCarnet" name="userCarnet" value= "@user_carnet@" ng-model="comentario.userCarnet">
 
-	  	<label>Sede</label>
-	  	<div class="dropdown">
-		<select class="form-control" id="sede" name="sede" ng-model="inclusion.sede" ng-repeat="sede in sedeQuery">
-		<option value="{{sede.nombre_sede}}">{{ sede.nombre_sede }}</option>
-      	</select>
-		</div>
 
+		<div class="form-group">
+          <label for="sede_select">Seleccione la sede</label>
+          <select class="form-control" id="sede" name="sede"
+          ng-options="thing for thing.nombre_sede in sedeQuery"
+           ng-model="inclusion.sede" required>
+            <option value="">-- Seleccione una opción --</option>
+          </select>
+      </div>
 
 		<label>Modalidad</label>
 	  	<div class="dropdown">
