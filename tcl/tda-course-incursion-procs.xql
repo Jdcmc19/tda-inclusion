@@ -61,9 +61,10 @@
 
     <fullquery name="incl::get_inclusiones_estudiante.get_inclusiones_estudiante_query"> 
         <querytext>
-            SELECT c.nombre, g.numero_grupo, i.id_estudiante FROM sch_tda_inclusion.inclusiones i INNER JOIN sch_tda_inclusion.grupos g ON(i.inclusion_grupo_fk = g.grupo_pk) 
-                INNER JOIN sch_tda_inclusion.cursos c ON (g.grupo_curso_fk = c.curso_pk)
-                    WHERE i.id_estudiante = :id_estudiante;
+            SELECT s.nombre as Sede,e.nombre as Escuela,c.nombre as Curso, g.numero_grupo as Grupo,'Pendiente' as Estado FROM sch_tda_inclusion.inclusiones i INNER JOIN sch_tda_inclusion.grupos g ON(i.inclusion_grupo_fk = g.grupo_pk) 
+                INNER JOIN sch_tda_inclusion.cursos c ON (g.grupo_curso_fk = c.curso_pk) INNER JOIN sch_tda_inclusion.escuelas e ON (e.escuela_pk = c.curso_escuela_fk)
+                    INNER JOIN sch_tda_inclusion.sedes s ON (s.sede_pk = e.escuela_sede_fk)
+                        WHERE i.id_estudiante = :id_estudiante;
         </querytext>
     </fullquery>   
 
