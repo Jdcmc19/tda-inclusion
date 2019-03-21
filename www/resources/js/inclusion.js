@@ -15,6 +15,23 @@ $scope.inclusion = {
 
     };
 
+
+    
+    $scope.sedeQuery = [];
+
+
+    $http({
+        method: 'GET',
+        url: 'api/get_sedes'
+    }).then(function(response){
+        console.dir(response);
+        $scope.sedeQuery = response.data;
+    }, function(error) {
+        console.error(error);
+    });
+
+
+
 $scope.enviarInclusion = function(){
 
         $http({
