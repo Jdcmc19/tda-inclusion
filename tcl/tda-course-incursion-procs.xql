@@ -55,7 +55,7 @@
 
      <fullquery name="incl::insert_inclusion.insert_inclusion_query"> 
         <querytext>
-            INSERT INTO sch_tda_inclusion.inclusiones (id_estudiante, inclusion_grupo_fk) values(:id_estudiante,:id_grupo);
+            INSERT INTO sch_tda_inclusion.inclusiones (id_estudiante, inclusion_grupo_fk) values (:user_id, :id_grupo);
         </querytext>
     </fullquery> 
 

@@ -12,7 +12,7 @@ app.controller('estudianteController', function($scope, $http){
 
 	$http({
         method: 'GET',
-        url: 'api/get_inclusionesEstudiante'
+        url: 'api/get_inclusionesEstudiantes'
     }).then(function(response){
     	console.dir(response);
     	$scope.resultQuery = response.data;
@@ -23,19 +23,20 @@ app.controller('estudianteController', function($scope, $http){
 
     $scope.refeshTable = function(){
 
-        $http({
-            method: 'GET',
-            url: 'api/get_inclusionesEstudiante'
-        }).then(function(response){
-            console.dir(response);
-            $scope.resultQuery = response.data;
-        }, function(error) {
-            console.error(error);
-        });
+        
     }
 
     
-    
+    $http({
+        method: 'GET',
+        url: 'api/get_inclusionesEstudiantes'
+    }).then(function(response){
+        console.dir(response);
+        $scope.resultQuery = response.data;
+    }, function(error) {
+        console.error(error);
+    });
+        
         
         
 

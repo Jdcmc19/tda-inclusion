@@ -60,7 +60,7 @@
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ grupoQuery | json }} </pre>
-	          <pre> {{ grupoSeleccionada }} </pre>-->
+	          <pre> {{ inclusion }} </pre>-->
 	      </div>
 
 		    

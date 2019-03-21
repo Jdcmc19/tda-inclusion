@@ -5,7 +5,6 @@ app.controller('inclusionController', function($scope, $http){
 
 
 $scope.inclusion = {
-        "user_id": 0,
         "userCarnet": "",
         "asusnto": "",
         "comentario": "",
@@ -47,7 +46,7 @@ $scope.enviarInclusion = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data : { user_id: $scope.inclusion.user_id, grupo: $scope.inclusion.grupoSeleccionada.numero_grupo}
+            data : { grupo: $scope.inclusion.grupoSeleccionada.id_grupo }
         }).then(function(response){
             console.dir(response);
 
@@ -141,7 +140,7 @@ $scope.enviarComentario = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data : { id_estudiante: $scope.inclusion.user_id, id_escuela: $scope.inclusion.escuelaSeleccionada.id_escuela, mensaje: $scope.inclusion.comentario , asunto: $scope.inclusion.asusnto}
+            data : {id_escuela: $scope.inclusion.escuelaSeleccionada.id_escuela, mensaje: $scope.inclusion.comentario , asunto: $scope.inclusion.asusnto}
         }).then(function(response){
             console.dir(response);
 

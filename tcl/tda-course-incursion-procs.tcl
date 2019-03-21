@@ -176,13 +176,15 @@ ad_proc -public incl::get_grupo_id {
 }
 
 ad_proc -public incl::insert_inclusion {
-    -id_estudiante
     -id_grupo
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch {[db_dml insert_inclusion_query {}] } errmsg] } {
-        puts "$errmsg" 
+    set user_id [ad_conn user_id]
+
+
+    if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
         return -1
     }  
 
@@ -190,10 +192,11 @@ ad_proc -public incl::insert_inclusion {
 }
 
 ad_proc -public incl::get_inclusiones_estudiante {
-    -id_estudiante
 } {
     @author Jose Daniel Vega Alvarado
 } {
+    set id_estudiante [ad_conn user_id]
+
     if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {
         puts "$errmsg" 
         return -1
@@ -202,20 +205,22 @@ ad_proc -public incl::get_inclusiones_estudiante {
     set json_comma ""
 
     foreach elemento $result {
-        set nombre_curso [lindex $elemento 0]
-        set numero_grupo [lindex $elemento 1]
-        set id_estudiante [lindex $elemento 2]
-        set carnet_estudiante [td_estudiante::obtener_carnet_estudiante -user_id $id_estudiante]
-        set nombre_estudiante [prematricula::get_name_students $carnet_estudiante]
+        set sede_nombre [lindex $elemento 0]
+        set escuela_nombre [lindex $elemento 1]
+        set curso_nombre [lindex $elemento 2]
+        set grupo_numero [lindex $elemento 3]
+        set estado [lindex $elemento 4]
+        ##set carnet_estudiante [td_estudiante::obtener_carnet_estudiante -user_id $user_id]
+        ##set nombre_estudiante [prematricula::get_name_students $carnet_estudiante]
 
-        set nombres_estudiante [lindex $nombres_estudiante 1]
-        set apellidos_estudiante [lindex $nombres_estudiante 2]
+        ##set nombres_estudiante [lindex $nombres_estudiante 1]
+        ##set apellidos_estudiante [lindex $nombres_estudiante 2]
         set select_json "$select_json $json_comma \{
-                    \"nombre_curso\": \"$nombre_curso\",
-                    \"numero_grupo\": $numero_grupo,
-                    \"carnet_estudiante\": $carnet_estudiante,
-                    \"nombres_estudiante\": $nombres_estudiante,
-                    \"apellidos_estudiante\": $apellidos_estudiante
+                    \"sede_nombre\": \"$sede_nombre\",
+                    \"escuela_nombre\": \" $escuela_nombre \",
+                    \"curso_nombre\":  \"$curso_nombre \",
+                    \"grupo_numero\": $grupo_numero,
+                    \"estado\": \"$estado\"
 
             \}"
         set json_comma ","
@@ -228,12 +233,12 @@ ad_proc -public incl::get_inclusiones_estudiante {
 ad_proc -public incl::insert_comentario {
     -asunto
     -mensaje
-    -id_estudiante
     -id_escuela
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch {[db_dml insert_comentario_query {}] } errmsg] } {
+    set id_estudiante [ad_conn user_id]
+    if {[catch {db_dml insert_comentario_query {} } errmsg] } {
         puts "$errmsg" 
         return -1
     }  

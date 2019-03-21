@@ -6,14 +6,14 @@
 
 
 
-	<link rel="stylesheet" href="resources/css/estudiante.css"> 
+	
 
 <div class="container" ng-app="incursionApp" ng-controller="estudianteController"> 
 
-	    <!--Falta configuar el boton de refresh (refreshTable())y agregar los filtros y cada columna correspondiente-->
+	    <!--Falta configuar el boton de refresh (refreshTable())y agregar los filtros y cada columna correspondiente
 
 	    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar aqui....">
-		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
      <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   		<thead>
@@ -27,11 +27,11 @@
 		    </thead>
 		    <tbody>
 		      <tr ng-repeat="inclusion in resultQuery">
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
+		        <td>{{ inclusion.sede_nombre }}</td>
+		        <td>{{ inclusion.escuela_nombre}}</td>
+		        <td>{{ inclusion.curso_nombre }}</td>
+		        <td>{{ inclusion.grupo_numero }}</td>
+		        <td>{{ inclusion.estado }}</td>
 
 		      </tr>
 
