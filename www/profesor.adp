@@ -7,7 +7,7 @@
 
 
 
-	<link rel="stylesheet" href="resources/css/profesor.css">
+	<!--	<link rel="stylesheet" href="resources/css/profesor.css"> 	-->
 
 
 

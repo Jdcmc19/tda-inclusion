@@ -6,17 +6,21 @@
 
 
 
+
 <div class="container" ng-app="incursionApp" ng-controller="comentarioController"> 
 
 	
 
 	<div id="profile-name">
         @user_name@
+        <br>
+        @user_carnet@
     </div>
 
 	<form>
 	  <div class="form-group">
 	  	<input type="hidden" id="userName" name="userName" value= "@user_name@" ng-model="comentario.userName">
+	  	<input type="hidden" id="userCarnet" name="userCarnet" value= "@user_carnet@" ng-model="comentario.userCarnet">
 	  	
 	    <label>COMENTARIO</label>
 	    <textarea class="form-control" id="comentario" name="comentario" rows="6" ng-model="comentario.comentario"></textarea>
@@ -38,4 +42,4 @@
 
 	<script src="node_modules/angular/angular.min.js"></script>
 
-	<script src="resources/js/estudiante.js"></script>
+	<script src="resources/js/comentario.js"></script>
