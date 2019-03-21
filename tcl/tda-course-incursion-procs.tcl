@@ -2,11 +2,139 @@ ad_library {
     Procedures in the evalutask record  namespace.
     
     @creation-date Feb 2019
-    @author Jose Vega Alvarado
+    @author Jose Vega Alvaradoa
 
 }
 
 namespace eval incl {}
+
+
+ad_proc -public incl::get_sedes {
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_list_of_lists get_sedes_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set nombre_sede [lindex $elemento 0]
+        set select_json "$select_json $json_comma \{
+                    \"nombre_sede\": $nombre_sede\"
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+}
+
+ad_proc -public incl::get_escuelas {
+    -sede_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_list_of_lists get_escuelas_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set nombre_escuela [lindex $elemento 0]
+        set select_json "$select_json $json_comma \{
+                    \"nombre_escuela\": $nombre_escuela\"
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+}
+
+ad_proc -public incl::get_cursos {
+    -escuela_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_list_of_lists get_cursos_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set nombre_curso [lindex $elemento 0]
+        set select_json "$select_json $json_comma \{
+                    \"nombre_curso\": $nombre_curso\"
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+}
+
+ad_proc -public incl::get_grupos {
+    -curso_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [db_list_of_lists get_grupos_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set numero_grupo [lindex $elemento 0]
+        set select_json "$select_json $json_comma \{
+                    \"numero_grupo\": $numero_grupo\"
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ad_proc -public incl::insert_info {
 	{-name "default"}
