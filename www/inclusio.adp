@@ -6,35 +6,27 @@
 
 
 
-<div class="container" ng-app="incursionApp" ng-controller="estudianteController"> 
+<div class="container" ng-app="incursionApp" ng-controller="comentarioController"> 
 
-	    <!--Falta configuar el boton de refresh (refreshTable())y agregar los filtros y cada columna correspondiente-->
+	
+
+	<div id="profile-name">
+        @user_name@
+    </div>
+
+	<form>
+	  <div class="form-group">
+	  	<input type="hidden" id="userName" name="userName" value= "@user_name@" ng-model="inclusion.userName">
 
 
-		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+	    <label>COMENTARIO</label>
+	    <textarea class="form-control" id="comentario" name="comentario" rows="6" ng-model="inclusion.comentario"></textarea>
 
-     <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-  		<thead>
-		      <tr>
-		        <th scope="col">Sede</th>
-		        <th scope="col">Escuela</th>
-		        <th scope="col">Grupo</th>
-		        <th scope="col">Curso</th>
-		        <th scope="col">Estado</th>
-		      </tr>
-		    </thead>
-		    <tbody>
-		      <tr ng-repeat="inclusion in resultQuery">
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		        <td>{{ inclusion.dependency_id }}</td>
-		      </tr>
-		    </tbody>
-		</table>
+	  </div>
+	  <button type="submit" class="btn btn-primary" ng-click="enviarInclusion()">Enviar</button>
+	</form>    
 
-</div>
+<div/>
 
 
 
@@ -49,4 +41,3 @@
 	<script src="node_modules/angular/angular.min.js"></script>
 
 	<script src="resources/js/estudiante.js"></script>
-
