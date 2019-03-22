@@ -2,25 +2,25 @@
 <queryset>
     <fullquery name="incl::get_sedes.get_sedes_query">      
         <querytext>
-            SELECT s.nombre FROM sch_tda_inclusion.sedes s;
+            SELECT s.nombre, s.sede_pk FROM sch_tda_inclusion.sedes s;
         </querytext>
     </fullquery>  
 
     <fullquery name="incl::get_escuelas.get_escuelas_query">      
         <querytext>
-            SELECT e.nombre FROM sch_tda_inclusion.escuelas e WHERE e.escuela_sede_fk = :sede_id ;
+            SELECT e.nombre, e.escuela_pk FROM sch_tda_inclusion.escuelas e WHERE e.escuela_sede_fk = :sede_id ;
         </querytext>
     </fullquery>  
 
     <fullquery name="incl::get_cursos.get_cursos_query">      
         <querytext>
-            SELECT c.nombre FROM sch_tda_inclusion.cursos c WHERE c.curso_escuela_fk = :escuela_id;
+            SELECT c.nombre, c.curso_pk FROM sch_tda_inclusion.cursos c WHERE c.curso_escuela_fk = :escuela_id;
         </querytext>
     </fullquery>  
 
     <fullquery name="incl::get_grupos.get_grupos_query">      
         <querytext>
-            SELECT g.numero_grupo FROM sch_tda_inclusion.grupos g WHERE g.grupo_curso_fk = :curso_id;
+            SELECT g.numero_grupo, g.grupo_pk FROM sch_tda_inclusion.grupos g WHERE g.grupo_curso_fk = :curso_id;
 
         </querytext>
     </fullquery>  
@@ -55,15 +55,16 @@
 
      <fullquery name="incl::insert_inclusion.insert_inclusion_query"> 
         <querytext>
-            INSERT INTO sch_tda_inclusion.inclusiones (id_estudiante, inclusion_grupo_fk) values(:id_estudiante,:id_grupo);
+            INSERT INTO sch_tda_inclusion.inclusiones (id_estudiante, inclusion_grupo_fk) values (:user_id, :id_grupo);
         </querytext>
     </fullquery> 
 
     <fullquery name="incl::get_inclusiones_estudiante.get_inclusiones_estudiante_query"> 
         <querytext>
-            SELECT c.nombre, g.numero_grupo, i.id_estudiante FROM sch_tda_inclusion.inclusiones i INNER JOIN sch_tda_inclusion.grupos g ON(i.inclusion_grupo_fk = g.grupo_pk) 
-                INNER JOIN sch_tda_inclusion.cursos c ON (g.grupo_curso_fk = c.curso_pk)
-                    WHERE i.id_estudiante = :id_estudiante;
+            SELECT s.nombre as Sede,e.nombre as Escuela,c.nombre as Curso, g.numero_grupo as Grupo,'Pendiente' as Estado FROM sch_tda_inclusion.inclusiones i INNER JOIN sch_tda_inclusion.grupos g ON(i.inclusion_grupo_fk = g.grupo_pk) 
+                INNER JOIN sch_tda_inclusion.cursos c ON (g.grupo_curso_fk = c.curso_pk) INNER JOIN sch_tda_inclusion.escuelas e ON (e.escuela_pk = c.curso_escuela_fk)
+                    INNER JOIN sch_tda_inclusion.sedes s ON (s.sede_pk = e.escuela_sede_fk)
+                        WHERE i.id_estudiante = :id_estudiante;
         </querytext>
     </fullquery>   
 

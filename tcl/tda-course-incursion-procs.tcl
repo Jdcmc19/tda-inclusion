@@ -1,4 +1,4 @@
-ad_library {
+ad_library {    
     Procedures in the evalutask record  namespace.
     
     @creation-date Feb 2019
@@ -22,8 +22,10 @@ ad_proc -public incl::get_sedes {
 
     foreach elemento $result {
         set nombre_sede [lindex $elemento 0]
+        set id_sede [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"nombre_sede\": $nombre_sede\"
+                    \"id_sede\": $id_sede,
+                    \"nombre_sede\": \"$nombre_sede\"
             \}"
         set json_comma ","
     }
@@ -32,11 +34,14 @@ ad_proc -public incl::get_sedes {
     return $select_json
 }
 
+
+
 ad_proc -public incl::get_escuelas {
     -sede_id
 } {
     @author Jose Daniel Vega Alvarado
 } {
+
     if {[catch { set result [db_list_of_lists get_escuelas_query {}] } errmsg] } {
         puts "$errmsg" 
         return -1
@@ -47,8 +52,10 @@ ad_proc -public incl::get_escuelas {
 
     foreach elemento $result {
         set nombre_escuela [lindex $elemento 0]
+        set id_escuela [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"nombre_escuela\": $nombre_escuela\"
+                    \"id_escuela\": $id_escuela,
+                    \"nombre_escuela\": \"$nombre_escuela\"
             \}"
         set json_comma ","
     }
@@ -72,8 +79,10 @@ ad_proc -public incl::get_cursos {
 
     foreach elemento $result {
         set nombre_curso [lindex $elemento 0]
+        set id_curso [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"nombre_curso\": $nombre_curso\"
+                    \"id_curso\": $id_curso,
+                    \"nombre_curso\": \"$nombre_curso\"
             \}"
         set json_comma ","
     }
@@ -97,8 +106,10 @@ ad_proc -public incl::get_grupos {
 
     foreach elemento $result {
         set numero_grupo [lindex $elemento 0]
+        set id_grupo [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"numero_grupo\": $numero_grupo\"
+                    \"id_grupo\": $id_grupo,
+                     \"numero_grupo\": $numero_grupo
             \}"
         set json_comma ","
     }
@@ -108,7 +119,7 @@ ad_proc -public incl::get_grupos {
 }
 
 
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_sede_id {
     -nombre_sede
 } {
@@ -121,7 +132,7 @@ ad_proc -public incl::get_sede_id {
 
     return $result
 }
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_escuela_id {
     -sede_id
     -escuela_nombre
@@ -135,7 +146,7 @@ ad_proc -public incl::get_escuela_id {
 
     return $result
 }
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_curso_id {
     -escuela_id
     -curso_nombre
@@ -149,7 +160,7 @@ ad_proc -public incl::get_curso_id {
 
     return $result
 }
-
+#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
 ad_proc -public incl::get_grupo_id {
     -curso_id
     -numero_grupo
@@ -164,25 +175,28 @@ ad_proc -public incl::get_grupo_id {
     return $result
 }
 
-ad_proc -public incl::insert_inclusion{
-    -id_estudiante
+ad_proc -public incl::insert_inclusion {
     -id_grupo
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch {[db_dml insert_inclusion_query {}] } errmsg] } {
-        puts "$errmsg" 
+    set user_id [ad_conn user_id]
+
+
+    if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
         return -1
     }  
 
     return 1
 }
 
-ad_proc -public incl::get_inclusiones_estudiante{
-    -id_estudiante
+ad_proc -public incl::get_inclusiones_estudiante {
 } {
     @author Jose Daniel Vega Alvarado
 } {
+    set id_estudiante [ad_conn user_id]
+
     if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {
         puts "$errmsg" 
         return -1
@@ -191,13 +205,22 @@ ad_proc -public incl::get_inclusiones_estudiante{
     set json_comma ""
 
     foreach elemento $result {
-        set nombre_curso [lindex $elemento 0]
-        set numero_grupo [lindex $elemento 1]
-        set id_estudiante [lindex $elemento 2]
+        set sede_nombre [lindex $elemento 0]
+        set escuela_nombre [lindex $elemento 1]
+        set curso_nombre [lindex $elemento 2]
+        set grupo_numero [lindex $elemento 3]
+        set estado [lindex $elemento 4]
+        ##set carnet_estudiante [td_estudiante::obtener_carnet_estudiante -user_id $user_id]
+        ##set nombre_estudiante [prematricula::get_name_students $carnet_estudiante]
+
+        ##set nombres_estudiante [lindex $nombres_estudiante 1]
+        ##set apellidos_estudiante [lindex $nombres_estudiante 2]
         set select_json "$select_json $json_comma \{
-                    \"nombre_curso\": $nombre_curso,
-                    \"numero_grupo\": $numero_grupo,
-                    \"id_estudiante\": $id_estudiante\"
+                    \"sede_nombre\": \"$sede_nombre\",
+                    \"escuela_nombre\": \" $escuela_nombre \",
+                    \"curso_nombre\":  \"$curso_nombre \",
+                    \"grupo_numero\": $grupo_numero,
+                    \"estado\": \"$estado\"
 
             \}"
         set json_comma ","
@@ -207,15 +230,15 @@ ad_proc -public incl::get_inclusiones_estudiante{
     return $select_json
 
 }
-ad_proc -public incl::insert_comentario{
+ad_proc -public incl::insert_comentario {
     -asunto
     -mensaje
-    -id_estudiante
     -id_escuela
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch {[db_dml insert_comentario_query {}] } errmsg] } {
+    set id_estudiante [ad_conn user_id]
+    if {[catch {db_dml insert_comentario_query {} } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
@@ -223,7 +246,7 @@ ad_proc -public incl::insert_comentario{
     return 1
 }
 
-ad_proc -public incl::get_comentario_escuela{
+ad_proc -public incl::get_comentario_escuela {
     -id_escuela
 } {
     @author Jose Daniel Vega Alvarado

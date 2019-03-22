@@ -3,11 +3,11 @@ ad_page_contract {
 	@author juan_jop96@hotmail.com sebaspf1997@gmail.com
 	@creation-date Mar 2019
 } {
-	carnet ""
+
 }
 
 
-set answer [incl::get_inclusionesEstudiante -carnet $carnet]
+set answer [incl::get_inclusiones_estudiante]
 
 if {$answer eq -1} {
     set answer "\{\"title\":\"Bad Request\",\"body\":\"Problem to get admin page.\"\}"
