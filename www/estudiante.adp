@@ -6,14 +6,15 @@
 
 
 
-	
 
 <div class="container" ng-app="incursionApp" ng-controller="estudianteController"> 
 
 	    <!--Falta configuar el boton de refresh (refreshTable())y agregar los filtros y cada columna correspondiente
 
-	    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar aqui....">
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
+
+
+	    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por curso.." size="35">
 
      <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   		<thead>
@@ -43,6 +44,28 @@
 
 </div>
 
+
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("dtBasicExample");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[2];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
 
 
 
