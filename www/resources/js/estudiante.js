@@ -4,6 +4,7 @@ app = angular.module('incursionApp', []);
 app.controller('estudianteController', function($scope, $http){
 
 
+    
 
 
 	$scope.resultQuery = [];

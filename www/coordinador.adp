@@ -7,11 +7,9 @@
 
 
 
-<div class="container" ng-app="incursionApp" ng-controller="estudianteController"> 
+<div class="container" ng-app="incursionApp" > 
 
-	    <!--Falta configuar el boton de refresh (refreshTable())y agregar los filtros y cada columna correspondiente
-
-		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
+	    <!--Falta configuar el boton de refresh y agregar el controler-->
 
 
 	    
@@ -23,7 +21,7 @@
 		        <th scope="col">Escuela</th>
 		        <th scope="col">Curso</th>
 		        <th scope="col">Grupo</th>
-		        <th scope="col">Estado</th>
+		        <th scope="col">Accion</th>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -50,41 +48,7 @@
  <script src="node_modules/tablefilter/dist/tablefilter/tablefilter.js"></script>
 
 
-<script data-config>
-    var filtersConfig = {
-        base_path: 'node_modules/tablefilter/dist/tablefilter/',
-        help_instructions_btn_html: '<button style="display:none;">Help</button>' ,
-        auto_filter: {
-            delay: 100 //milliseconds
-        },
-        paging: {
-          results_per_page: ['Cantidad: ', [10, 25, 50, 100]]
-        },
-        single_filter: {
-            css_class: 'form-control',
-        },
-        enable_default_theme: true,
-        rows_counter: true,
-        btn_reset: true,
-        no_results_message: true,
-        loader: true,
-        status_bar: true,
-        col_types: [
-            'string', 'string', 'string',
-            'number', 'string'
-        ],
-        mark_active_columns: true,
-        highlight_keywords: true,
-        extensions:[{ name: 'sort' }],
-        filters_cell_tag: 'th'
-        
-    };
 
-    var tf = new TableFilter('table1', filtersConfig);
-    tf.init();
-
-
-</script>
 
 
 
