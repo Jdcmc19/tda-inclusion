@@ -14,9 +14,9 @@
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
 
-	    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por curso.." size="35">
+	    
 
-     <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+     <table id="table1" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   		<thead>
 		      <tr>
 		        <th scope="col">Sede</th>
@@ -46,26 +46,50 @@
 
 
 
-<script>
-function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("dtBasicExample");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[2];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
+
+ <script src="node_modules/tablefilter/dist/tablefilter/tablefilter.js"></script>
+
+
+<script data-config>
+    var filtersConfig = {
+        base_path: 'node_modules/tablefilter/dist/tablefilter/',
+        auto_filter: {
+            delay: 100 //milliseconds
+        },
+        paging: {
+          results_per_page: ['Cantidad: ', [10, 25, 50, 100]]
+        },
+        single_filter: {
+            css_class: 'form-control',
+        },
+        enable_default_theme: true,
+        alternate_rows: true,
+        responsive: true,
+        rows_counter: true,
+        btn_reset: true,
+        no_results_message: true,
+        loader: true,
+        status_bar: true,
+        mark_active_columns: true,
+        highlight_keywords: true,
+        extensions:[{ name: 'sort' }],
+
+        /** Bootstrap integration */
+
+        // aligns filter at cell bottom when Bootstrap is enabled
+        filters_cell_tag: 'th'
+        
+    };
+
+    var tf = new TableFilter('table1', filtersConfig);
+    tf.init();
+
+
 </script>
+
+
+
+
 
 
 
@@ -78,5 +102,6 @@ function myFunction() {
 
 	<script src="node_modules/angular/angular.min.js"></script>
 
+ 
 	<script src="resources/js/estudiante.js"></script>
 
