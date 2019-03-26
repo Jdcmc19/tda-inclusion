@@ -53,7 +53,6 @@
 <script data-config>
     var filtersConfig = {
         base_path: 'node_modules/tablefilter/dist/tablefilter/',
-        help_instructions_btn_html: '<button style="display:none;">Help</button>' ,
         auto_filter: {
             delay: 100 //milliseconds
         },
