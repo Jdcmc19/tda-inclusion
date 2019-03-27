@@ -7,9 +7,8 @@
 
 
 
-<div class="container" ng-app="incursionApp" > 
+<div class="container" ng-app="incursionApp" ng-controller="coordinadorController"> 
 
-	    <!--Falta configuar el boton de refresh y agregar el controler-->
 
 
 	    
@@ -17,19 +16,23 @@
      <table id="table1" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
   		<thead>
 		      <tr>
-		        <th scope="col">Sede</th>
-		        <th scope="col">Escuela</th>
+		        <th scope="col">Carné</th>
+		        <th scope="col">Nombre</th>
 		        <th scope="col">Curso</th>
 		        <th scope="col">Grupo</th>
-		        <th scope="col">Accion</th>
+		        <th scope="col">Promedio</th>
+		        <th scope="col">Prioridad</th>
+		        <th scope="col">Acción</th>
 		      </tr>
 		    </thead>
 		    <tbody>
 		      <tr ng-repeat="inclusion in resultQuery">
-		        <td>{{ inclusion.sede_nombre }}</td>
-		        <td>{{ inclusion.escuela_nombre}}</td>
+		        <td>{{ inclusion.carne }}</td>
+		        <td>{{ inclusion.estudiante_nombre }}</td>
 		        <td>{{ inclusion.curso_nombre }}</td>
 		        <td>{{ inclusion.grupo_numero }}</td>
+		        <td>{{ inclusion.estudiante_promedio }}</td>
+		        <td>{{ inclusion.estudiante_prioridad }}</td>
 		        <td>{{ inclusion.estado }}</td>
 
 		      </tr>
@@ -66,5 +69,5 @@
 	<script src="node_modules/angular/angular.min.js"></script>
 
  
-	<script src="resources/js/estudiante.js"></script>
+	<script src="resources/js/coordinador.js"></script>
 
