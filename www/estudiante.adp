@@ -33,15 +33,13 @@
 		    <tbody>
 		      <tr ng-repeat="inclusion in resultQuery">
 		        <td>{{ inclusion.sede_nombre }}</td>
-		        <td>{{ inclusion.escuela_nombre}}</td>
+		        <td>{{ inclusion.escuela_nombre }}</td>
 		        <td>{{ inclusion.curso_nombre }}</td>
 		        <td>{{ inclusion.grupo_numero }}</td>
 		        <td>{{ inclusion.estado }}</td>
 		      </tr>
 		    </tbody>
 		</table>
-
-
         
 
 </div>
