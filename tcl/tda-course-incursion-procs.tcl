@@ -13,7 +13,7 @@ ad_proc -public incl::get_sedes {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [db_list_of_lists get_sedes_query {}] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name aDARconsulta -ws_type obtenerSedes -ws_parameters ""] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
@@ -24,7 +24,7 @@ ad_proc -public incl::get_sedes {
         set nombre_sede [lindex $elemento 0]
         set id_sede [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"id_sede\": $id_sede,
+                    \"id_sede\": \"$id_sede\",
                     \"nombre_sede\": \"$nombre_sede\"
             \}"
         set json_comma ","
@@ -42,7 +42,7 @@ ad_proc -public incl::get_escuelas {
     @author Jose Daniel Vega Alvarado
 } {
 
-    if {[catch { set result [db_list_of_lists get_escuelas_query {}] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name aDARconsulta -ws_type obtenerDepartamentos -ws_parameters $sede_id] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
@@ -54,39 +54,67 @@ ad_proc -public incl::get_escuelas {
         set nombre_escuela [lindex $elemento 0]
         set id_escuela [lindex $elemento 1]
         set select_json "$select_json $json_comma \{
-                    \"id_escuela\": $id_escuela,
+                    \"id_escuela\": \"$id_escuela\",
                     \"nombre_escuela\": \"$nombre_escuela\"
             \}"
         set json_comma ","
     }
     set select_json "$select_json\]"
 
+    puts $select_json
+
     return $select_json
 }
 
 ad_proc -public incl::get_cursos {
+    -sede_id
     -escuela_id
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [db_list_of_lists get_cursos_query {}] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/S/1/$escuela_id/$sede_id/null/null"] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
 
+    set courses_names {}
+    set courses_id {}
+
+    puts $sede_id
+    puts $escuela_id
+
+
+    foreach item $result {
+        set nombre [lindex $item 19]
+        set identificador [lindex $item 17]
+
+        puts "nombre $nombre"
+        puts "nombreidentificador $identificador"
+
+        if {[lsearch $courses_id $identificador] eq -1} {
+            puts $sede_id
+            set courses_id [lappend courses_id $identificador]
+            set courses_names [lappend courses_names $nombre]
+
+        } else {
+        }
+    }
+
     set select_json "\["
     set json_comma ""
 
-    foreach elemento $result {
-        set nombre_curso [lindex $elemento 0]
-        set id_curso [lindex $elemento 1]
+    for { set i 0 } { $i < [llength $courses_id] } { incr i } {
+        set nombre [lindex $courses_names $i]
+        set identificador [lindex $courses_id $i]
+        
         set select_json "$select_json $json_comma \{
-                    \"id_curso\": $id_curso,
-                    \"nombre_curso\": \"$nombre_curso\"
+                    \"id_curso\": \"$identificador\",
+                    \"nombre_curso\": \"$nombre\"
             \}"
         set json_comma ","
     }
     set select_json "$select_json\]"
+
 
     return $select_json
 }

@@ -93,7 +93,7 @@ $scope.getCursos = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela }
+            data: { sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela }
         }).then(function(response){
             console.dir(response);
             $scope.cursoQuery = response.data;
