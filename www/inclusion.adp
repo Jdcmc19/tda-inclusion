@@ -16,14 +16,18 @@
 	        @user_carnet@
 	    </div>
 
+
+
+	   
+
 		<form>
 		  <div class="form-group">
 		  	<input type="hidden"  ng-model="inclusion.user_id" id="user_id" name="user_id" value= "@user_id@" >
-		  	
+
 
 			<div class="form-group">
-	          <label for="sede_select">Seleccione la Sede</label>
-			<select class="form-control" ng-model="inclusion.sedeSeleccionada" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()">
+	        <label for="sede_select">Seleccione la Sede</label>
+			<select class="form-control" ng-model="inclusion.sedeSeleccionada" ng-init="inclusion.sedeSeleccionada = sedeQuery[0]" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ sedeQuery | json }} </pre>
@@ -33,7 +37,7 @@
 	       
 	       <div class="form-group">
 	          <label for="escuela_select">Seleccione la Escuela</label>
-			<select class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="getCursos()">
+			<select id= "Escuelas" name="Escuelas" class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-init="inclusion.escuelaSeleccionada = escuelaQuery[0]" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="getCursos()" required >
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ escuelaQuery | json }} </pre>
@@ -46,7 +50,7 @@
 
 	      <div class="form-group">
 	          <label for="curso_select">Seleccione la Curso</label>
-			<select class="form-control" ng-model="inclusion.cursoSeleccionada" ng-options="curso as curso.nombre_curso for curso in cursoQuery track by curso.id_curso" ng-change="getGrupos()">
+			<select id= "Cursos" name="Cursos" class="form-control" ng-model="inclusion.cursoSeleccionada" ng-init="inclusion.cursoSeleccionada = cursoQuery[0]" ng-options="curso as curso.nombre_curso for curso in cursoQuery track by curso.id_curso" ng-change="getGrupos()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ cursoQuery | json }} </pre>
@@ -56,19 +60,28 @@
 
 			<div class="form-group">
 	          <label for="grupo_select">Seleccione la Grupo</label>
-			<select class="form-control" ng-model="inclusion.grupoSeleccionada" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo" >
+			<select id= "Grupos" name="Grupos" class="form-control" ng-model="inclusion.grupoSeleccionada" ng-init="inclusion.grupoSeleccionada = grupoQuery[0]" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ grupoQuery | json }} </pre>
 	          <pre> {{ inclusion }} </pre>-->
 	      </div>
 
+	    	<div class="form-group">
+	    	<label>Asunto</label>
+	    	<input class="form-control" id="asunto" name="asunto" ng-model="inclusion.asusnto"></textarea>
+	    	</div>
+
+
+	    	<label>Comentario</label>
+	    	<textarea class="form-control" id="comentario" name="comentario" rows="6" ng-model="inclusion.comentario"></textarea>
+
 		    
 
 
 		  </div>
 		  <button type="submit" class="btn btn-primary" ng-click="enviarInclusion()">Enviar</button>
-		</form>    
+		</form>
 
 
 	</div>
@@ -79,7 +92,7 @@
 
 
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
