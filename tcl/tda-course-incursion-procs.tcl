@@ -77,42 +77,28 @@ ad_proc -public incl::get_cursos {
         return -1
     }  
 
-    set courses_names {}
     set courses_id {}
 
-    puts $sede_id
-    puts $escuela_id
+    set select_json "\["
+    set json_comma ""
 
 
     foreach item $result {
         set nombre [lindex $item 19]
         set identificador [lindex $item 17]
 
-        puts "nombre $nombre"
-        puts "nombreidentificador $identificador"
-
         if {[lsearch $courses_id $identificador] eq -1} {
-            puts $sede_id
             set courses_id [lappend courses_id $identificador]
-            set courses_names [lappend courses_names $nombre]
 
-        } else {
+            set select_json "$select_json $json_comma \{
+                        \"id_curso\": \"$identificador\",
+                        \"nombre_curso\": \"$nombre\"
+                \}"
+            set json_comma ","            
+
         }
     }
 
-    set select_json "\["
-    set json_comma ""
-
-    for { set i 0 } { $i < [llength $courses_id] } { incr i } {
-        set nombre [lindex $courses_names $i]
-        set identificador [lindex $courses_id $i]
-        
-        set select_json "$select_json $json_comma \{
-                    \"id_curso\": \"$identificador\",
-                    \"nombre_curso\": \"$nombre\"
-            \}"
-        set json_comma ","
-    }
     set select_json "$select_json\]"
 
 
@@ -120,28 +106,42 @@ ad_proc -public incl::get_cursos {
 }
 
 ad_proc -public incl::get_grupos {
+    -sede_id
+    -escuela_id
     -curso_id
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [db_list_of_lists get_grupos_query {}] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/S/1/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
 
+    set groups_id {}
+
     set select_json "\["
     set json_comma ""
 
-    foreach elemento $result {
-        set numero_grupo [lindex $elemento 0]
-        set id_grupo [lindex $elemento 1]
-        set select_json "$select_json $json_comma \{
-                    \"id_grupo\": $id_grupo,
-                     \"numero_grupo\": $numero_grupo
-            \}"
-        set json_comma ","
+
+    foreach item $result {
+        
+        set numero [ lindex $item 25 ]
+
+        if { [ lsearch $groups_id $numero ] eq -1} {
+            set groups_id [ lappend groups_id $numero ]
+
+            set select_json "$select_json $json_comma \{
+                        \"id_grupo\": \"$numero\",
+                        \"numero_grupo\": \"$numero\"
+                \}"
+            set json_comma ","            
+
+        }
     }
+
     set select_json "$select_json\]"
+
+
 
     return $select_json
 }

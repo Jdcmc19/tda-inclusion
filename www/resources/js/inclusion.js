@@ -142,7 +142,7 @@ $scope.getGrupos = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { curso_id: $scope.inclusion.cursoSeleccionada.id_curso }
+            data: { sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela, curso_id: $scope.inclusion.cursoSeleccionada.id_curso }
         }).then(function(response){
             console.dir(response);
             $scope.grupoQuery = response.data;
