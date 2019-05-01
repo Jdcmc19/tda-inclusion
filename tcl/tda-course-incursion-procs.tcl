@@ -201,6 +201,7 @@ ad_proc -public incl::get_grupos {
         
         set numero [ lindex $item 25 ]
 
+
         if { [ lsearch $groups_id $numero ] eq -1} {
             set groups_id [ lappend groups_id $numero ]
 
@@ -252,7 +253,9 @@ ad_proc -public incl::get_infoGroup {
         set aula_dia [ lindex $item 53 ]
 
 
-        if { numero == $grupo_id } {
+        puts "este es el número $numero y este grupo $grupo_id"
+
+        if { $numero == $grupo_id } {
 
             set select_json "$select_json $json_comma \{
                         \"nombre_profesor\": \"$nombre_profesor\",

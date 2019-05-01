@@ -88,7 +88,9 @@
 
 
 	      	<label>Información</label>
-	      	  <pre> {{ infoGroupQuery | json }} </pre>
+	      	  <pre>Profesor: {{ infoGroupQuery }}
+Aula: {{ infoGroupQuery }}
+Horario: {{ infoGroupQuery }}</pre>
 	          <pre> {{ inclusion }} </pre>
 	      	
 
