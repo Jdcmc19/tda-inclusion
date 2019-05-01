@@ -9,8 +9,6 @@ $scope.inclusion = {
         "asusnto": "",
         "comentario": "",
         "sedeSeleccionada": {},
-        "modalidadSeleccionada": {},
-        "periodoSeleccionada": {},
         "escuelaSeleccionada": {},
         "cursoSeleccionada": {},
         "grupoSeleccionada": {},
@@ -175,7 +173,7 @@ $scope.getInfoGroup = function(){
             data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo ,sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela, curso_id: $scope.inclusion.cursoSeleccionada.id_curso, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo }
         }).then(function(response){
             console.dir(response);
-            $scope.grupoQuery = response.data;
+            $scope.InfoGroupQuery = response.data;
 
         }, function(error) {
             console.error(error);
