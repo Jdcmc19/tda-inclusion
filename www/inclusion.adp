@@ -25,9 +25,24 @@
 		  	<input type="hidden"  ng-model="inclusion.user_id" id="user_id" name="user_id" value= "@user_id@" >
 
 
+
+		  	<div class="form-group">
+	        <label for="periodo_select">Seleccione la Periodo</label>
+			<select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="getModalidades()" required>
+			  <option value="">--Elige opcion--</option>
+			</select>
+	      </div>
+
+	      	<div class="form-group">
+	        <label for="modalidad_select">Seleccione la Modalidad</label>
+			<select class="form-control" ng-model="inclusion.modalidades" ng-init="inclusion.modalidades = modalidadQuery[0]" ng-options="modalidad as modalidad.nombre_modalidad for modalidad in modalidadQuery track by modalidad.id_modalidad" ng-change="unlock()" required>
+			  <option value="">--Elige opcion--</option>
+			</select>
+	      	</div>
+
 			<div class="form-group">
 	        <label for="sede_select">Seleccione la Sede</label>
-			<select class="form-control" ng-model="inclusion.sedeSeleccionada" ng-init="inclusion.sedeSeleccionada = sedeQuery[0]" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()" required>
+			<select id= "Sedes" name="Sedes" class="form-control" ng-model="inclusion.sedeSeleccionada" ng-init="inclusion.sedeSeleccionada = sedeQuery[0]" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ sedeQuery | json }} </pre>
