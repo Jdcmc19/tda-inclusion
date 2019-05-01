@@ -12,7 +12,9 @@ $scope.inclusion = {
         "modalidad": "",
         "escuelaSeleccionada": {},
         "cursoSeleccionada": {},
-        "grupoSeleccionada": {} 
+        "grupoSeleccionada": {},
+        "modalidades": {},
+        "periodos": {}
 
     };
 
@@ -22,20 +24,28 @@ $scope.inclusion = {
     $scope.escuelaQuery = [];
     $scope.cursoQuery = [];
     $scope.grupoQuery = [];
+    $scope.modalidadQuery = [];
+    $scope.periodoQuery = [];
 
+    /*
+
+    $("#Sedes").prop('disabled', true);
     $("#Escuelas").prop('disabled', true);
     $("#Cursos").prop('disabled', true);
     $("#Grupos").prop('disabled', true);
 
 
+    */
 
     $http({
         method: 'GET',
-        url: 'api/get_sedes'
+        url: 'api/get_modalidades'
     }).then(function(response){
         console.dir(response);
-        $scope.sedeQuery = response.data;
+        $scope.modalidadQuery = response.data;
     });
+
+
 
 
 
@@ -65,9 +75,7 @@ $scope.enviarInclusion = function(){
 $scope.getEscuelas = function(){
 
     
-    $("#Escuelas").prop('disabled', false);
-    $("#Cursos").prop('disabled', true);
-    $("#Grupos").prop('disabled', true);
+    
     
     $http({
             method: 'POST',
@@ -89,9 +97,7 @@ $scope.getEscuelas = function(){
 
         });
 
-    $("#Escuelas").val("");
-    $("#Grupos").val("");
-    $("#Cursos").val("");
+    
     }
 
 
@@ -99,7 +105,6 @@ $scope.getEscuelas = function(){
 $scope.getCursos = function(){
 
     
-    $("#Cursos").prop('disabled', false);
 
     $http({
             method: 'POST',
@@ -122,7 +127,6 @@ $scope.getCursos = function(){
         });
 
 
-    $("#Cursos").val("");
     }
 
 
@@ -130,7 +134,6 @@ $scope.getCursos = function(){
 $scope.getGrupos = function(){
 
     
-    $("#Grupos").prop('disabled', false);
 
     $http({
             method: 'POST',
@@ -151,34 +154,55 @@ $scope.getGrupos = function(){
             console.error(error);
 
         });
-    $("#Grupos").val("");
     }
 
 
 
-$scope.enviarComentario = function(){
+
+$scope.getSedes = function(){
+
+    /*$("#Sedes").prop('disabled', false);
+        $("#Escuelas").prop('disabled', false);
+        $("#Cursos").prop('disabled', false);
+        $("#Grupos").prop('disabled', false);
+    */
 
         $http({
-            method: 'POST',
-            url: 'api/post_comentario',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj)
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data : {id_escuela: $scope.inclusion.escuelaSeleccionada.id_escuela, mensaje: $scope.inclusion.comentario , asunto: $scope.inclusion.asusnto}
+        method: 'GET',
+        url: 'api/get_sedes'
         }).then(function(response){
             console.dir(response);
-
-        }, function(error) {
-            console.error(error);
+            $scope.sedeQuery = response.data;
         });
+
     }
+
+
+$scope.getPeriodos = function(){
+
+        $http({
+        method: 'GET',
+        url: 'api/get_periodos'
+        }).then(function(response){
+            console.dir(response);
+            $scope.periodoQuery = response.data;
+        });
+
+    }
+
+        
+
+
+
+
+
 
 
 
 
 
 });
+
+
+
+
