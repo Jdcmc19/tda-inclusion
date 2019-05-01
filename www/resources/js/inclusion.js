@@ -71,7 +71,7 @@ $scope.enviarInclusion = function(){
 
 $scope.getEscuelas = function(){
 
-    
+    $scope.infoGroupQuery = [];
     
     
     $http({
@@ -101,7 +101,7 @@ $scope.getEscuelas = function(){
 
 $scope.getCursos = function(){
 
-    
+    $scope.infoGroupQuery = [];
 
     $http({
             method: 'POST',
@@ -130,7 +130,7 @@ $scope.getCursos = function(){
 
 $scope.getGrupos = function(){
 
-    
+    $scope.infoGroupQuery = [];
 
     $http({
             method: 'POST',
@@ -158,7 +158,7 @@ $scope.getGrupos = function(){
 
 $scope.getInfoGroup = function(){
 
-    
+    $scope.infoGroupQuery = [];
 
     $http({
             method: 'POST',
@@ -192,6 +192,8 @@ $scope.getSedes = function(){
         $("#Grupos").prop('disabled', false);
     */
 
+    $scope.infoGroupQuery = [];
+
         $http({
         method: 'GET',
         url: 'api/get_sedes'
@@ -206,7 +208,7 @@ $scope.getSedes = function(){
 $scope.getPeriodos = function(){
 
     
-    
+    $scope.infoGroupQuery = [];
     
     $http({
             method: 'POST',
