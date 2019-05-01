@@ -136,6 +136,7 @@ ad_proc -public incl::get_cursos {
 } {
     @author Jose Daniel Vega Alvarado
 } {
+    puts modalidad_id
     if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null"] } errmsg] } {
         
         puts "$errmsg" 
