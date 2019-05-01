@@ -266,6 +266,8 @@ ad_proc -public incl::get_infoGroup {
 
     set select_json "$select_json\]"
 
+    puts $select_json
+
 
 
     return $select_json

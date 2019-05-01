@@ -77,7 +77,7 @@
 
 			<div class="form-group">
 	          <label for="grupo_select">Seleccione la Grupo</label>
-			<select id= "Grupos" name="Grupos" class="form-control" ng-model="inclusion.grupoSeleccionada" ng-init="inclusion.grupoSeleccionada = grupoQuery[0]" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo" required>
+			<select id= "Grupos" name="Grupos" class="form-control" ng-model="inclusion.grupoSeleccionada" ng-init="inclusion.grupoSeleccionada = grupoQuery[0]" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo" ng-change="getInfoGroup()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ grupoQuery | json }} </pre>
@@ -87,12 +87,10 @@
 
 
 
-	      	<label>Profesor</label>
-	      	<label id= "profesor"></label>
-
-	      	<label>Horario</label>
-	      	<label id= "horario"></label>
-
+	      	<label>Información</label>
+	      	  <pre> {{ infoGroupQuery | json }} </pre>
+	          <pre> {{ inclusion }} </pre>
+	      	
 
 	    	<div class="form-group">
 	    	<label>Asunto</label>
