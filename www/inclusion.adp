@@ -82,6 +82,16 @@
 	          <pre> {{ inclusion }} </pre>-->
 	      </div>
 
+
+
+
+	      	<label>Profesor</label>
+	      	<label id= "profesor"></label>
+
+	      	<label>Horario</label>
+	      	<label id= "horario"></label>
+
+
 	    	<div class="form-group">
 	    	<label>Asunto</label>
 	    	<input class="form-control" id="asunto" name="asunto" ng-model="inclusion.asusnto"></textarea>
