@@ -9,7 +9,8 @@ $scope.inclusion = {
         "asusnto": "",
         "comentario": "",
         "sedeSeleccionada": {},
-        "modalidad": "",
+        "modalidadSeleccionada": {},
+        "periodoSeleccionada": {},
         "escuelaSeleccionada": {},
         "cursoSeleccionada": {},
         "grupoSeleccionada": {},
@@ -174,21 +175,34 @@ $scope.getSedes = function(){
 
     }
 
-
+        
 $scope.getPeriodos = function(){
 
-        $http({
-        method: 'GET',
-        url: 'api/get_periodos'
+    
+    
+    
+    $http({
+            method: 'POST',
+            url: 'api/get_periodos',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad}
         }).then(function(response){
             console.dir(response);
             $scope.periodoQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
         });
 
+    
     }
-
-        
-
 
 
 

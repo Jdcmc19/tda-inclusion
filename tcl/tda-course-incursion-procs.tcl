@@ -30,6 +30,8 @@ ad_proc -public incl::get_modalidades {
     }
     set select_json "$select_json\]"
 
+
+
     return $select_json
 }
 
@@ -57,15 +59,13 @@ ad_proc -public incl::get_periodos {
         set id_periodo [ lindex $elemento 1 ]
         
         set select_json "$select_json $json_comma \{
-                    \"id_periodo\": $id_escuela,
-                    \"nombre_periodo\": \"$nombre_escuela\"
+                    \"id_periodo\": $id_periodo,
+                    \"nombre_periodo\": \"$nombre_periodo\"
             \}"
         set json_comma ","
     }
 
     set select_json "$select_json\]"
-
-    puts $select_json
 
     return $select_json
 }
@@ -129,12 +129,14 @@ ad_proc -public incl::get_escuelas {
 }
 
 ad_proc -public incl::get_cursos {
+    -modalidad_id
+    -periodo_id
     -sede_id
     -escuela_id
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/S/1/$escuela_id/$sede_id/null/null"] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null"] } errmsg] } {
         
         puts "$errmsg" 
         return -1
@@ -171,13 +173,15 @@ ad_proc -public incl::get_cursos {
 }
 
 ad_proc -public incl::get_grupos {
+    -modalidad_id
+    -periodo_id
     -sede_id
     -escuela_id
     -curso_id
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/S/1/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
