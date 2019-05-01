@@ -59,7 +59,7 @@ ad_proc -public incl::get_periodos {
         set id_periodo [ lindex $elemento 1 ]
         
         set select_json "$select_json $json_comma \{
-                    \"id_periodo\": $id_periodo,
+                    \"id_periodo\": \"$id_periodo\",
                     \"nombre_periodo\": \"$nombre_periodo\"
             \}"
         set json_comma ","
@@ -136,8 +136,8 @@ ad_proc -public incl::get_cursos {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    puts modalidad_id
-    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null"] } errmsg] } {
+    
+    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null" ] } errmsg ] } {
         
         puts "$errmsg" 
         return -1
@@ -145,6 +145,10 @@ ad_proc -public incl::get_cursos {
     }  
 
     set courses_id {}
+    puts "esta es la modalidad $modalidad_id"
+    puts "est e es el periodo $periodo_id"
+    puts "est e es el sede $sede_id"
+    puts "est e es el escuela_id $escuela_id"
 
     set select_json "\["
     set json_comma ""
@@ -155,8 +159,8 @@ ad_proc -public incl::get_cursos {
         set nombre [ lindex $item 19 ] 
         set identificador [ lindex $item 17 ]
 
-        if {[lsearch $courses_id $identificador] eq -1} {
-            set courses_id [lappend courses_id $identificador]
+        if { [ lsearch $courses_id $identificador ] eq -1} {
+            set courses_id [ lappend courses_id $identificador ]
 
             set select_json "$select_json $json_comma \{
                         \"id_curso\": \"$identificador\",
@@ -240,14 +244,22 @@ ad_proc -public incl::get_infoGroup {
         
         set numero [ lindex $item 25 ]
 
+        set nombre_profesor [ lindex $item 45 ]
+        set nombre_dia [ lindex $item 49 ]
+        set horario_entrada [ lindex $item 55 ]
+        set horario_salida [ lindex $item 57 ]
+        set edificio_dia [ lindex $item 51 ]
+        set aula_dia [ lindex $item 53 ]
+
+
         if { numero == $grupo_id } {
 
             set select_json "$select_json $json_comma \{
-                        \"id_grupo\": \"$numero\",
-                        \"numero_grupo\": \"$numero\"
+                        \"nombre_profesor\": \"$nombre_profesor\",
+                        \"horario\": \"$horario_entrada - $horario_salida\",
+                        \"edificio_aula\": \"$edificio_dia - $aula_dia\"
                 \}"
             set json_comma ","
-            puts "holaaaa"         
 
         }
     }
