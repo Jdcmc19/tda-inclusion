@@ -8,6 +8,61 @@ ad_library {
 
 namespace eval incl {}
 
+ad_proc -public incl::get_modalidades {
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name aDARconsulta -ws_type obtenerModalidades -ws_parameters ""] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set nombre_modalidad [lindex $elemento 0]
+        set id_modalidad [lindex $elemento 1]
+        set select_json "$select_json $json_comma \{
+                    \"id_modalidad\": \"$id_modalidad\",
+                    \"nombre_modalidad\": \"$nombre_modalidad\"
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    return $select_json
+}
+
+ad_proc -public incl::get_periodos {
+    -modalidad_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name aDARconsulta -ws_type obtenerPeriodos -ws_parameters $modalidad_id] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set nombre_periodo [lindex $elemento 0]
+        set id_periodo [lindex $elemento 1]
+        set select_json "$select_json $json_comma \{
+                    \"id_periodo\": $id_escuela,
+                    \"nombre_periodo\": \"$nombre_escuela\"
+            \}"
+        set json_comma ","
+    }
+    set select_json "$select_json\]"
+
+    puts $select_json
+
+    return $select_json
+}
+
 
 ad_proc -public incl::get_sedes {
 } {
@@ -135,6 +190,49 @@ ad_proc -public incl::get_grupos {
                         \"numero_grupo\": \"$numero\"
                 \}"
             set json_comma ","            
+
+        }
+    }
+
+    set select_json "$select_json\]"
+
+
+
+    return $select_json
+}
+
+ad_proc -public incl::get_infoGroup {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+
+
+    set select_json "\["
+    set json_comma ""
+
+
+    foreach item $result {
+        
+        set numero [ lindex $item 25 ]
+
+        if { numero == $grupo_id } {
+
+            set select_json "$select_json $json_comma \{
+                        \"id_grupo\": \"$numero\",
+                        \"numero_grupo\": \"$numero\"
+                \}"
+            set json_comma ","
+            puts "holaaaa"         
 
         }
     }
