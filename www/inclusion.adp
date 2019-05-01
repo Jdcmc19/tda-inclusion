@@ -87,12 +87,10 @@
 
 
 
-	      	<label>Profesor</label>
-	      	<label id= "profesor"></label>
-
-	      	<label>Horario</label>
-	      	<label id= "horario"></label>
-
+	      	<label>Información</label>
+	      	  <pre> {{ infoGroupQuery | json }} </pre>
+	          <pre> {{ inclusion }} </pre>
+	      	
 
 	    	<div class="form-group">
 	    	<label>Asunto</label>
