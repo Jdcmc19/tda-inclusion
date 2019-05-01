@@ -7,7 +7,7 @@ ad_page_contract {
 }
 
 
-set answer [incl::get_modalidades]
+set answer [ incl::get_modalidades ]
 
 if {$answer eq -1} {
     set answer "\{\"title\":\"Bad Request\",\"body\":\"Problem to get admin page.\"\}"

@@ -34,28 +34,35 @@ ad_proc -public incl::get_modalidades {
 }
 
 ad_proc -public incl::get_periodos {
+
     -modalidad_id
+
 } {
     @author Jose Daniel Vega Alvarado
 } {
 
-    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name aDARconsulta -ws_type obtenerPeriodos -ws_parameters $modalidad_id] } errmsg] } {
+    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name aDARconsulta -ws_type obtenerPeriodos -ws_parameters $modalidad_id ] } errmsg ] } {
+        
         puts "$errmsg" 
         return -1
+    
     }  
 
     set select_json "\["
     set json_comma ""
 
     foreach elemento $result {
-        set nombre_periodo [lindex $elemento 0]
-        set id_periodo [lindex $elemento 1]
+        
+        set nombre_periodo [ lindex $elemento 0 ]
+        set id_periodo [ lindex $elemento 1 ]
+        
         set select_json "$select_json $json_comma \{
                     \"id_periodo\": $id_escuela,
                     \"nombre_periodo\": \"$nombre_escuela\"
             \}"
         set json_comma ","
     }
+
     set select_json "$select_json\]"
 
     puts $select_json
@@ -128,8 +135,10 @@ ad_proc -public incl::get_cursos {
     @author Jose Daniel Vega Alvarado
 } {
     if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/S/1/$escuela_id/$sede_id/null/null"] } errmsg] } {
+        
         puts "$errmsg" 
         return -1
+
     }  
 
     set courses_id {}
@@ -139,8 +148,9 @@ ad_proc -public incl::get_cursos {
 
 
     foreach item $result {
-        set nombre [lindex $item 19]
-        set identificador [lindex $item 17]
+
+        set nombre [ lindex $item 19 ] 
+        set identificador [ lindex $item 17 ]
 
         if {[lsearch $courses_id $identificador] eq -1} {
             set courses_id [lappend courses_id $identificador]
