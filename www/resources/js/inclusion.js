@@ -37,15 +37,15 @@ $scope.inclusion = {
 
     */
 
-    
-
     $http({
         method: 'GET',
-        url: 'api/get_sedes'
+        url: 'api/get_modalidades'
     }).then(function(response){
         console.dir(response);
-        $scope.sedeQuery = response.data;
+        $scope.modalidadQuery = response.data;
     });
+
+
 
 
 
@@ -159,13 +159,38 @@ $scope.getGrupos = function(){
 
 
 
-$scope.unlock = function(){
+$scope.getSedes = function(){
 
-        $("#Sedes").prop('disabled', false);
+    /*$("#Sedes").prop('disabled', false);
         $("#Escuelas").prop('disabled', false);
         $("#Cursos").prop('disabled', false);
         $("#Grupos").prop('disabled', false);
+    */
+
+        $http({
+        method: 'GET',
+        url: 'api/get_sedes'
+        }).then(function(response){
+            console.dir(response);
+            $scope.sedeQuery = response.data;
+        });
+
     }
+
+
+$scope.getPeriodos = function(){
+
+        $http({
+        method: 'GET',
+        url: 'api/get_periodos'
+        }).then(function(response){
+            console.dir(response);
+            $scope.periodoQuery = response.data;
+        });
+
+    }
+
+        
 
 
 
