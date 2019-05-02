@@ -3,11 +3,19 @@ ad_page_contract {
 	@author juan_jop96@hotmail.com sebaspf1997@gmail.com
 	@creation-date Mar 2019
 } {
-	{grupo ""}
+	{modalidad_id ""}
+	{periodo_id ""}
+	{sede_id ""}
+	{escuela_id ""}
+	{curso_id ""}
+	{grupo_id ""}
+	{comentario_asunto ""}
+	{comentario_mensaje ""}
+
 }
 
 
-set answer [incl::insert_inclusion -id_grupo $grupo]
+set answer [incl::insert_inclusion -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id -comentario_asunto $comentario_asunto -comentario_mensaje $comentario_mensaje]
 
 if {$answer eq -1} {
     set answer "\{\"title\":\"Bad Request\",\"body\":\"Problem to get admin page.\"\}"

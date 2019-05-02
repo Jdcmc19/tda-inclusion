@@ -345,8 +345,10 @@ ad_proc -public incl::insert_inclusion {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set user_id [ad_conn user_id]
-    set anno_id = 2019
+    set estudiante_id [ad_conn user_id]
+    set anno_id 2019
+    set estado "Pendiente"
+     
 
 
     if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
