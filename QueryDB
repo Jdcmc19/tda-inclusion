@@ -1,11 +1,4 @@
-CREATE TABLE sch_tda_inclusion.comentario (
-    asunto                   VARCHAR(100 ) NOT NULL,
-    mensaje                  VARCHAR(250 ) NOT NULL,
-    id_comentario            SERIAL,
-    inclusion_id_inclusion   INTEGER NOT NULL
-);
 
-ALTER TABLE sch_tda_inclusion.comentario ADD CONSTRAINT comentario_pk PRIMARY KEY ( id_comentario );
 
 CREATE TABLE sch_tda_inclusion.inclusion (
     id_estudiante              INTEGER NOT NULL,
@@ -16,18 +9,17 @@ CREATE TABLE sch_tda_inclusion.inclusion (
     id_depto                   VARCHAR(5 ) NOT NULL,
     id_sede                    VARCHAR(4 ) NOT NULL,
     id_materia                 VARCHAR(10 ) NOT NULL,
-    id_grupo                   INTEGER NOT NULL
+    id_grupo                   INTEGER NOT NULL,
+    comentario_asunto          VARCHAR(200 ) ,
+    comentario_mensaje         VARCHAR(500 ) ,
+    estado                     VARCHAR(10 ) NOT NULL
 );
 
 ALTER TABLE sch_tda_inclusion.inclusion ADD CONSTRAINT inclusion_pk PRIMARY KEY ( id_inclusion );
 
-ALTER TABLE sch_tda_inclusion.comentario
-    ADD CONSTRAINT comentario_inclusion_fk FOREIGN KEY ( inclusion_id_inclusion )
-        REFERENCES sch_tda_inclusion.inclusion ( id_inclusion );
 
 
-INSERT INTO sch_tda_inclusion.inclusion (id_estudiante,id_anno,id_modalidad,id_periodo,id_depto,id_sede,id_materia,id_grupo) VALUES (:estudiante_id,:anno_id,:modalidad_id, :periodo_id, :depto_id, :sede_id, :materia_id, :id_grupo);
+INSERT INTO sch_tda_inclusion.inclusion (id_estudiante,id_anno,id_modalidad,id_periodo,id_depto,id_sede,id_materia,id_grupo,comentario_asunto,comentario_mensaje,estado) VALUES (:estudiante_id,:anno_id,:modalidad_id, :periodo_id, :depto_id, :sede_id, :materia_id, :id_grupo, :comentario_asunto, :comentario_mensaje, "Pendiente");
 
 
-INSERT INTO sch_tda_inclusion.comentario (asunto, mensaje,inclusion_id_inclusion) VALUES (:asunto, :mensaje, :inclusion_id);
 

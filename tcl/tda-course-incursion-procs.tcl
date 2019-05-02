@@ -259,7 +259,7 @@ ad_proc -public incl::get_infoGroup {
 
             set select_json "$select_json $json_comma \{
                         \"nombre_profesor\": \"$nombre_profesor\",
-                        \"horario\": \"$horario_entrada - $horario_salida\",
+                        \"horario\": \"$nombre_dia : $horario_entrada - $horario_salida\",
                         \"edificio_aula\": \"$edificio_dia - $aula_dia\"
                 \}"
             set json_comma ","
@@ -334,11 +334,19 @@ ad_proc -public incl::get_grupo_id {
 }
 
 ad_proc -public incl::insert_inclusion {
-    -id_grupo
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+    -comentario_asunto
+    -comentario_mensaje
 } {
     @author Jose Daniel Vega Alvarado
 } {
     set user_id [ad_conn user_id]
+    set anno_id = 2019
 
 
     if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
