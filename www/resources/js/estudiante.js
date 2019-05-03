@@ -10,26 +10,9 @@ app.controller('estudianteController', function($scope, $http){
 	$scope.resultQuery = [];
 
 
-function format ( d ) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-        '<tr>'+
-            '<td>Full name:</td>'+
-            '<td>'+d.name+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extension number:</td>'+
-            '<td>'+d.extn+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extra info:</td>'+
-            '<td>And any further details here (images etc)...</td>'+
-        '</tr>'+
-    '</table>';
-}
+    /*Revisar Porque PUTAS no se puede filtrar luego de cargar*/
 
-
-    $(document).ready(function() {
+    /*$(document).ready(function() {
     $('#example').DataTable( {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
@@ -37,24 +20,6 @@ function format ( d ) {
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]]
             } );
 
-
-
-        // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
- 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            row.child( format(row.data()) ).show();
-            tr.addClass('shown');
-        }
-    } );
 
         } );
 
@@ -75,17 +40,69 @@ function format ( d ) {
 
 
 
-
-	$http({
+    $http({
         method: 'GET',
-        url: 'api/get_inclusionesEstudiantes'
+        url: 'api/get_modalidades'
     }).then(function(response){
-    	console.dir(response);
-    	$scope.resultQuery = response.data;
-    }, function(error) {
-    	console.error(error);
-    }); 
+        console.dir(response);
+        $scope.modalidadQuery = response.data;
+    });
 
+
+
+$scope.getPeriodos = function(){
+
+    
+    $scope.infoGroupQuery = [];
+    
+    $http({
+            method: 'POST',
+            url: 'api/get_periodos',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad}
+        }).then(function(response){
+            console.dir(response);
+            $scope.periodoQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+    
+    }
+
+
+    $scope.getInclusionesEstudiantes = function(){
+
+    $scope.infoGroupQuery = [];
+
+    $http({
+            method: 'POST',
+            url: 'api/get_inclusionesEstudiantes',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo }
+        }).then(function(response){
+            console.dir(response);
+            $scope.resultQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+    }
 
 
         

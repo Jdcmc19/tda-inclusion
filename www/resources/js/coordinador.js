@@ -44,33 +44,69 @@ $(document).ready(function() {
 
 
 
-	$http({
+	 $http({
         method: 'GET',
-        url: 'api/get_inclusionesCoordinador'
-    }).then(function(response){
-    	console.dir(response);
-    	$scope.resultQuery = response.data;
-    }, function(error) {
-    	console.error(error);
-    });
-
-
-    $scope.refeshTable = function(){
-
-        
-    }
-
-    
-    $http({
-        method: 'GET',
-        url: 'api/get_inclusionesCoordinador'
+        url: 'api/get_modalidades'
     }).then(function(response){
         console.dir(response);
-        $scope.resultQuery = response.data;
-    }, function(error) {
-        console.error(error);
+        $scope.modalidadQuery = response.data;
     });
-        
+
+
+
+$scope.getPeriodos = function(){
+
+    
+    $scope.infoGroupQuery = [];
+    
+    $http({
+            method: 'POST',
+            url: 'api/get_periodos',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad}
+        }).then(function(response){
+            console.dir(response);
+            $scope.periodoQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+    
+    }
+
+
+    $scope.getInclusionesEstudiantes = function(){
+
+    $scope.infoGroupQuery = [];
+
+    $http({
+            method: 'POST',
+            url: 'api/get_inclusionesCoordinador',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo }
+        }).then(function(response){
+            console.dir(response);
+            $scope.resultQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+    }
         
    
 

@@ -18,6 +18,20 @@
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
 
+		<div class="form-group">
+	        <label for="modalidad_select">Seleccione la Modalidad</label>
+			<select class="form-control" ng-model="inclusion.modalidades" ng-init="inclusion.modalidades = modalidadQuery[0]" ng-options="modalidad as modalidad.nombre_modalidad for modalidad in modalidadQuery track by modalidad.id_modalidad" ng-change="getPeriodos()" required>
+			  <option value="">--Elige opcion--</option>
+			</select>
+	      	</div>
+
+	      	<div class="form-group">
+	        <label for="periodo_select">Seleccione la Periodo</label>
+			<select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="getInclusionesEstudiantes()" required>
+			  <option value="">--Elige opcion--</option>
+			</select>
+	      </div>
+
 	    
 
      <table id="example" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
