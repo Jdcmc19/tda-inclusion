@@ -17,25 +17,44 @@
 
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
-<label> Sede</label>
-<select id= "Sedes" name="Sedes" class="form-control" ng-model="horarios.sedeSeleccionada" required>
-			  <option value="">--Elige opcion--</option> <!-- esto lo copie y pegue-->
-			</select>
-			<br>
-<label> Carrera</label>
-<select class="form-control" ng-model="horarios.carreraSeleccionada" required>
+		<form>
+			<div class="form-group">
+	        <label for="modalidad_select">Seleccione la Modalidad</label>
+			<select class="form-control" ng-model="inclusion.modalidades" ng-init="inclusion.modalidades = modalidadQuery[0]" ng-options="modalidad as modalidad.nombre_modalidad for modalidad in modalidadQuery track by modalidad.id_modalidad" ng-change="getPeriodos()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
+	      	</div>
 
-<br>
-<label> Periodo</label>
-
-<select class="form-control" ng-model="horarios.periodoSeleccionada" required>
+	      	<div class="form-group">
+	        <label for="periodo_select">Seleccione la Periodo</label>
+			<select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="getSedes()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
+	      </div>
+
+			<div class="form-group">
+	        <label for="sede_select">Seleccione la Sede</label>
+			<select id= "Sedes" name="Sedes" class="form-control" ng-model="inclusion.sedeSeleccionada" ng-init="inclusion.sedeSeleccionada = sedeQuery[0]" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()" required>
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <!--<pre> {{ sedeQuery | json }} </pre>
+	          <pre> {{ inclusion.sedeSeleccionada }} </pre>-->
+	      </div>
+
+	      <div class="form-group">
+	          <label for="escuela_select">Seleccione la Escuela</label>
+			<select id= "Escuelas" name="Escuelas" class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-init="inclusion.escuelaSeleccionada = escuelaQuery[0]" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="ĺoadTable()" required >
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <!--<pre> {{ escuelaQuery | json }} </pre>
+	          <pre> {{ escuelaSeleccionada }} </pre>-->
+	      </div>
+
+	  </form>
 
      <br>
-     <table id="example" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+     <div>
+     <table id="example" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%" >
   		<thead>
 		      <tr>
 		        <th scope="col">Codigo</th>
@@ -63,7 +82,7 @@
 		      </tr>
 		    </tbody>
 		</table>
-        
+        </div>
 
 </div>
 

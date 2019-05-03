@@ -11,6 +11,8 @@ app.controller('coordinadorController', function($scope, $http){
 
 
 
+
+
 $(document).ready(function() {
 
     $('#example').DataTable( {

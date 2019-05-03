@@ -16,10 +16,22 @@ $scope.periodoQuery = [];
 
 $scope.resultQuery = [];
 
+$http({
+        method: 'GET',
+        url: 'api/get_modalidades'
+    }).then(function(response){
+        console.dir(response);
+        $scope.modalidadQuery = response.data;
+    });
+
+
 
 $(document).ready(function() {
 
     $('#example').DataTable( {
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
 
         "initComplete": function () {
 
@@ -45,3 +57,91 @@ $(document).ready(function() {
 
         } );
 
+
+$scope.getSedes = function(){
+
+
+    $scope.infoGroupQuery = [];
+
+        $http({
+        method: 'GET',
+        url: 'api/get_sedes'
+        }).then(function(response){
+            console.dir(response);
+            $scope.sedeQuery = response.data;
+        });
+
+    }
+
+        
+$scope.getPeriodos = function(){
+
+    
+    
+    $http({
+            method: 'POST',
+            url: 'api/get_periodos',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad}
+        }).then(function(response){
+            console.dir(response);
+            $scope.periodoQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+    
+    }
+
+
+
+$scope.getEscuelas = function(){
+
+    $scope.infoGroupQuery = [];
+    
+    
+    $http({
+            method: 'POST',
+            url: 'api/get_escuelas',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { sede_id: $scope.inclusion.sedeSeleccionada.id_sede }
+        }).then(function(response){
+            console.dir(response);
+            $scope.escuelaQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+    
+    }
+
+
+
+
+
+$scope.loadTable = function(){
+
+    
+}
+
+
+
+
+
+});
