@@ -180,11 +180,25 @@ $scope.getInfoGroup = function(){
         }).then(function(response){
             console.dir(response);
             $scope.infoGroupQuery = response.data;
+            var txt = "";
+            $scope.infoGroupQuery.forEach(myFunction);
+
+            function myFunction(value, index, array) {
+              txt = txt + value + "<br>"; 
+            }
+
+            console.dir(txt);
+
 
         }, function(error) {
             console.error(error);
 
         });
+
+
+
+
+
     }
 
 

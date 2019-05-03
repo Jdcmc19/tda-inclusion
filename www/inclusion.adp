@@ -112,7 +112,7 @@ Horario: {{ infoGroupQuery[0].horario }} / {{ infoGroupQuery[1].horario }}</pre>
 
 	</div>
 
-	<div/>
+	
 
 
 

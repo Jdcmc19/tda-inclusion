@@ -18,8 +18,8 @@ $scope.inclusion = {
     $scope.escuelaQuery = [];
     $scope.modalidadQuery = [];
     $scope.sortType     = 'sede_nombre'; // set the default sort type
-  $scope.sortReverse  = false;  // set the default sort order
-  $scope.search  = '';     
+    $scope.sortReverse  = false;  // set the default sort order
+    x$scope.search  = '';     
   
   
   
