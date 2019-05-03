@@ -180,15 +180,21 @@ $scope.getInfoGroup = function(){
         }).then(function(response){
             console.dir(response);
             $scope.infoGroupQuery = response.data;
-            var txt = "";
-            $scope.infoGroupQuery.forEach(myFunction);
-
-            function myFunction(value, index, array) {
-              txt = txt + value + "<br>"; 
+            var horarioTxt = "";
+            var aulaTxt = "";
+            var i = 0;
+            while (i < $scope.infoGroupQuery.length) {
+              horarioTxt += $scope.infoGroupQuery[i].horario
+              aulaTxt += $scope.infoGroupQuery[i].edificio_aula
+              if (i != $scope.infoGroupQuery.length-1) {
+                horarioTxt += " / ";
+                aulaTxt += " / ";
+              }
+              i++;
             }
-
-            console.dir(txt);
-
+            
+            $scope.infoGroupQuery[0].horario = horarioTxt;
+            $scope.infoGroupQuery[0].edificio_aula = aulaTxt;
 
         }, function(error) {
             console.error(error);

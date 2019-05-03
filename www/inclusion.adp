@@ -89,8 +89,8 @@
 
 	      	<label>Información</label>
 	      	  <pre>Profesor: {{ infoGroupQuery[0].nombre_profesor }}
-Aula: {{ infoGroupQuery[0].edificio_aula }} / {{ infoGroupQuery[1].edificio_aula }}
-Horario: {{ infoGroupQuery[0].horario }} / {{ infoGroupQuery[1].horario }}</pre>
+Aula: {{ infoGroupQuery[0].edificio_aula }}
+Horario: {{ infoGroupQuery[0].horario }}</pre>
 	      	
 
 	    	<div class="form-group">
