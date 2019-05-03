@@ -10,6 +10,11 @@
 
 <!--<input type="button" class="button"    id="estadistica" value="Estadisticas">-->
 
+<button class="btn"><i class="fa fa-download"></i> Descargar Reportes</button>
+
+<br>
+<br>
+
 	<div class = "row">
 		<div class="col">
 	        <label for="modalidad_select">Seleccione la Modalidad</label>
@@ -97,6 +102,12 @@
         </td>
       </tr>
     </thead>
+
+    <button type="button" class="btn btn-success">Aceptar Inclusion</button>
+
+    <button type="button" class="btn btn-warning">Pendiente</button>
+
+    <button type="button" class="btn btn-danger">Rechazar Inclusion</button>
     
     <tbody>
       <tr ng-repeat="inclusion in resultQuery | orderBy:sortType:sortReverse | filter:search">

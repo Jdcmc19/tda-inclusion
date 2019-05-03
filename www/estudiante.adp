@@ -17,6 +17,20 @@
 
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
+    <div class = "row">
+      <div class ="col"> 
+  <a class="btn btn-default-btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Nueva Inclusion</a>
+      </div>
+
+      <div class ="col"> 
+   <a class="btn btn-default-btn-xs btn-sm "> <i class="glyphicon glyphicon-trash text-danger"></i> Eliminar Inclusion </a>
+      </div>
+
+  </div>
+
+  <br>
+  <br>
+  
 		<div class = "row">
 		<div class="col">
 	        <label for="modalidad_select">Seleccione la Modalidad</label>
@@ -33,8 +47,9 @@
 	      </div>
 	  </div>
 	  <br>
+    
 
-  
+    <br>
   
   <form>
     <div class="form-group">
