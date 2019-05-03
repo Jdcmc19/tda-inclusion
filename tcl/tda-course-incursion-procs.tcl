@@ -360,10 +360,14 @@ ad_proc -public incl::insert_inclusion {
 }
 
 ad_proc -public incl::get_inclusiones_estudiante {
+    -modalidad_id
+    -periodo_id
+
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set id_estudiante [ad_conn user_id]
+    set estudiante_id [ad_conn user_id]
+    set anno_id 2019
 
     if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {
         puts "$errmsg" 
@@ -373,31 +377,82 @@ ad_proc -public incl::get_inclusiones_estudiante {
     set json_comma ""
 
     foreach elemento $result {
-        set sede_nombre [lindex $elemento 0]
+        set sede_nombre [lindex $elemento 2]
         set escuela_nombre [lindex $elemento 1]
-        set curso_nombre [lindex $elemento 2]
-        set grupo_numero [lindex $elemento 3]
-        set estado [lindex $elemento 4]
-        ##set carnet_estudiante [td_estudiante::obtener_carnet_estudiante -user_id $user_id]
-        ##set nombre_estudiante [prematricula::get_name_students $carnet_estudiante]
-
-        ##set nombres_estudiante [lindex $nombres_estudiante 1]
-        ##set apellidos_estudiante [lindex $nombres_estudiante 2]
+        set curso_nombre [lindex $elemento 3]
+        set grupo_numero [lindex $elemento 4]
+        set estado [lindex $elemento 7]
+        set anno [lindex $elemento 0]
+        set comentario_asunto [lindex $elemento 5]
+        set comentario_mensaje [lindex $elemento 6]
+ 
         set select_json "$select_json $json_comma \{
                     \"sede_nombre\": \"$sede_nombre\",
                     \"escuela_nombre\": \" $escuela_nombre \",
                     \"curso_nombre\":  \"$curso_nombre \",
-                    \"grupo_numero\": $grupo_numero,
+                    \"grupo_numero\":  \"$grupo_numero \",
+                    \"estado\":  \"$estado \",
+                    \"comentario_asunto\":  \"$comentario_asunto \",
+                    \"comentario_mensaje\":  \"$comentario_mensaje \",
                     \"estado\": \"$estado\"
 
             \}"
         set json_comma ","
     }
+
     set select_json "$select_json\]"
 
     return $select_json
 
 }
+
+ad_proc -public incl::get_inclusiones {
+    -modalidad_id
+    -periodo_id
+
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    set anno_id 2019
+
+    if {[catch { set result [db_list_of_lists get_inclusiones_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set sede_nombre [lindex $elemento 2]
+        set escuela_nombre [lindex $elemento 1]
+        set curso_nombre [lindex $elemento 3]
+        set grupo_numero [lindex $elemento 4]
+        set estado [lindex $elemento 7]
+        set anno [lindex $elemento 0]
+        set comentario_asunto [lindex $elemento 5]
+        set comentario_mensaje [lindex $elemento 6]
+ 
+        set select_json "$select_json $json_comma \{
+                    \"sede_nombre\": \"$sede_nombre\",
+                    \"escuela_nombre\": \" $escuela_nombre \",
+                    \"curso_nombre\":  \"$curso_nombre \",
+                    \"grupo_numero\":  \"$grupo_numero \",
+                    \"estado\":  \"$estado \",
+                    \"comentario_asunto\":  \"$comentario_asunto \",
+                    \"comentario_mensaje\":  \"$comentario_mensaje \",
+                    \"estado\": \"$estado\"
+
+            \}"
+        set json_comma ","
+    }
+    
+    set select_json "$select_json\]"
+
+    return $select_json
+
+}
+
+
 ad_proc -public incl::insert_comentario {
     -asunto
     -mensaje
