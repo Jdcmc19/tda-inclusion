@@ -4,39 +4,25 @@ app = angular.module('incursionApp', []);
 app.controller('estudianteController', function($scope, $http){
 
 
-    
+  $scope.sortType     = 'sede_nombre'; // set the default sort type
+  $scope.sortReverse  = false;  // set the default sort order
+  $scope.search  = '';     
+  
+  
+  
 
 
 	$scope.resultQuery = [];
 
 
-    /*Revisar Porque PUTAS no se puede filtrar luego de cargar*/
-
-    /*$(document).ready(function() {
-    $('#example').DataTable( {
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
-                },
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]]
-            } );
-
-
-        } );
-
-
-    //Estas son para el coordinados
-
-    //Esto permite saber que linea fue clickeada
-    /*
-    $(document).ready(function() {
-    var table = $('#example').DataTable();
-     
-    $('#example tbody').on('click', 'tr', function () {
-            var data = table.row( this ).data();
-            alert( 'You clicked on '+data[0]+'\'s row' );
-        } );
-    } );
-    */
+    $(document).ready(function(){//busca en la tabla
+    $("#buscador").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#example tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
 
 
@@ -81,8 +67,6 @@ $scope.getPeriodos = function(){
 
     $scope.getInclusionesEstudiantes = function(){
 
-    $scope.infoGroupQuery = [];
-
     $http({
             method: 'POST',
             url: 'api/get_inclusionesEstudiantes',
@@ -102,6 +86,8 @@ $scope.getPeriodos = function(){
             console.error(error);
 
         });
+
+
     }
 
 

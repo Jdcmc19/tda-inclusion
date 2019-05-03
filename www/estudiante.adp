@@ -3,7 +3,7 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+	
   
 
 
@@ -17,44 +17,88 @@
 
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
-
-		<div class="form-group">
+		<div class = "row">
+		<div class="col">
 	        <label for="modalidad_select">Seleccione la Modalidad</label>
 			<select class="form-control" ng-model="inclusion.modalidades" ng-init="inclusion.modalidades = modalidadQuery[0]" ng-options="modalidad as modalidad.nombre_modalidad for modalidad in modalidadQuery track by modalidad.id_modalidad" ng-change="getPeriodos()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	      	</div>
 
-	      	<div class="form-group">
+	      	<div class="col">
 	        <label for="periodo_select">Seleccione la Periodo</label>
 			<select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="getInclusionesEstudiantes()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	      </div>
+	  </div>
+	  <br>
 
-	    
-
-     <table id="example" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-  		<thead>
-		      <tr>
-		        <th scope="col">Sede</th>
-		        <th scope="col">Escuela</th>
-		        <th scope="col">Curso</th>
-		        <th scope="col">Grupo</th>
-		        <th scope="col">Estado</th>
-		      </tr>
-		    </thead>
-		    <tbody>
-		      <tr ng-repeat="inclusion in resultQuery">
-		        <td>{{ inclusion.sede_nombre }}</td>
-		        <td>{{ inclusion.escuela_nombre }}</td>
-		        <td>{{ inclusion.curso_nombre }}</td>
-		        <td>{{ inclusion.grupo_numero }}</td>
-		        <td>{{ inclusion.estado }}</td>
-		      </tr>
-		    </tbody>
-		</table>
-        
+  
+  
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Buscar ..." ng-model="search">
+      </div>      
+    </div>
+  </form>
+  
+  <table class="table table-bordered table-striped">
+    
+    <thead>
+      <tr>
+        <td>
+          <a ng-click="sortType = 'sede_nombre'; sortReverse = !sortReverse">
+            Sede
+            <span ng-show="sortType == 'sede_nombre' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'sede_nombre' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'escuela_nombre'; sortReverse = !sortReverse">
+          Escuela
+            <span ng-show="sortType == 'escuela_nombre' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'escuela_nombre' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'curso_nombre'; sortReverse = !sortReverse">
+          Curso
+            <span ng-show="sortType == 'curso_nombre' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'curso_nombre' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'grupo_numero'; sortReverse = !sortReverse">
+          Grupo
+            <span ng-show="sortType == 'grupo_numero' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'grupo_numero' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'estado'; sortReverse = !sortReverse">
+          Estado
+            <span ng-show="sortType == 'estado' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'estado' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr ng-repeat="inclusion in resultQuery | orderBy:sortType:sortReverse | filter:search">
+        <td>{{ inclusion.sede_nombre }}</td>
+		<td>{{ inclusion.escuela_nombre }}</td>
+		<td>{{ inclusion.curso_nombre }}</td>
+		<td>{{ inclusion.grupo_numero }}</td>
+		<td>{{ inclusion.estado }}</td>
+      </tr>
+    </tbody>
+    
+  </table>
+	  
 
 </div>
 
@@ -69,9 +113,6 @@
 
 
 	<script src="node_modules/angular/angular.min.js"></script>
-
- 
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 	<script src="resources/js/estudiante.js"></script>
 

@@ -186,11 +186,6 @@ $scope.getInfoGroup = function(){
 
 $scope.getSedes = function(){
 
-    /*$("#Sedes").prop('disabled', false);
-        $("#Escuelas").prop('disabled', false);
-        $("#Cursos").prop('disabled', false);
-        $("#Grupos").prop('disabled', false);
-    */
 
     $scope.infoGroupQuery = [];
 

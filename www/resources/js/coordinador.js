@@ -7,39 +7,29 @@ app.controller('coordinadorController', function($scope, $http){
     
 
 
-	$scope.resultQuery = [];
+  $scope.sortType     = 'carne'; // set the default sort type
+  $scope.sortReverse  = false;  // set the default sort order
+  $scope.search  = '';     
+  
+  
+  
+
+
+    $scope.resultQuery = [];
+
+
+    $(document).ready(function(){//busca en la tabla
+    $("#buscador").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#example tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
 
 
 
-
-$(document).ready(function() {
-
-    $('#example').DataTable( {
-
-        "initComplete": function () {
-
-            var api = this.api();
-
-            api.$('td').click( function () {
-
-                api.search( this.innerHTML ).draw();
-
-            } );
-
-        },
-
-        "language": {
-
-            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
-
-                },
-
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]]
-
-            } );
-
-        } );
 
 
 
@@ -56,8 +46,7 @@ $(document).ready(function() {
 
 $scope.getPeriodos = function(){
 
-    
-    $scope.infoGroupQuery = [];
+
     
     $http({
             method: 'POST',

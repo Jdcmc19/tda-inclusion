@@ -3,7 +3,6 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
   
 
 
@@ -17,21 +16,24 @@
 
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
-		<form>
-			<div class="form-group">
+			<div class = "row">
+		<div class="col">
 	        <label for="modalidad_select">Seleccione la Modalidad</label>
 			<select class="form-control" ng-model="inclusion.modalidades" ng-init="inclusion.modalidades = modalidadQuery[0]" ng-options="modalidad as modalidad.nombre_modalidad for modalidad in modalidadQuery track by modalidad.id_modalidad" ng-change="getPeriodos()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	      	</div>
 
-	      	<div class="form-group">
+	      	<div class="col">
 	        <label for="periodo_select">Seleccione la Periodo</label>
 			<select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="getSedes()" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
 	      </div>
+	  </div>
+	  <br>
 
+	      	<div>
 			<div class="form-group">
 	        <label for="sede_select">Seleccione la Sede</label>
 			<select id= "Sedes" name="Sedes" class="form-control" ng-model="inclusion.sedeSeleccionada" ng-init="inclusion.sedeSeleccionada = sedeQuery[0]" ng-options="sede as sede.nombre_sede for sede in sedeQuery track by sede.id_sede" ng-change="getEscuelas()" required>
@@ -50,7 +52,7 @@
 	          <pre> {{ escuelaSeleccionada }} </pre>-->
 	      </div>
 
-	  </form>
+	  
 
      <br>
      <div>
