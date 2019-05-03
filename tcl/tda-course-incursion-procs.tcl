@@ -141,7 +141,7 @@ ad_proc -public incl::get_guia_horarios {
                     \"nombre_materia\": \"$nombre_materia\",
                     \"numero_grupo\": \"$numero_grupo\",
                     \"creditos_curso\": \"$creditos_curso\",
-                    \"horario\": \"$horario_dia : $horario_grupo_entrada - $horario_grupo_salida\",.
+                    \"horario\": \"$horario_dia : $horario_grupo_entrada - $horario_grupo_salida\",
                     \"nombre_profesor\": \"$nombre_profesor\",
                     \"cupo\": \"$cupo\",
                     \"tipo_materia\": \"$tipo_materia\",
