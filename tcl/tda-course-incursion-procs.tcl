@@ -96,7 +96,66 @@ ad_proc -public incl::get_sedes {
     return $select_json
 }
 
+ad_proc -public incl::get_guia_horarios {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    
+    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null" ] } errmsg ] } {
+        
+        puts "$errmsg" 
+        return -1
 
+    }  
+
+
+    set select_json "\["
+    set json_comma ""
+
+
+    foreach item $result {
+
+        set codigo_curso [ lindex $item 17 ] 
+        set nombre_materia [ lindex $item 19 ]
+        set numero_grupo [ lindex $item 25 ]
+        set creditos_curso [ lindex $item 21 ] 
+        set horario_grupo_entrada [ lindex $item 55 ]
+        set horario_grupo_salida [ lindex $item 57 ]
+        set horario_dia [ lindex $item 49 ]
+        set nombre_profesor [ lindex $item 45 ]
+        set matriculados_grupo [ lindex $item 27] 
+        set campo_grupo [ lindex $item 29] 
+        set tipo_materia [ lindex $item 37 ]
+        set reservados [ lindex $item 31 ]
+
+        set cupo [ expr $campo_grupo - $matriculados_grupo]
+
+        
+
+        set select_json "$select_json $json_comma \{
+                    \"codigo_curso\": \"$codigo_curso\",
+                    \"nombre_materia\": \"$nombre_materia\",
+                    \"numero_grupo\": \"$numero_grupo\",
+                    \"creditos_curso\": \"$creditos_curso\",
+                    \"horario\": \"$horario_dia : $horario_grupo_entrada - $horario_grupo_salida\",.
+                    \"nombre_profesor\": \"$nombre_profesor\",
+                    \"cupo\": \"$cupo\",
+                    \"tipo_materia\": \"$tipo_materia\",
+                    \"reservados\": \"$reservados\"
+            \}"
+        set json_comma ","            
+        
+    }
+
+    set select_json "$select_json\]"
+
+
+    return $select_json
+}
 
 ad_proc -public incl::get_escuelas {
     -sede_id

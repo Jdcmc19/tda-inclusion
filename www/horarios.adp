@@ -45,7 +45,7 @@
 
 	      <div class="form-group">
 	          <label for="escuela_select">Seleccione la Escuela</label>
-			<select id= "Escuelas" name="Escuelas" class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-init="inclusion.escuelaSeleccionada = escuelaQuery[0]" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="ĺoadTable()" required >
+			<select id= "Escuelas" name="Escuelas" class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-init="inclusion.escuelaSeleccionada = escuelaQuery[0]" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="getGuia()" required >
 			  <option value="">--Elige opcion--</option>
 			</select>
 	          <!--<pre> {{ escuelaQuery | json }} </pre>
@@ -55,36 +55,102 @@
 	  
 
      <br>
-     <div>
-     <table id="example" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%" >
-  		<thead>
-		      <tr>
-		        <th scope="col">Codigo</th>
-		        <th scope="col">Materia</th>
-		        <th scope="col">Grupo</th>
-		        <th scope="col">Creditos</th>
-		        <th scope="col">Horario</th>
-		        <th scope="col">Profesor</th>
-		        <th scope="col">Cupo</th>
-		        <th scope="col">Tipo Materia</th>
-		        <th scope="col">Reservados</th>
-		      </tr>
-		    </thead>
-		    <tbody>
-		      <tr ng-repeat="horario in resultQuery">
-		        <td>{{ horario. }}</td>   <!--los nombres despues de horario dependen de juan de de como los traiga en en el json-->
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		        <td>{{ horario. }}</td>
-		      </tr>
-		    </tbody>
-		</table>
-        </div>
+
+
+     <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Buscar ..." ng-model="search">
+      </div>      
+    </div>
+  </form>
+  
+  <table class="table table-bordered table-striped">
+    
+    <thead>
+      <tr>
+        <td>
+          <a ng-click="sortType = 'codigo_curso'; sortReverse = !sortReverse">
+          Codigo
+            <span ng-show="sortType == 'codigo_curso' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'codigo_curso' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'nombre_materia'; sortReverse = !sortReverse">
+          Materia
+            <span ng-show="sortType == 'nombre_materia' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'nombre_materia' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'numero_grupo'; sortReverse = !sortReverse">
+          Grupo
+            <span ng-show="sortType == 'numero_grupo' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'numero_grupo' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'creditos_curso'; sortReverse = !sortReverse">
+          Creditos
+            <span ng-show="sortType == 'creditos_curso' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'creditos_curso' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'horario'; sortReverse = !sortReverse">
+          Horario
+            <span ng-show="sortType == 'horario' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'horario' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'nombre_profesor'; sortReverse = !sortReverse">
+          Profesor
+            <span ng-show="sortType == 'nombre_profesor' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'nombre_profesor' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'cupo'; sortReverse = !sortReverse">
+          Cupo
+            <span ng-show="sortType == 'cupo' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'cupo' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'tipo_materia'; sortReverse = !sortReverse">
+          Materia
+            <span ng-show="sortType == 'tipo_materia' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'tipo_materia' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          <a ng-click="sortType = 'reservados'; sortReverse = !sortReverse">
+          Reservados
+            <span ng-show="sortType == 'reservados' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'reservados' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr ng-repeat="horario in resultQuery | orderBy:sortType:sortReverse | filter:search">
+        <td>{{ horario.codigo_curso }}</td>   
+		<td>{{ horario.nombre_materia }}</td>
+		<td>{{ horario.numero_grupo }}</td>
+		<td>{{ horario.creditos_curso }}</td>
+		<td>{{ horario.horario }}</td>
+		<td>{{ horario.nombre_profesor }}</td>
+		<td>{{ horario.cupo }}</td>
+		<td>{{ horario.tipo_materia }}</td>
+		<td>{{ horario.reservados }}</td>
+      </tr>
+    </tbody>
+    
+
 
 </div>
 
@@ -101,8 +167,6 @@
 
 	<script src="node_modules/angular/angular.min.js"></script>
 
- 
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 	<script src="resources/js/horarios.js"></script>
 
