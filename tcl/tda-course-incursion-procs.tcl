@@ -335,62 +335,108 @@ ad_proc -public incl::get_infoGroup {
     return $select_json
 }
 
-
-#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
-ad_proc -public incl::get_sede_id {
-    -nombre_sede
-} {
-    @author Jose Daniel Vega Alvarado
-} {
-    if {[catch { set result [db_string get_sede_id_query {}] } errmsg] } {
-        puts "$errmsg" 
-        return -1
-    }  
-
-    return $result
-}
-#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
-ad_proc -public incl::get_escuela_id {
+ad_proc -public incl::insert_grupo {
+    -modalidad_id
+    -periodo_id
     -sede_id
-    -escuela_nombre
-} {
-    @author Jose Daniel Vega Alvarado
-} {
-    if {[catch { set result [db_string get_escuela_id_query {}] } errmsg] } {
-        puts "$errmsg" 
-        return -1
-    }  
-
-    return $result
-}
-#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
-ad_proc -public incl::get_curso_id {
     -escuela_id
-    -curso_nombre
-} {
-    @author Jose Daniel Vega Alvarado
-} {
-    if {[catch { set result [db_string get_cruso_id_query {}] } errmsg] } {
-        puts "$errmsg" 
-        return -1
-    }  
-
-    return $result
-}
-#NO SE USARÁ CREO, PERO DEJAR AQUI POR SI ACASO
-ad_proc -public incl::get_grupo_id {
     -curso_id
-    -numero_grupo
+    -grupo_id
+
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [db_string get_grupo_id_query {}] } errmsg] } {
+    
+    set anno_id 2019
+
+    if {[catch { db_dml insert_grupo_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
+
+ad_proc -public incl::get_id_grupo {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+    if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
+
+
+        set answer [incl::insert_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ]
+
+
+
+        if { $answer eq 1} {
+
+            if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
+
+                puts "$errmsg" 
+                return -1
+
+            } else {
+
+                set select_json "\{$result\}"
+                puts $select_json
+                return $select_json
+
+            }      
+
+        } else {
+
+            puts "$errmsg" 
+            return -1
+
+        }
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+ad_proc -public incl::get_infoEstudiante {
+
+} {
+    @author Jose Daniel Vega Alvarado[ad_conn user_id]
+} {
+
+    set estudiante_id 1102566
+
+    if {[catch { set carne [ tfg::obtenerCarne $estudiante_id ] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
 
-    return $result
+
+
+    if {[catch { set nombre [lindex [lindex [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type  DATOS_ESTUDIANTE -ws_parameters $carne] 0] 3] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    } 
+
+
+    set select_json "\{ carne \{$carne\} nombre \{$nombre\} \}"
+    
+    puts $select_json
+
+    return $select_json
 }
+
+
 
 ad_proc -public incl::insert_inclusion {
     -modalidad_id
@@ -404,11 +450,18 @@ ad_proc -public incl::insert_inclusion {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set estudiante_id [ad_conn user_id]
-    set anno_id 2019
-    set estado "Pendiente"
-     
+    set estudiante_id 1102566
+    set infoEstudiante [lindex [incl::get_infoEstudiante] 0]
+    set carne_id [lindex $infoEstudiante 1]
+    set nombre_estudiante [lindex $infoEstudiante 3]
 
+    puts "carne_id es el $carne_id"
+
+    set anno_id 2019
+    set estado_actual "Pendiente"
+    set estado_final "Pendiente"
+     
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
 
     if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
         puts "-----------------------------   $errmsg" 
@@ -425,7 +478,7 @@ ad_proc -public incl::get_inclusiones_estudiante {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set estudiante_id [ad_conn user_id]
+    set estudiante_id 1102566
     set anno_id 2019
 
     if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {
@@ -511,145 +564,3 @@ ad_proc -public incl::get_inclusiones {
 
 }
 
-
-ad_proc -public incl::insert_comentario {
-    -asunto
-    -mensaje
-    -id_escuela
-} {
-    @author Jose Daniel Vega Alvarado
-} {
-    set id_estudiante [ad_conn user_id]
-    if {[catch {db_dml insert_comentario_query {} } errmsg] } {
-        puts "$errmsg" 
-        return -1
-    }  
-
-    return 1
-}
-
-ad_proc -public incl::get_comentario_escuela {
-    -id_escuela
-} {
-    @author Jose Daniel Vega Alvarado
-} {
-    if {[catch {[db_list_of_lists get_comentario_escuela_query {}] } errmsg] } {
-        puts "$errmsg" 
-        return -1
-    }  
-        foreach elemento $result {
-        set asunto [lindex $elemento 0]
-        set mensaje [lindex $elemento 1]
-        set escuela [lindex $elemento 2]
-        set id_estudiante [lindex $elemento 3]
-        set id_comentario [lindex $elemento 4]
-        set select_json "$select_json $json_comma \{
-                    \"asunto\": $asunto,
-                    \"mensaje\": $mensaje,
-                    \"escuela\": $escuela,
-                    \"id_estudiante\": $id_estudiante,
-                    \"id_comentario\": $id_comentario\"
-
-            \}"
-        set json_comma ","
-    }
-    set select_json "$select_json\]"
-
-    return $select_json
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ad_proc -public incl::insert_info {
-	{-name "default"}
-	-password
-} {
-	@author Jose Daniel Vega Alvarado
-	@param user_id 
-
-} {
-
-	puts "parametros del procs"
-	puts "name $name"
-	puts "password $password"
-
-    # if {[catch {db_dml insert_info_query {}} errmsg] } {
-    #     return -1
-    # }  
-
-    set answer "\{\"title\":\"Success\",\"body\": \"ok!!\"\}"
-
-    return $answer
-
-}
-
-
-ad_proc -public incl::get_info {
-
-} {
-	@author Jose Daniel Vega Alvarado
-	@param user_id 
-
-} {
-
-    set user_id [ad_conn user_id]
-    set carnet [td_estudiante::obtener_carnet_estudiante -user_id $user_id]
-
-
-    if {[catch { set result [db_list_of_lists get_info_query {}] } errmsg] } {
-        puts "$errmsg" 
-        return -1
-    }  
-
-
-
-    set select_json "\["
-    set json_comma ""
-
-    foreach elemento $result {
-        set dependency_id [lindex $elemento 0]
-        set name [lindex $elemento 1]
-
-
-		set select_json "$select_json $json_comma \{
-                    \"dependency_id\": $dependency_id,
-                    \"carnet\": $carnet,
-                    \"name\": \"$name\"
-			\}"
-        set json_comma ","
-    }
-
-    set select_json "$select_json\]"
-
-
-    return $select_json
-
-}

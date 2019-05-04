@@ -1,21 +1,56 @@
-
-
-CREATE TABLE sch_tda_inclusion.inclusion (
-    id_estudiante              INTEGER NOT NULL,
-    id_inclusion               SERIAL,
-    id_anno                    INTEGER NOT NULL,
-    id_modalidad               VARCHAR(25 ) NOT NULL,
-    id_periodo                 INTEGER NOT NULL,
-    id_depto                   VARCHAR(50 ) NOT NULL,
-    id_sede                    VARCHAR(50 ) NOT NULL,
-    id_materia                 VARCHAR(50 ) NOT NULL,
-    id_grupo                   INTEGER NOT NULL,
-    comentario_asunto          VARCHAR(200 ) ,
-    comentario_mensaje         VARCHAR(500 ) ,
-    estado                     VARCHAR(10 ) NOT NULL
+CREATE TABLE  sch_tda_inclusion.cerrado (
+    pk_cerrado       SERIAL,
+    grupo_pk_grupo   INTEGER NOT NULL
 );
 
-ALTER TABLE sch_tda_inclusion.inclusion ADD CONSTRAINT inclusion_pk PRIMARY KEY ( id_inclusion );
+ALTER TABLE  sch_tda_inclusion.cerrado ADD CONSTRAINT cerrado_pk PRIMARY KEY ( pk_cerrado );
+
+CREATE TABLE sch_tda_inclusion.cupo (
+    pk_cupo          SERIAL,
+    cupodisponible   INTEGER NOT NULL,
+    grupo_pk_grupo   INTEGER NOT NULL
+);
+
+ALTER TABLE sch_tda_inclusion.cupo ADD CONSTRAINT cupo_pk PRIMARY KEY ( pk_cupo );
+
+CREATE TABLE  sch_tda_inclusion.grupo (
+    pk_grupo       SERIAL,
+    id_anno        INTEGER NOT NULL,
+    id_modalidad   VARCHAR(25) NOT NULL,
+    id_periodo     INTEGER NOT NULL,
+    id_sede        VARCHAR(50) NOT NULL,
+    id_depto       VARCHAR(50) NOT NULL,
+    id_materia     VARCHAR(50) NOT NULL,
+    id_grupo       INTEGER NOT NULL
+);
+
+ALTER TABLE  sch_tda_inclusion.grupo ADD CONSTRAINT grupo_pk PRIMARY KEY ( pk_grupo );
+
+CREATE TABLE sch_tda_inclusion.inclusion (
+    pk_inclusion         SERIAL,
+    id_carne             INTEGER NOT NULL,
+    id_estudiante        INTEGER NOT NULL,
+    estado_actual        VARCHAR(10) NOT NULL,
+    estado_final         VARCHAR(10) NOT NULL,
+    nombre_estudiante    VARCHAR(100) NOT NULL,
+    comentario_asunto    VARCHAR(200),
+    comentario_mensaje   VARCHAR(500),
+    grupo_pk_grupo       INTEGER NOT NULL
+);
+
+ALTER TABLE sch_tda_inclusion.inclusion ADD CONSTRAINT inclusion_pk PRIMARY KEY ( pk_inclusion );
+
+ALTER TABLE  sch_tda_inclusion.cerrado
+    ADD CONSTRAINT cerrado_grupo_fk FOREIGN KEY ( grupo_pk_grupo )
+        REFERENCES  sch_tda_inclusion.grupo ( pk_grupo );
+
+ALTER TABLE sch_tda_inclusion.cupo
+    ADD CONSTRAINT cupo_grupo_fk FOREIGN KEY ( grupo_pk_grupo )
+        REFERENCES  sch_tda_inclusion.grupo ( pk_grupo );
+
+ALTER TABLE sch_tda_inclusion.inclusion
+    ADD CONSTRAINT inclusion_grupo_fk FOREIGN KEY ( grupo_pk_grupo )
+        REFERENCES  sch_tda_inclusion.grupo ( pk_grupo );
 
 
 
@@ -28,4 +63,14 @@ SELECT i.id_anno, i.id_depto, i.id_sede, i.id_materia, i.id_grupo, i.comentario_
 
 
 
+INSERT INTO sch_tda_inclusion.grupo (id_anno,id_modalidad,id_periodo,id_sede,id_depto,id_materia,id_grupo) VALUES (2019,'S',1,'sede','depto','ateria',1);
 
+INSERT INTO sch_tda_inclusion.cupo (cupodisponible, grupo_pk_grupo) VALUES (3,currval('sch_tda_inclusion.grupo_pk_grupo_seq'));
+
+SELECT pk_grupo FROM sch_tda_inclusion.grupo 
+WHERE id_anno = 2019 and id_modalidad = 'S' and id_periodo = 1 and id_sede = 'sede' and id_depto = 'depto' and id_materia = 'ateria' and id_grupo = 1;
+
+INSERT INTO sch_tda_inclusion.cerrado (grupo_pk_grupo) VALUES (currval('sch_tda_inclusion.grupo_pk_grupo_seq'));
+
+INSERT INTO sch_tda_inclusion.inclusion (id_carne, id_estudiante, estado_actual, estado_final, nombre_estudiante, comentario_asunto, comentario_mensaje, grupo_pk_grupo)
+VALUES (2016206482,1231,'Pendiente','Pendiente','Juan de Dios','Asunto','mENSAJE',currval('sch_tda_inclusion.grupo_pk_grupo_seq'));
