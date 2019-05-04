@@ -71,6 +71,9 @@ $scope.enviarInclusion = function(){
 
 $scope.getEscuelas = function(){
 
+    $scope.escuelaQuery = [];
+    $scope.cursoQuery = [];
+    $scope.grupoQuery = [];
     $scope.infoGroupQuery = [];
     
     
@@ -101,6 +104,8 @@ $scope.getEscuelas = function(){
 
 $scope.getCursos = function(){
 
+    $scope.cursoQuery = [];
+    $scope.grupoQuery = [];
     $scope.infoGroupQuery = [];
 
     $http({
@@ -130,6 +135,7 @@ $scope.getCursos = function(){
 
 $scope.getGrupos = function(){
 
+    $scope.grupoQuery = [];
     $scope.infoGroupQuery = [];
 
     $http({
@@ -174,11 +180,31 @@ $scope.getInfoGroup = function(){
         }).then(function(response){
             console.dir(response);
             $scope.infoGroupQuery = response.data;
+            var horarioTxt = "";
+            var aulaTxt = "";
+            var i = 0;
+            while (i < $scope.infoGroupQuery.length) {
+              horarioTxt += $scope.infoGroupQuery[i].horario
+              aulaTxt += $scope.infoGroupQuery[i].edificio_aula
+              if (i != $scope.infoGroupQuery.length-1) {
+                horarioTxt += " / ";
+                aulaTxt += " / ";
+              }
+              i++;
+            }
+            
+            $scope.infoGroupQuery[0].horario = horarioTxt;
+            $scope.infoGroupQuery[0].edificio_aula = aulaTxt;
 
         }, function(error) {
             console.error(error);
 
         });
+
+
+
+
+
     }
 
 
@@ -186,8 +212,12 @@ $scope.getInfoGroup = function(){
 
 $scope.getSedes = function(){
 
-
+    $scope.sedeQuery = [];
+    $scope.escuelaQuery = [];
+    $scope.cursoQuery = [];
+    $scope.grupoQuery = [];
     $scope.infoGroupQuery = [];
+
 
         $http({
         method: 'GET',
@@ -203,6 +233,11 @@ $scope.getSedes = function(){
 $scope.getPeriodos = function(){
 
     
+    $scope.sedeQuery = [];
+    $scope.escuelaQuery = [];
+    $scope.cursoQuery = [];
+    $scope.grupoQuery = [];
+    $scope.periodoQuery = [];
     $scope.infoGroupQuery = [];
     
     $http({

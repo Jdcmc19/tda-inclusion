@@ -1,45 +1,35 @@
 app = angular.module('incursionApp', []);
 
 
-app.controller('horariosController', function($scope, $http){
+app.controller('cerradosController', function($scope, $http){
+
 
 
 $scope.inclusion = {
+        "userCarnet": "",
+        "asusnto": "",
+        "comentario": "",
         "sedeSeleccionada": {},
         "escuelaSeleccionada": {},
+        "cursoSeleccionada": {},
+        "grupoSeleccionada": {},
         "modalidades": {},
         "periodos": {}
 
     };
 
-   
     
     $scope.sedeQuery = [];
     $scope.escuelaQuery = [];
+    $scope.cursoQuery = [];
+    $scope.grupoQuery = [];
     $scope.modalidadQuery = [];
-    $scope.sortType     = 'sede_nombre'; // set the default sort type
-    $scope.sortReverse  = false;  // set the default sort order
-    x$scope.search  = '';     
-  
-  
-  
+    $scope.periodoQuery = [];
+    $scope.infoGroupQuery = [];
 
+ 
 
-    $scope.resultQuery = [];
-
-
-    $(document).ready(function(){//busca en la tabla
-    $("#buscador").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#example tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
-
-
-
-    $http({
+ $http({
         method: 'GET',
         url: 'api/get_modalidades'
     }).then(function(response){
@@ -47,51 +37,51 @@ $scope.inclusion = {
         $scope.modalidadQuery = response.data;
     });
 
+        
+$scope.getPeriodos = function(){
 
-$scope.getGuia = function(){
-
-
+    
+    $scope.infoGroupQuery = [];
+    
     $http({
-
             method: 'POST',
-
-            url: 'api/get_guia_horarios',
-
+            url: 'api/get_periodos',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-
             transformRequest: function(obj) {
-
                 var str = [];
-
                 for(var p in obj)
-
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-
                 return str.join("&");
-
             },
-
-            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela }
-
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad}
         }).then(function(response){
-
             console.dir(response);
-
-            $scope.resultQuery = response.data;
-
-
+            $scope.periodoQuery = response.data;
 
         }, function(error) {
-
             console.error(error);
-
-
 
         });
 
+    
+    }
 
+
+$scope.getSedes = function(){
+
+
+    $scope.infoGroupQuery = [];
+
+        $http({
+        method: 'GET',
+        url: 'api/get_sedes'
+        }).then(function(response){
+            console.dir(response);
+            $scope.sedeQuery = response.data;
+        });
 
     }
+
 
 
 
@@ -124,28 +114,14 @@ $scope.getEscuelas = function(){
     }
 
 
-$scope.getSedes = function(){
 
+$scope.getGrupos = function(){
 
     $scope.infoGroupQuery = [];
 
-        $http({
-        method: 'GET',
-        url: 'api/get_sedes'
-        }).then(function(response){
-            console.dir(response);
-            $scope.sedeQuery = response.data;
-        });
-
-    }
-
-        
-$scope.getPeriodos = function(){
-
-    
     $http({
             method: 'POST',
-            url: 'api/get_periodos',
+            url: 'api/get_grupos',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function(obj) {
                 var str = [];
@@ -153,29 +129,18 @@ $scope.getPeriodos = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad}
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo ,sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela, curso_id: $scope.inclusion.cursoSeleccionada.id_curso }
+            
         }).then(function(response){
             console.dir(response);
-            $scope.periodoQuery = response.data;
+            $scope.grupoQuery = response.data;
 
         }, function(error) {
             console.error(error);
 
         });
-
-    
     }
 
 
 
-
-
-
-
-
-
-});
-
-
-
-
+})
