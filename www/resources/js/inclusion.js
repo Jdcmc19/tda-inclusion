@@ -59,7 +59,7 @@ $scope.enviarInclusion = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data : { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo ,sede_id: $scope.inclusion.sedeSeleccionada.nombre_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.nombre_escuela, curso_id: $scope.inclusion.cursoSeleccionada.nombre_curso, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo, comentario_asunto: $scope.inclusion.asusnto, comentario_mensaje: $scope.inclusion.comentario }
+            data : { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo ,sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela, curso_id: $scope.inclusion.cursoSeleccionada.id_curso, modalidad_nombre: $scope.inclusion.modalidades.nombre_modalidad,sede_nombre: $scope.inclusion.sedeSeleccionada.nombre_sede, escuela_nombre: $scope.inclusion.escuelaSeleccionada.nombre_escuela, curso_nombre: $scope.inclusion.cursoSeleccionada.nombre_curso, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo, comentario_asunto: $scope.inclusion.asusnto, comentario_mensaje: $scope.inclusion.comentario }
         }).then(function(response){
             console.dir(response);
 
