@@ -18,10 +18,16 @@
         </querytext>
     </fullquery> 
 
-     <fullquery name="incl::insert_inclusion.insert_inclusion_query"> 
+    <fullquery name="incl::insert_inclusion.insert_inclusion_query"> 
         <querytext>
             INSERT INTO sch_tda_inclusion.inclusion (id_carne, id_estudiante, estado_actual, estado_final, nombre_estudiante, comentario_asunto, comentario_mensaje, grupo_pk_grupo)
             VALUES (:carne_id,:estudiante_id,:estado_actual,:estado_final,:nombre_estudiante,:comentario_asunto,:comentario_mensaje,:grupo_fk);
+        </querytext>
+    </fullquery> 
+
+    <fullquery name="incl::insert_grupo_cerrado.insert_grupo_cerrado_query"> 
+        <querytext>
+            INSERT INTO sch_tda_inclusion.cerrado (grupo_pk_grupo) VALUES (:grupo_fk);
         </querytext>
     </fullquery> 
 

@@ -518,6 +518,33 @@ ad_proc -public incl::get_infoEstudiante {
 }
 
 
+ad_proc -public incl::insert_grupo_cerrado {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -modalidad_nombre
+    -sede_nombre
+    -escuela_nombre
+    -curso_nombre
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+
+    set anno_id 2019
+     
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
+
+    if {[catch { db_dml insert_grupo_cerrado_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
+        return -1
+    }  
+
+    return 1
+}
 
 
 ad_proc -public incl::insert_inclusion {
