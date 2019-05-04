@@ -5,13 +5,6 @@ CREATE TABLE  sch_tda_inclusion.cerrado (
 
 ALTER TABLE  sch_tda_inclusion.cerrado ADD CONSTRAINT cerrado_pk PRIMARY KEY ( pk_cerrado );
 
-CREATE TABLE sch_tda_inclusion.cupo (
-    pk_cupo          SERIAL,
-    cupodisponible   INTEGER NOT NULL,
-    grupo_pk_grupo   INTEGER NOT NULL
-);
-
-ALTER TABLE sch_tda_inclusion.cupo ADD CONSTRAINT cupo_pk PRIMARY KEY ( pk_cupo );
 
 CREATE TABLE  sch_tda_inclusion.grupo (
     pk_grupo       SERIAL,
@@ -21,7 +14,8 @@ CREATE TABLE  sch_tda_inclusion.grupo (
     id_sede        VARCHAR(50) NOT NULL,
     id_depto       VARCHAR(50) NOT NULL,
     id_materia     VARCHAR(50) NOT NULL,
-    id_grupo       INTEGER NOT NULL
+    id_grupo       INTEGER NOT NULL,
+    cupodisponible INTEGER NOT NULL
 );
 
 ALTER TABLE  sch_tda_inclusion.grupo ADD CONSTRAINT grupo_pk PRIMARY KEY ( pk_grupo );
@@ -44,9 +38,6 @@ ALTER TABLE  sch_tda_inclusion.cerrado
     ADD CONSTRAINT cerrado_grupo_fk FOREIGN KEY ( grupo_pk_grupo )
         REFERENCES  sch_tda_inclusion.grupo ( pk_grupo );
 
-ALTER TABLE sch_tda_inclusion.cupo
-    ADD CONSTRAINT cupo_grupo_fk FOREIGN KEY ( grupo_pk_grupo )
-        REFERENCES  sch_tda_inclusion.grupo ( pk_grupo );
 
 ALTER TABLE sch_tda_inclusion.inclusion
     ADD CONSTRAINT inclusion_grupo_fk FOREIGN KEY ( grupo_pk_grupo )

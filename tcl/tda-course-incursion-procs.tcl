@@ -127,13 +127,24 @@ ad_proc -public incl::get_guia_horarios {
         set horario_grupo_salida [ lindex $item 57 ]
         set horario_dia [ lindex $item 49 ]
         set nombre_profesor [ lindex $item 45 ]
-        set matriculados_grupo [ lindex $item 27] 
-        set campo_grupo [ lindex $item 29] 
         set tipo_materia [ lindex $item 37 ]
         set reservados [ lindex $item 31 ]
 
-        set cupo [ expr $campo_grupo - $matriculados_grupo]
+    
+        set cupo [incl::get_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $nombre_materia -grupo_id $numero_grupo ]
 
+        if { $cupo eq -1} {
+
+            set matriculados_grupo [ lindex $item 27] 
+            set campo_grupo [ lindex $item 29] 
+            
+            set cupo [ expr $campo_grupo - $matriculados_grupo]
+
+        } else {
+
+            set cupo [lindex $cupo 0]
+
+        }
         
 
         set select_json "$select_json $json_comma \{
@@ -204,10 +215,7 @@ ad_proc -public incl::get_cursos {
     }  
 
     set courses_id {}
-    puts "esta es la modalidad $modalidad_id"
-    puts "est e es el periodo $periodo_id"
-    puts "est e es el sede $sede_id"
-    puts "est e es el escuela_id $escuela_id"
+
 
     set select_json "\["
     set json_comma ""
@@ -337,17 +345,59 @@ ad_proc -public incl::get_infoGroup {
 
 ad_proc -public incl::insert_grupo {
     -modalidad_id
+    -modalidad_nombre
     -periodo_id
     -sede_id
+    -sede_nombre
     -escuela_id
+    -escuela_nombre
     -curso_id
+    -curso_nombre
     -grupo_id
 
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    
     set anno_id 2019
+
+    if { [ catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "$anno_id/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
+    }  
+    set cupo 100;
+
+    puts "curso id es el -$curso_id-"
+
+    foreach item $result {
+
+        set numero [ lindex $item 25 ]
+
+
+        if { $numero == $grupo_id } {
+
+            puts "                                 holaaaa"
+
+            set matriculados_grupo [ lindex $item 27 ] 
+            set campo_grupo [ lindex $item 29 ] 
+
+            puts "matriculados_grupo $matriculados_grupo y campo_grupo $campo_grupo"
+
+            set current_cupo [ expr $campo_grupo - $matriculados_grupo ]      
+
+            if { $cupo > $current_cupo } {
+
+                set cupo $current_cupo
+
+            }
+
+        }
+
+
+        
+    }
+
 
     if {[catch { db_dml insert_grupo_query {} } errmsg] } {
         puts "-----------------------------   $errmsg" 
@@ -360,10 +410,14 @@ ad_proc -public incl::insert_grupo {
 
 ad_proc -public incl::get_id_grupo {
     -modalidad_id
+    -modalidad_nombre
     -periodo_id
     -sede_id
+    -sede_nombre
     -escuela_id
+    -escuela_nombre
     -curso_id
+    -curso_nombre
     -grupo_id
 } {
     @author Jose Daniel Vega Alvarado
@@ -373,7 +427,7 @@ ad_proc -public incl::get_id_grupo {
     if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
 
 
-        set answer [incl::insert_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ]
+        set answer [incl::insert_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ]
 
 
 
@@ -398,6 +452,33 @@ ad_proc -public incl::get_id_grupo {
             return -1
 
         }
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+ad_proc -public incl::get_cupo_grupo {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+    if {[catch { set result [db_string get_cupo_grupo_query {}] } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
 
     } 
 
@@ -438,12 +519,17 @@ ad_proc -public incl::get_infoEstudiante {
 
 
 
+
 ad_proc -public incl::insert_inclusion {
     -modalidad_id
     -periodo_id
     -sede_id
     -escuela_id
     -curso_id
+    -modalidad_nombre
+    -sede_nombre
+    -escuela_nombre
+    -curso_nombre
     -grupo_id
     -comentario_asunto
     -comentario_mensaje
@@ -461,7 +547,7 @@ ad_proc -public incl::insert_inclusion {
     set estado_actual "Pendiente"
     set estado_final "Pendiente"
      
-    set grupo_fk [lindex [incl::get_id_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
 
     if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
         puts "-----------------------------   $errmsg" 
