@@ -107,9 +107,27 @@
 
     <fullquery name="incl::aceptar_inclusion.aceptar_inclusion_query"> 
         <querytext>
-            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Aceptado' WHERE grupo_pk_grupo = :grupo_fk and id_carne = :carne_id;
+            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Aceptada' WHERE grupo_pk_grupo = :grupo_fk and id_carne = :carne_id;
         </querytext>
     </fullquery>
+
+    <fullquery name="incl::rechazar_inclusion.rechazar_inclusion_query"> 
+        <querytext>
+            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Rechazada' WHERE grupo_pk_grupo = :grupo_fk and id_carne = :carne_id;
+        </querytext>
+    </fullquery>
+
+    <fullquery name="incl::cancelar_inclusion.cancelar_inclusion_query"> 
+        <querytext>
+            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Cancelada', estado_final = 'Cancelada' WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id;
+        </querytext>
+    </fullquery>
+
+    <fullquery name="incl::get_estado_inclusion.get_estado_inclusion_query"> 
+        <querytext>
+            SELECT estado_actual FROM sch_tda_inclusion.inclusion WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id;
+        </querytext>
+    </fullquery> 
  
 
 </queryset>

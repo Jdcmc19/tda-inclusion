@@ -534,9 +534,9 @@ ad_proc -public incl::modif_cupo_grupo {
     set cupo [lindex [incl::get_cupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
     set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
-    set nuevoCupo [expr cupo + valor]
+    set cupo [expr cupo + valor]
 
-    if {nuevoCupo < 0} {
+    if {cupo < 0} {
         puts "no hay cupos disponibles"
         return 2
     }
@@ -552,6 +552,38 @@ ad_proc -public incl::modif_cupo_grupo {
     return 1
 }
 
+ad_proc -public incl::get_estado_inclusion {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+
+    set estudiante_id [ad_conn user_id]
+
+    set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+
+    if {[catch { set result [db_string get_estado_inclusion_query {}] } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
 ad_proc -public incl::aceptar_inclusion {
     -modalidad_id
     -periodo_id
@@ -564,22 +596,90 @@ ad_proc -public incl::aceptar_inclusion {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
     set posible [incl::modif_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id -valor 1]
     
+    if { $posible eq 1} {
+
+        if {[catch { db_dml aceptar_inclusion_query {} } errmsg] } {
+            
+            puts "$errmsg" 
+            return -1
+        } 
+
+    } 
     
 
-    if {[catch { db_dml aceptar_inclusion_query {} } errmsg] } {
+
+    return 1
+}
+
+ad_proc -public incl::rechazar_inclusion {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+    -carne_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+
+    set posible [incl::modif_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id -valor -1]
+    
+    if { $posible eq 1} {
+
+        if {[catch { db_dml aceptar_inclusion_query {} } errmsg] } {
+            
+            puts "$errmsg" 
+            return -1
+        } 
+
+    } 
+    
+
+
+    return 1
+}
+
+
+
+ad_proc -public incl::cancelar_inclusion {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set estudiante_id [ad_conn user_id]
+
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+
+    set estado_inclusion [lindex [incl::get_estado_inclusion -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
+
+    if { $estado_inclusion eq "Aceptada" } {
+    
+        set posible [incl::modif_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id -valor 1]
+    
+    }
+
+    if {[catch { db_dml cancelar_inclusion_query {} } errmsg] } {
         
         puts "$errmsg" 
         return -1
-
-
     } 
 
     return 1
 }
+
 
 ad_proc -public incl::get_infoEstudiante {
 
@@ -772,7 +872,6 @@ ad_proc -public incl::finalizar_inclusion {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    :estado_actual
 
     if {[catch { db_dml finalizar_inclusion_query {} } errmsg] } {
         puts "-----------------------------   $errmsg" 
