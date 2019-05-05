@@ -552,6 +552,35 @@ ad_proc -public incl::modif_cupo_grupo {
     return 1
 }
 
+ad_proc -public incl::aceptar_inclusion {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+    -carne_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+
+    set posible [incl::modif_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id -valor 1]
+    
+    
+
+    if {[catch { db_dml aceptar_inclusion_query {} } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
+
+    } 
+
+    return 1
+}
+
 ad_proc -public incl::get_infoEstudiante {
 
 } {
@@ -827,6 +856,9 @@ ad_proc -public incl::get_inclusiones {
         set comentario_mensaje [lindex $elemento 6]
         set carne [lindex $elemento 8]
         set nombre_estudiante [lindex $elemento 9]
+
+        set cupo [incl::get_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_nombre -escuela_id $escuela_nombre -curso_id $curso_nombre -grupo_id $grupo_numero ]
+  
  
         set select_json "$select_json $json_comma \{
                     \"sede_nombre\": \"$sede_nombre\",
@@ -838,6 +870,7 @@ ad_proc -public incl::get_inclusiones {
                     \"comentario_mensaje\":  \"$comentario_mensaje \",
                     \"carne\":  \"$carne \",
                     \"nombre_estudiante\":  \"$nombre_estudiante \",
+                    \"cupo\":  \"$cupo \",
                     \"estado\": \"$estado\"
 
             \}"

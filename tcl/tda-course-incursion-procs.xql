@@ -104,6 +104,12 @@
             UPDATE sch_tda_inclusion.grupo SET cupodisponible = :cupo WHERE pk_grupo = :grupo_pk;
         </querytext>
     </fullquery>
+
+    <fullquery name="incl::aceptar_inclusion.aceptar_inclusion_query"> 
+        <querytext>
+            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Aceptado' WHERE grupo_pk_grupo = :grupo_fk and id_carne = :carne_id;
+        </querytext>
+    </fullquery>
  
 
 </queryset>
