@@ -12,7 +12,39 @@ app.controller('coordinadorController', function($scope, $http){
   $scope.search  = '';     
   
   
-  
+  $scope.OptIncl = function(id,estado){
+
+    
+        if (estado == "Aceptada"){
+
+            $http({
+            method: 'POST',
+            url: 'api/get_inclusionesCoordinador',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.resultQuery[id]., periodo_id: $scope.inclusion.periodos.id_periodo }
+        }).then(function(response){
+            console.dir(response);
+            $scope.resultQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+        }
+        else{
+
+        }
+
+        console.dir($scope.resultQuery[id].sede_nombre);  
+    
+    }
 
 
     $scope.resultQuery = [];
@@ -71,6 +103,21 @@ $scope.getPeriodos = function(){
     
     }
 
+
+$('#imprimir').click(function(){
+    console.log('alo')
+    var printme= document.getElementById('coordinadorTabla2');
+    var wme =  window.open("","","width=1100,height=900");
+    wme.document.write(printme.outerHTML);
+    wme.document.close();
+    wme.focus();
+    wme.print();
+    wme.close();
+
+
+
+
+  })
 
     $scope.getInclusionesEstudiantes = function(){
 

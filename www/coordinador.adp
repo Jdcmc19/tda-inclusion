@@ -10,7 +10,7 @@
 
 <!--<input type="button" class="button"    id="estadistica" value="Estadisticas">-->
 
-<button class="btn"><i class="fa fa-download"></i> Descargar Reportes</button>
+<button id= "imprimir" class="btn">  Descargar Reportes</button>
 
 <br>
 <br>
@@ -42,7 +42,53 @@
     </div>
   </form>
   
-  <table class="table table-bordered table-striped">
+  <div hidden>
+    <table id= "coordinadorTabla2">
+      <thead>
+      <tr>
+        <td>
+          Carné
+        </td>
+        <td>
+          Nombre
+        </td>
+        <td>
+          Curso
+        </td>
+        <td>
+          Grupo
+        </td>
+        <td>
+          Cupo
+        </td>
+        <td>
+          Prioridad
+        </td>
+        <td>
+          Estado
+        </td>
+      </tr>
+    </thead>
+
+    
+    <tbody>
+      <tr ng-repeat="inclusion in resultQuery | orderBy:sortType:sortReverse | filter:search">
+    <td>{{ inclusion.carne }}</td>
+    <td>{{ inclusion.nombre_estudiante }}</td>
+    <td>{{ inclusion.curso_nombre }}</td>
+    <td>{{ inclusion.grupo_numero }}</td>
+    <td>{{ inclusion.estudiante_promedio }}</td>
+    <td>{{ inclusion.estudiante_prioridad }}</td>
+    <td>{{ inclusion.estado }}</td>
+    </tr>
+    </tbody>
+
+    </table>
+  </div>
+
+
+
+  <table  class="table table-bordered table-striped">
     
     <thead>
       <tr>
@@ -112,7 +158,7 @@
 		<td>{{ inclusion.grupo_numero }}</td>
 		<td>{{ inclusion.estudiante_promedio }}</td>
     <td>{{ inclusion.estudiante_prioridad }}</td>
-		<td><select ng-model="estado" ng-init="estado = inclusion.estado" ng-change="">
+		<td><select id="{{ $index }}" ng-model="estado" ng-init="estado = inclusion.estado" ng-change="OptIncl($index,estado)">
         <option value="Aceptada">Aceptada</option>
         <option value="Pendiente">Pendiente</option>
         <option value="Rechazada">Rechazada</option>
@@ -121,6 +167,14 @@
     </tbody>
     
   </table> 
+
+
+
+  <button id ="grafico" onclick="pintar(15,5)"> Grafico </button>
+
+
+
+  <canvas id="myChart" style="display:none" width="200" height="400" > </canvas>
 	   
 
 </div>
@@ -140,7 +194,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 	<script src="node_modules/angular/angular.min.js"></script>
 
@@ -150,6 +204,102 @@
 
 
 
+<script>
 
+    function pintar(aprobadas, reprobadas){
+
+    var visible= document.getElementById('myChart')
+
+
+
+    if (visible.style.display === "block"){
+
+        visible.style.display = "none"
+
+
+
+
+
+
+
+    }
+
+    else{
+
+        visible.style.display = "block"
+
+    }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels: ['Reprobadas', 'Aprobadas'],
+
+            datasets: [{
+
+                label: '# inclusiones',
+
+                data: [12, 40],
+
+                backgroundColor: [
+
+                    'rgba(255, 99, 132, 0.2)',
+
+                    'rgba(54, 162, 235, 0.2)'
+
+
+
+                ],
+
+                borderColor: [
+
+                    'rgba(255, 99, 132, 1)',
+
+                    'rgba(54, 162, 235, 1)'
+
+
+
+                ],
+
+                borderWidth: 1
+
+            }]
+
+        },
+
+        options: {
+
+            scales: {
+
+                yAxes: [{
+
+                    ticks: {
+
+                        suggestedMin: 10,
+
+                        suggestedMax: 20,
+
+                        stepSize: 0.5,
+
+                        beginAtZero: true
+
+                    }
+
+                }]
+
+            }
+
+        }
+
+    });
+
+}
+
+    </script>
  
 	
