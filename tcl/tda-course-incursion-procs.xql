@@ -100,6 +100,12 @@
         </querytext>
     </fullquery> 
 
+    <fullquery name="incl::existe_cerrado.existe_cerrado_query"> 
+        <querytext>
+            SELECT pk_cerrado FROM sch_tda_inclusion.cerrado WHERE grupo_pk_grupo = :grupo_fk;
+        </querytext>
+    </fullquery> 
+
     <fullquery name="incl::modif_cupo_grupo.modif_cupo_grupo_query"> 
         <querytext>
             UPDATE sch_tda_inclusion.grupo SET cupodisponible = :cupo WHERE pk_grupo = :grupo_pk;
@@ -120,15 +126,41 @@
 
     <fullquery name="incl::cancelar_inclusion.cancelar_inclusion_query"> 
         <querytext>
-            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Cancelada', estado_final = 'Cancelada' WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id;
+            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Desincluida', estado_final = 'Desincluida' WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id;
         </querytext>
     </fullquery>
 
-    <fullquery name="incl::get_estado_inclusion.get_estado_inclusion_query"> 
+    <fullquery name="incl::delete_inclusion.delete_inclusion_query"> 
+        <querytext>
+            DELETE FROM sch_tda_inclusion.inclusion WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id and estado_final <> 'Desincluida';
+        </querytext>
+    </fullquery>
+
+    <fullquery name="incl::get_estado_inclusion_actual.get_estado_inclusion_actual_query"> 
         <querytext>
             SELECT estado_actual FROM sch_tda_inclusion.inclusion WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id;
         </querytext>
+    </fullquery>
+
+    <fullquery name="incl::get_cant_aceptadas.get_cant_aceptadas_query"> 
+        <querytext>
+            SELECT count(i.id_inclusion) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.grupo_pk) 
+            WHERE estado_final = 'Aceptada' and i.id_modalidad = :modalidad_id and i.id_periodo = :periodo_id and i.id_anno = :anno_id;
+        </querytext>
     </fullquery> 
+
+    <fullquery name="incl::get_cant_rechazadas.get_cant_rechazadas_query"> 
+        <querytext>
+            SELECT count(i.id_inclusion) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.grupo_pk) 
+            WHERE estado_final = 'Rechazada' and i.id_modalidad = :modalidad_id and i.id_periodo = :periodo_id and i.id_anno = :anno_id;
+        </querytext>
+    </fullquery> 
+
+    <fullquery name="incl::get_estado_inclusion_final.get_estado_inclusion_final_query"> 
+        <querytext>
+            SELECT estado_final FROM sch_tda_inclusion.inclusion WHERE grupo_pk_grupo = :grupo_fk and id_estudiante = :estudiante_id;
+        </querytext>
+    </fullquery>
  
 
 </queryset>

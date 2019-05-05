@@ -244,6 +244,23 @@ ad_proc -public incl::get_cursos {
     return $select_json
 }
 
+ad_proc -public incl::existe_cerrado {
+
+    -grupo_fk
+
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+
+    if {[catch { db_string existe_cerrado_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
 ad_proc -public incl::get_grupos {
     -modalidad_id
     -periodo_id
@@ -253,6 +270,8 @@ ad_proc -public incl::get_grupos {
 } {
     @author Jose Daniel Vega Alvarado
 } {
+
+
     if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
         puts "$errmsg" 
         return -1
@@ -269,15 +288,25 @@ ad_proc -public incl::get_grupos {
         set numero [ lindex $item 25 ]
 
 
+
+
+
         if { [ lsearch $groups_id $numero ] eq -1} {
-            set groups_id [ lappend groups_id $numero ]
 
-            set select_json "$select_json $json_comma \{
-                        \"id_grupo\": \"$numero\",
-                        \"numero_grupo\": \"$numero\"
-                \}"
-            set json_comma ","            
+            set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $numero ] 0]
+            set cerradop [incl::existe_cerrado -grupo_fk $grupo_fk]
 
+            if { $cerradop eq -1 } {
+
+                set groups_id [ lappend groups_id $numero ]
+
+                set select_json "$select_json $json_comma \{
+                            \"id_grupo\": \"$numero\",
+                            \"numero_grupo\": \"$numero\"
+                    \}"
+                set json_comma "," 
+
+            }
         }
     }
 
@@ -552,7 +581,75 @@ ad_proc -public incl::modif_cupo_grupo {
     return 1
 }
 
-ad_proc -public incl::get_estado_inclusion {
+ad_proc -public incl::get_cant_aceptadas {
+    -modalidad_id
+    -periodo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+
+
+    if {[catch { set result [db_string get_cant_aceptadas_query {}] } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+ad_proc -public incl::get_cant_rechazadas {
+    -modalidad_id
+    -periodo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+
+
+    if {[catch { set result [db_string get_cant_rechazadas_query {}] } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+ad_proc -public incl::get_resultado_inclusiones {
+    -modalidad_id
+    -periodo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set aceptadas [lindex [incl::get_cantidad_aceptadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
+    set rechazadas [lindex [incl::get_cantidad_rechazadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
+
+
+    set select_json "\{ aceptadas \{$aceptadas\} rechazadas \{$rechazadas\} \}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+ad_proc -public incl::get_estado_inclusion_actual {
     -modalidad_id
     -periodo_id
     -sede_id
@@ -567,9 +664,41 @@ ad_proc -public incl::get_estado_inclusion {
 
     set estudiante_id [ad_conn user_id]
 
-    set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
-    if {[catch { set result [db_string get_estado_inclusion_query {}] } errmsg] } {
+    if {[catch { set result [db_string get_estado_inclusion_actual_query {}] } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+ad_proc -public incl::get_estado_inclusion_final {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+
+    set estudiante_id [ad_conn user_id]
+
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+
+    if {[catch { set result [db_string get_estado_inclusion_final_query {}] } errmsg] } {
         
         puts "$errmsg" 
         return -1
@@ -646,7 +775,30 @@ ad_proc -public incl::rechazar_inclusion {
     return 1
 }
 
+ad_proc -public incl::delete_inclusion {
+    -modalidad_id
+    -periodo_id
+    -sede_id
+    -escuela_id
+    -curso_id
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
 
+    set estudiante_id [ad_conn user_id]
+
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+
+
+    if {[catch { db_dml delete_inclusion_query {} } errmsg] } {
+        
+        puts "$errmsg" 
+        return -1
+    } 
+
+    return 1
+}
 
 ad_proc -public incl::cancelar_inclusion {
     -modalidad_id
@@ -663,9 +815,21 @@ ad_proc -public incl::cancelar_inclusion {
 
     set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
-    set estado_inclusion [lindex [incl::get_estado_inclusion -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
+    set estado_inclusion_actual [lindex [incl::get_estado_inclusion_actual -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
+    set estado_inclusion_final [lindex [incl::get_estado_inclusion_final -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
 
-    if { $estado_inclusion eq "Aceptada" } {
+   
+    if { $estado_inclusion_final eq "Aceptada" } {
+    
+        if {[catch { db_dml cancelar_inclusion_query {} } errmsg] } {
+        
+            puts "$errmsg" 
+            return -1
+        }
+        return 2
+    } 
+
+    if { $estado_inclusion_actual eq "Aceptada" } {
     
         set posible [incl::modif_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id -valor 1]
     
@@ -779,6 +943,8 @@ ad_proc -public incl::existe_inclusion {
 
     return 1
 }
+
+
 
 
 ad_proc -public incl::insert_inclusion {
