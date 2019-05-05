@@ -7,24 +7,28 @@ app.controller('estudianteController', function($scope, $http){
   $scope.sortType     = 'sede_nombre'; // set the default sort type
   $scope.sortReverse  = false;  // set the default sort order
   $scope.search  = '';     
+        
+
+
   
-    function eliminarInclusion(id){
+    $scope.eliminarInclusion = function(id){
 
-        boton =document.getElementById(id)
-        boton.addEventListener("click", function(){
-            
+
+        $("#"+id)[0].click();
+
+        $("#"+id).click(function(){
             var $row = $(this).closest("tr"),
-                $tds = $row.find("td:nth-child(1)");
-            $.each($tds,function(){
-                console.log($(this).text());
-                $("#Parrafo").text($(this).text())
-            })
-            
-            
-        })
+                $sede = $row.find("td:nth-child(1)");
+                $escuela = $row.find("td:nth-child(2)");
+                $curso = $row.find("td:nth-child(3)");
+                $grupo = $row.find("td:nth-child(4)");
 
-          
-            
+                delete $scope.resultQuery[id];
+
+             })
+
+        $("#"+id)[0].click();
+
         };
     
 

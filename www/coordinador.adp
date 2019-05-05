@@ -55,10 +55,10 @@
         </td>
 
         <td>
-          <a ng-click="sortType = 'estudiante_nombre'; sortReverse = !sortReverse">
+          <a ng-click="sortType = 'nombre_estudiante'; sortReverse = !sortReverse">
           Nombre
-            <span ng-show="sortType == 'estudiante_nombre' && !sortReverse" class="fa fa-caret-down"></span>
-            <span ng-show="sortType == 'estudiante_nombre' && sortReverse" class="fa fa-caret-up"></span>
+            <span ng-show="sortType == 'nombre_estudiante' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'nombre_estudiante' && sortReverse" class="fa fa-caret-up"></span>
           </a>
         </td>
 
@@ -80,7 +80,7 @@
 
        	<td>
           <a ng-click="sortType = 'estudiante_promedio'; sortReverse = !sortReverse">
-          Promedio
+          Cupo
             <span ng-show="sortType == 'estudiante_promedio' && !sortReverse" class="fa fa-caret-down"></span>
             <span ng-show="sortType == 'estudiante_promedio' && sortReverse" class="fa fa-caret-up"></span>
           </a>
@@ -103,22 +103,21 @@
       </tr>
     </thead>
 
-    <button type="button" class="btn btn-success">Aceptar Inclusion</button>
-
-    <button type="button" class="btn btn-warning">Pendiente</button>
-
-    <button type="button" class="btn btn-danger">Rechazar Inclusion</button>
     
     <tbody>
       <tr ng-repeat="inclusion in resultQuery | orderBy:sortType:sortReverse | filter:search">
-        <td>{{ inclusion.carne }}</td>
-		<td>{{ inclusion.estudiante_nombre }}</td>
+    <td>{{ inclusion.carne }}</td>
+		<td>{{ inclusion.nombre_estudiante }}</td>
 		<td>{{ inclusion.curso_nombre }}</td>
 		<td>{{ inclusion.grupo_numero }}</td>
 		<td>{{ inclusion.estudiante_promedio }}</td>
-		<td>{{ inclusion.estudiante_prioridad }}</td>
-		<td>{{ inclusion.estado }}</td>
-      </tr>
+    <td>{{ inclusion.estudiante_prioridad }}</td>
+		<td><select ng-model="estado" ng-init="estado = inclusion.estado" ng-change="">
+        <option value="Aceptada">Aceptada</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Rechazada">Rechazada</option>
+      </select></td>
+    </tr>
     </tbody>
     
   </table> 
