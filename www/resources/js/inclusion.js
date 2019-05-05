@@ -81,6 +81,10 @@ $scope.enviarInclusion = function(){
                     $scope.modalidadQuery = response.data;
                 });
             }
+            if (response.data == 2)
+            {
+                alert("Ya existe una inclusion para este grupo");
+            }
 
 
         }, function(error) {

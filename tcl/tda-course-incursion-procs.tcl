@@ -558,7 +558,7 @@ ad_proc -public incl::get_infoEstudiante {
     @author Jose Daniel Vega Alvarado[ad_conn user_id]
 } {
 
-    set estudiante_id 1102566
+    set estudiante_id [ad_conn user_id]
 
     if {[catch { set carne [ tfg::obtenerCarne $estudiante_id ] } errmsg] } {
         puts "$errmsg" 
@@ -668,7 +668,7 @@ ad_proc -public incl::insert_inclusion {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set estudiante_id 1102566
+    set estudiante_id [ad_conn user_id]
     set infoEstudiante [lindex [incl::get_infoEstudiante] 0]
     set carne_id [lindex $infoEstudiante 1]
     set nombre_estudiante [lindex $infoEstudiante 3]
@@ -715,7 +715,7 @@ ad_proc -public incl::editar_inclusion {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set estudiante_id 1102566
+    set estudiante_id 
     set infoEstudiante [lindex [incl::get_infoEstudiante] 0]
     set carne_id [lindex $infoEstudiante 1]
     set nombre_estudiante [lindex $infoEstudiante 3]
@@ -760,7 +760,7 @@ ad_proc -public incl::get_inclusiones_estudiante {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set estudiante_id 1102566
+    set estudiante_id [ad_conn user_id]
     set anno_id 2019
 
     if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {

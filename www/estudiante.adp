@@ -102,17 +102,17 @@
     
     <tbody>
       <tr ng-repeat="inclusion in resultQuery | orderBy:sortType:sortReverse | filter:search">
-        <td>{{ inclusion.sede_nombre }}</td>
-    		<td>{{ inclusion.escuela_nombre }}</td>
-    		<td>{{ inclusion.curso_nombre }}</td>
-    		<td>{{ inclusion.grupo_numero }}</td>
-    		<td>{{ inclusion.estado }}</td>
-        <td><center><button class="btn btn-danger remove" ng-click="eliminarInclusion()" type="button"></i>X</button></center></td>
+        <td class="sede">{{ inclusion.sede_nombre }}</td>
+    		<td class="escuela">{{ inclusion.escuela_nombre }}</td>
+    		<td class="curso">{{ inclusion.curso_nombre }}</td>
+    		<td class="grupo">{{ inclusion.grupo_numero }}</td>
+    		<td class="estado">{{ inclusion.estado }}</td>
+        <td><center><button id="{{ $index }}" class="btn btn-danger remove ww" ng-click="eliminarInclusion($index)" type="button"></i>X</button></center></td>
+        
       </tr>
     </tbody>
     
   </table>
-	  <p id="Parrafo"></p>
 
 </div>
 
