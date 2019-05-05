@@ -408,7 +408,7 @@ ad_proc -public incl::insert_grupo {
 }
 
 
-ad_proc -public incl::get_id_grupo {
+ad_proc -public incl::get_insert_id_grupo {
     -modalidad_id
     -modalidad_nombre
     -periodo_id
@@ -424,7 +424,7 @@ ad_proc -public incl::get_id_grupo {
 } {
 
     set anno_id 2019
-    if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
+    if {[catch { set result [db_string get_insert_id_grupo_query {}] } errmsg] } {
 
 
         set answer [incl::insert_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ]
@@ -433,7 +433,7 @@ ad_proc -public incl::get_id_grupo {
 
         if { $answer eq 1} {
 
-            if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
+            if {[catch { set result [db_string get_insert_id_grupo_query {}] } errmsg] } {
 
                 puts "$errmsg" 
                 return -1
@@ -452,6 +452,33 @@ ad_proc -public incl::get_id_grupo {
             return -1
 
         }
+
+    } 
+
+    set select_json "\{$result\}"
+
+    puts $select_json
+
+    return $select_json
+}
+
+
+ad_proc -public incl::get_id_grupo {
+    -modalidad_nombre
+    -periodo_id
+    -sede_nombre
+    -escuela_nombre
+    -curso_nombre
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+    set anno_id 2019
+    if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
+
+        puts "$errmsg" 
+        return -1
 
     } 
 
@@ -536,9 +563,33 @@ ad_proc -public incl::insert_grupo_cerrado {
 
     set anno_id 2019
      
-    set grupo_fk [lindex [incl::get_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
+    set grupo_fk [lindex [incl::get_insert_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
 
     if {[catch { db_dml insert_grupo_cerrado_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
+ad_proc -public incl::abrir_grupo_cerrado {
+    -modalidad_nombre    
+    -periodo_id
+    -sede_nombre
+    -escuela_nombre
+    -curso_nombre
+    -grupo_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+
+    set anno_id 2019
+     
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
+
+    if {[catch { db_dml abrir_grupo_cerrado_query {} } errmsg] } {
         puts "-----------------------------   $errmsg" 
         return -1
     }  
@@ -574,9 +625,64 @@ ad_proc -public incl::insert_inclusion {
     set estado_actual "Pendiente"
     set estado_final "Pendiente"
      
-    set grupo_fk [lindex [incl::get_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
+    set grupo_fk [lindex [incl::get_insert_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
 
     if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
+ad_proc -public incl::editar_inclusion {
+    -periodo_id
+    -modalidad_id
+    -modalidad_nombre
+    -sede_id
+    -sede_nombre
+    -escuela_id
+    -escuela_nombre
+    -curso_id
+    -curso_nombre
+    -grupo_id_viejo
+    -grupo_id_nuevo
+    -comentario_asunto
+    -comentario_mensaje
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    set estudiante_id 1102566
+    set infoEstudiante [lindex [incl::get_infoEstudiante] 0]
+    set carne_id [lindex $infoEstudiante 1]
+    set nombre_estudiante [lindex $infoEstudiante 3]
+
+    puts "carne_id es el $carne_id"
+
+    set anno_id 2019
+    set estado_actual "Pendiente"
+    set estado_final "Pendiente"
+
+
+    set grupo_fk_nuevo [lindex [incl::get_insert_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id_nuevo ] 0] 
+    set grupo_fk_viejo [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $grupo_id_viejo ] 0]
+
+    if {[catch { db_dml editar_inclusion_query {} } errmsg] } {
+        puts "-----------------------------   $errmsg" 
+        return -1
+    }  
+
+    return 1
+}
+
+ad_proc -public incl::finalizar_inclusion {
+
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+
+
+    if {[catch { db_dml finalizar_inclusion_query {} } errmsg] } {
         puts "-----------------------------   $errmsg" 
         return -1
     }  
@@ -656,6 +762,8 @@ ad_proc -public incl::get_inclusiones {
         set anno [lindex $elemento 0]
         set comentario_asunto [lindex $elemento 5]
         set comentario_mensaje [lindex $elemento 6]
+        set carne [lindex $elemento 8]
+        set nombre_estudiante [lindex $elemento 9]
  
         set select_json "$select_json $json_comma \{
                     \"sede_nombre\": \"$sede_nombre\",
@@ -665,8 +773,89 @@ ad_proc -public incl::get_inclusiones {
                     \"estado\":  \"$estado \",
                     \"comentario_asunto\":  \"$comentario_asunto \",
                     \"comentario_mensaje\":  \"$comentario_mensaje \",
+                    \"carne\":  \"$carne \",
+                    \"nombre_estudiante\":  \"$nombre_estudiante \",
                     \"estado\": \"$estado\"
 
+            \}"
+        set json_comma ","
+    }
+    
+    set select_json "$select_json\]"
+
+    return $select_json
+
+}
+
+ad_proc -public incl::get_comentario_inclusion {
+    -modalidad_nombre
+    -periodo_id
+    -sede_nombre
+    -escuela_nombre
+    -curso_nombre
+    -grupo_id
+    -carne_id
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    set anno_id 2019
+    set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
+
+
+    if {[catch { set result [db_list_of_lists get_comentario_inclusion_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+
+        set comentario_asunto [lindex $elemento 0]
+        set comentario_mensaje [lindex $elemento 1]
+ 
+        set select_json "$select_json $json_comma \{
+                    \"comentario_asunto\":  \"$comentario_asunto \",
+                    \"comentario_mensaje\":  \"$comentario_mensaje \"
+
+            \}"
+        set json_comma ","
+    }
+    
+    set select_json "$select_json\]"
+
+    return $select_json
+
+}
+
+ad_proc -public incl::get_grupos_cerrados {
+    -modalidad_id
+    -periodo_id
+
+} {
+    @author Jose Daniel Vega Alvarado
+} {
+    set anno_id 2019
+
+    if {[catch { set result [db_list_of_lists get_grupos_cerrados_query {}] } errmsg] } {
+        puts "$errmsg" 
+        return -1
+    }  
+    set select_json "\["
+    set json_comma ""
+
+    foreach elemento $result {
+        set sede_nombre [lindex $elemento 0]
+        set escuela_nombre [lindex $elemento 1]
+        set curso_nombre [lindex $elemento 2]
+        set grupo_numero [lindex $elemento 3]
+       
+ 
+        set select_json "$select_json $json_comma \{
+                    \"sede_nombre\": \"$sede_nombre\",
+                    \"escuela_nombre\": \" $escuela_nombre \",
+                    \"curso_nombre\":  \"$curso_nombre \",
+                    \"grupo_numero\":  \"$grupo_numero \"
             \}"
         set json_comma ","
     }
