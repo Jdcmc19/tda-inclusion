@@ -96,6 +96,7 @@
             <span ng-show="sortType == 'estado' && sortReverse" class="fa fa-caret-up"></span>
           </a>
         </td>
+        <th>Eliminar</th>
       </tr>
     </thead>
     
@@ -106,11 +107,12 @@
     		<td>{{ inclusion.curso_nombre }}</td>
     		<td>{{ inclusion.grupo_numero }}</td>
     		<td>{{ inclusion.estado }}</td>
+        <td><center><button class="btn btn-danger remove" ng-click="eliminarInclusion()" type="button"></i>X</button></center></td>
       </tr>
     </tbody>
     
   </table>
-	  
+	  <p id="Parrafo"></p>
 
 </div>
 

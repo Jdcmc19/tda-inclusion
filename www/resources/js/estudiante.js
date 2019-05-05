@@ -8,8 +8,25 @@ app.controller('estudianteController', function($scope, $http){
   $scope.sortReverse  = false;  // set the default sort order
   $scope.search  = '';     
   
-  
-  
+    function eliminarInclusion(id){
+
+        boton =document.getElementById(id)
+        boton.addEventListener("click", function(){
+            
+            var $row = $(this).closest("tr"),
+                $tds = $row.find("td:nth-child(1)");
+            $.each($tds,function(){
+                console.log($(this).text());
+                $("#Parrafo").text($(this).text())
+            })
+            
+            
+        })
+
+          
+            
+        };
+    
 
 
 	$scope.resultQuery = [];

@@ -10,11 +10,19 @@
 
 		
 	<div  ng-controller="inclusionController">
-		<div id="profile-name">
+	<div class = "row">
+		<div class = "col"></div>
+		<div class = "col" id="profile-name">
+			<pre>
 	        @user_name@
 	        <br>
 	        @user_carnet@
+	        </pre>
 	    </div>
+	    <div class = "col"></div>
+	</div>
+	    <br>
+	
 
 
 
