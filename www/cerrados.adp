@@ -14,7 +14,12 @@
 	   
 
 		<form>
-		  
+		  <div class="form-group">
+		  	<input type="hidden"  ng-model="inclusion.user_id" id="user_id" name="user_id" value= "@user_id@" >
+
+
+
+		  	
 
 	      	<div class="form-group">
 	        <label for="modalidad_select">Seleccione la Modalidad</label>
@@ -62,24 +67,25 @@
 	          <pre> {{ cursoSeleccionada }} </pre>-->
 	      </div>
 
-<div class="form-group">
+
+			<div class="form-group">
 	          <label for="grupo_select">Seleccione el Grupo</label>
-			<select id= "Grupos" name="Grupos" class="form-control" ng-model="inclusion.grupoSeleccionada" ng-init="inclusion.grupoSeleccionada = grupoQuery[0]" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo">
+			<select id= "Grupos" name="Grupos" class="form-control" ng-model="inclusion.grupoSeleccionada" ng-init="inclusion.grupoSeleccionada = grupoQuery[0]" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo" ng-change="" required>
 			  <option value="">--Elige opcion--</option>
 			</select>
-	          <!--<pre> {{ grupoQuery | json }} </pre>-->
-	          <pre> {{ inclusion }} </pre>
+	          <!--<pre> {{ grupoQuery | json }} </pre>
+	          <pre> {{ inclusion }} </pre>-->
 	      </div>
 
-		  	<button class="btn btn-danger" type="button" ng-click="grupos(1)" >Cerrar Grupo</button><button style="float: right" class="btn btn-success" type="button" ng-click="grupos(2)" >Abrir Grupo</button>
-
-       </form>
 
 
-		</pre>
-	          <!--<pre> {{ cursoQuery | json }} </pre>
-	          <pre> {{ cursoSeleccionada }} </pre>-->
-	      </div>
+
+		  </div>
+		  <button class="btn btn-danger" type="button" ng-click="grupos(1)" >Cerrar Grupo</button><button style="float: right" class="btn btn-success" type="button" ng-click="grupos(2)" >Abrir Grupo</button>
+		</form>
+
+
+	          
 
 
 

@@ -10,7 +10,7 @@
 
 <!--<input type="button" class="button"    id="estadistica" value="Estadisticas">-->
 
-<button id= "imprimir" class="btn">  Descargar Reportes</button>
+<button id= "imprimir" class="btn fa fa-download">  Descargar Reportes</button>
 
 <br>
 <br>
@@ -87,7 +87,9 @@
   </div>
 
 
+  <center><button class="btn btn-success" type="button" ng-click="" >Finalizar Proceso</button></center>  
 
+  <br>
   <table  class="table table-bordered table-striped">
     
     <thead>
