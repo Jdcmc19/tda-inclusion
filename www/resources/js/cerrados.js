@@ -58,10 +58,10 @@ $scope.grupos = function(id){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela, curso_id: $scope.inclusion.cursoSeleccionada.id_curso, modalidad_nombre: $scope.inclusion.modalidades.modalidad_nombre,sede_nombre: $scope.inclusion.sedeSeleccionada.sede_nombre, escuela_nombre: $scope.inclusion.escuelaSeleccionada.escuela_nombre   ,  curso_nombre: $scope.inclusion.cursoSeleccionada.curso_nombre, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo }
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.inclusion.sedeSeleccionada.id_sede, escuela_id: $scope.inclusion.escuelaSeleccionada.id_escuela, curso_id: $scope.inclusion.cursoSeleccionada.id_curso, modalidad_nombre: $scope.inclusion.modalidades.nombre_modalidad,sede_nombre: $scope.inclusion.sedeSeleccionada.nombre_sede, escuela_nombre: $scope.inclusion.escuelaSeleccionada.nombre_escuela,  curso_nombre: $scope.inclusion.cursoSeleccionada.nombre_curso, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo }
         }).then(function(response){
             console.dir(response);
-            alert("El grupo "+ $scope.inclusion.grupoSeleccionada.id_grupo+ " de " + $scope.inclusion.cursoSeleccionada.curso_nombre + "fue cerrado exitosamente");
+            alert("El grupo "+ $scope.inclusion.grupoSeleccionada.id_grupo+ " de " + $scope.inclusion.cursoSeleccionada.nombre_curso + " fue cerrado exitosamente");
 
 
         }, function(error) {
@@ -87,10 +87,10 @@ $scope.grupos = function(id){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { modalidad_nombre: $scope.inclusion.modalidades.modalidad_nombre, periodo_id: $scope.inclusion.periodos.id_periodo,sede_nombre: $scope.inclusion.sedeSeleccionada.sede_nombre, escuela_nombre: $scope.inclusion.escuelaSeleccionada.escuela_nombre   ,  curso_nombre: $scope.inclusion.cursoSeleccionada.curso_nombre, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo }
+            data: { modalidad_nombre: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo,sede_nombre: $scope.inclusion.sedeSeleccionada.nombre_sede, escuela_nombre: $scope.inclusion.escuelaSeleccionada.nombre_escuela   ,  curso_nombre: $scope.inclusion.cursoSeleccionada.nombre_curso, grupo_id: $scope.inclusion.grupoSeleccionada.id_grupo }
         }).then(function(response){
             console.dir(response);
-            alert("El grupo "+ $scope.inclusion.grupoSeleccionada.id_grupo+ " de " + $scope.inclusion.cursoSeleccionada.curso_nombre + "fue abierto exitosamente")
+            alert("El grupo "+ $scope.inclusion.grupoSeleccionada.id_grupo+ " de " + $scope.inclusion.cursoSeleccionada.nombre_curso + " fue abierto exitosamente")
 
         }, function(error) {
             console.error(error);
@@ -98,22 +98,7 @@ $scope.grupos = function(id){
         });
 
 
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
 
 
