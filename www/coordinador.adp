@@ -9,6 +9,15 @@
 <div class="container" ng-app="incursionApp" ng-controller="coordinadorController"> 
 
 <!--<input type="button" class="button"    id="estadistica" value="Estadisticas">-->
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active">Inclusiones <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="http://localhost:8000/tda-inclusion/cerrados">Abrir/Cerrar Cursos</a>
+        </div>
+      </div>
+    </nav>
 
 <button id= "imprimir" class="btn fa fa-download">  Descargar Reportes</button>
 
@@ -58,12 +67,12 @@
         <td>
           Grupo
         </td>
-        <td>
+        <!--<td>
           Cupo
         </td>
         <td>
           Prioridad
-        </td>
+        </td>-->
         <td>
           Estado
         </td>
@@ -77,8 +86,8 @@
     <td>{{ inclusion.nombre_estudiante }}</td>
     <td>{{ inclusion.curso_nombre }}</td>
     <td>{{ inclusion.grupo_numero }}</td>
-    <td>{{ inclusion.estudiante_promedio }}</td>
-    <td>{{ inclusion.estudiante_prioridad }}</td>
+    <!--<td>{{ inclusion.estudiante_promedio }}</td>
+    <td>{{ inclusion.estudiante_prioridad }}</td>-->
     <td>{{ inclusion.estado }}</td>
     </tr>
     </tbody>
@@ -87,7 +96,7 @@
   </div>
 
 
-  <center><button class="btn btn-success" type="button" ng-click="" >Finalizar Proceso</button></center>  
+  <center><button class="btn btn-success" type="button" ng-click="cierreProceso()" >Finalizar Proceso</button></center>  
 
   <br>
   <table  class="table table-bordered table-striped">
@@ -127,20 +136,20 @@
         </td>
 
        	<td>
-          <a ng-click="sortType = 'estudiante_promedio'; sortReverse = !sortReverse">
-          Cupo
-            <span ng-show="sortType == 'estudiante_promedio' && !sortReverse" class="fa fa-caret-down"></span>
-            <span ng-show="sortType == 'estudiante_promedio' && sortReverse" class="fa fa-caret-up"></span>
+          <a ng-click="sortType = 'comentario_mensaje'; sortReverse = !sortReverse">
+          Comentario
+            <span ng-show="sortType == 'comentario_mensaje' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'comentario_mensaje' && sortReverse" class="fa fa-caret-up"></span>
           </a>
         </td>
         
-        <td>
+        <!--<td>
           <a ng-click="sortType = 'estudiante_prioridad'; sortReverse = !sortReverse">
           Prioridad
             <span ng-show="sortType == 'estudiante_prioridad' && !sortReverse" class="fa fa-caret-down"></span>
             <span ng-show="sortType == 'estudiante_prioridad' && sortReverse" class="fa fa-caret-up"></span>
           </a>
-        </td>
+        </td>-->
         <td>
           <a ng-click="sortType = 'estado'; sortReverse = !sortReverse">
           Estado
@@ -158,8 +167,8 @@
 		<td>{{ inclusion.nombre_estudiante }}</td>
 		<td>{{ inclusion.curso_nombre }}</td>
 		<td>{{ inclusion.grupo_numero }}</td>
-		<td>{{ inclusion.estudiante_promedio }}</td>
-    <td>{{ inclusion.estudiante_prioridad }}</td>
+		<td>{{ inclusion.comentario_mensaje }}</td>
+    <!--<td>{{ inclusion.estudiante_prioridad }}</td>-->
 		<td><select id="{{ $index }}" ng-model="estado" ng-init="estado = inclusion.estado" ng-change="OptIncl($index,estado)">
         <option value="Aceptada">Aceptada</option>
         <option value="Rechazada">Rechazada</option>

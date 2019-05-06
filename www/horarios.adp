@@ -15,6 +15,19 @@
 
     <button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
+
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link " href="http://localhost:8000/tda-inclusion/estudiante">Inclusiones </a>
+          <a class="nav-item nav-link active" >Guia de Horarios<span class="sr-only">(current)</span></a>
+        </div>
+      </div>
+    </nav>
+
+
+
       <div class = "row">
 
     <div class="col">

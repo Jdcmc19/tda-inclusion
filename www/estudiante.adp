@@ -17,6 +17,19 @@
 
 		<button class="btn btn-primary"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>-->
 
+
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active">Inclusiones <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="http://localhost:8000/tda-inclusion/horarios">Guia de Horarios</a>
+        </div>
+      </div>
+    </nav>
+
+
+
     <div class = "row">
       <div class ="col"> 
   <a href = "http://localhost:8000/tda-inclusion/inclusion" class="btn btn-default-btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Nueva Inclusion</a>

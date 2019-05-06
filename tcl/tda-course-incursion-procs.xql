@@ -91,6 +91,7 @@
         <querytext>
             UPDATE sch_tda_inclusion.inclusion SET estado_final = estado_actual WHERE estado_actual <> 'Pendiente';
             UPDATE sch_tda_inclusion.inclusion SET estado_final = 'Rechazada' WHERE estado_actual = 'Pendiente';
+            UPDATE sch_tda_inclusion.inclusion SET estado_actual = 'Rechazada' WHERE estado_actual = 'Pendiente';
         </querytext>
     </fullquery> 
 
