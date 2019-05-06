@@ -560,12 +560,12 @@ ad_proc -public incl::modif_cupo_grupo {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set cupo [lindex [incl::get_cupo_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+    set cupo [lindex [incl::get_cupo_grupo -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id ] 0]
     set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
-    set cupo [expr cupo + valor]
+    set cupo [expr $cupo + $valor]
 
-    if {cupo < 0} {
+    if {$cupo < 0} {
         puts "no hay cupos disponibles"
         return 2
     }
@@ -731,6 +731,8 @@ ad_proc -public incl::aceptar_inclusion {
     
     if { $posible eq 1} {
 
+        puts $grupo_fk
+        puts $carne_id
         if {[catch { db_dml aceptar_inclusion_query {} } errmsg] } {
             
             puts "$errmsg" 
