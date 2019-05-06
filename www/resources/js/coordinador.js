@@ -112,7 +112,7 @@ $scope.getAceptadas = function(){
     
     $http({
             method: 'POST',
-            url: 'api/get_aceptadas',
+            url: 'api/get_resultados',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function(obj) {
                 var str = [];
@@ -122,8 +122,7 @@ $scope.getAceptadas = function(){
             },
             data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad , periodo_id: $scope.inclusion.periodos.id_periodo }
         }).then(function(response){
-            console.dir(response);
-            return response.data;
+            console.dir(response.text());
 
         }, function(error) {
             console.error(error);

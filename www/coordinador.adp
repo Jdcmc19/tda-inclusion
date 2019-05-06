@@ -180,7 +180,7 @@
 
 
 
-  <button id ="grafico" ng-click="getAceptadas()"> Grafico </button>
+  <button id ="grafico" onclick="pintar()"> Grafico </button>
 
 
 
@@ -217,9 +217,8 @@
 <script>
 
     function pintar(){
-      alert($.scope.getAceptadas());
-           
-      console.dir(aprobadas)
+      var aprobadas = 2
+      var reprobadas = 3
     var visible= document.getElementById('myChart')
 
 
@@ -292,11 +291,11 @@
 
                     ticks: {
 
-                        suggestedMin: 10,
+                        suggestedMin: 5,
 
-                        suggestedMax: 20,
+                        suggestedMax: 8,
 
-                        stepSize: 0.5,
+                        stepSize: 2,
 
                         beginAtZero: true
 

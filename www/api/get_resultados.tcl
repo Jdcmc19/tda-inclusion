@@ -10,7 +10,7 @@ ad_page_contract {
 }
 
 
-set answer [incl::get_cant_rechazadas  -modalidad_id $modalidad_id -periodo_id $periodo_id ]
+set answer [incl::get_resultado_inclusiones  -modalidad_id $modalidad_id -periodo_id $periodo_id ]
 
 if {$answer eq -1} {
     set answer "\{\"title\":\"Bad Request\",\"body\":\"Problem to get admin page.\"\}"

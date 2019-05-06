@@ -639,13 +639,16 @@ ad_proc -public incl::get_resultado_inclusiones {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set aceptadas [lindex [incl::get_cantidad_aceptadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
-    set rechazadas [lindex [incl::get_cantidad_rechazadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
+    set aceptadas [lindex [incl::get_cant_aceptadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
+    set rechazadas [lindex [incl::get_cant_rechazadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
+
 
 
     set select_json "$select_json $json_comma \{
-                    \"aceptadas\": \"$aceptadas\",
-                    \"rechazadas\": \"$rechazadas\" \}"
+                        \"aceptadas\": \"$aceptadas\",
+                        \"rechazadas\": \"$rechazadas\"
+                \}"
+            set json_comma ","
 
     puts $select_json
 
