@@ -560,7 +560,7 @@ ad_proc -public incl::modif_cupo_grupo {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set cupo [lindex [incl::get_cupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
+    set cupo [lindex [incl::get_cupo_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
     set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
     set cupo [expr cupo + valor]
