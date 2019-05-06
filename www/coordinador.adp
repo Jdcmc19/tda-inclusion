@@ -160,7 +160,6 @@
     <td>{{ inclusion.estudiante_prioridad }}</td>
 		<td><select id="{{ $index }}" ng-model="estado" ng-init="estado = inclusion.estado" ng-change="OptIncl($index,estado)">
         <option value="Aceptada">Aceptada</option>
-        <option value="Pendiente">Pendiente</option>
         <option value="Rechazada">Rechazada</option>
       </select></td>
     </tr>

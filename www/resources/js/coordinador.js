@@ -19,7 +19,7 @@ app.controller('coordinadorController', function($scope, $http){
 
             $http({
             method: 'POST',
-            url: 'api/get_inclusionesCoordinador',
+            url: 'api/aceptar_inclusion',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function(obj) {
                 var str = [];
@@ -27,10 +27,10 @@ app.controller('coordinadorController', function($scope, $http){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { modalidad_id: $scope.resultQuery[id]., periodo_id: $scope.inclusion.periodos.id_periodo }
+            data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.resultQuery[id].sede_nombre, escuela_id: $scope.resultQuery[id].escuela_nombre, curso_id: $scope.resultQuery[id].curso_nombre, grupo_id: $scope.resultQuery[id].grupo_numero, carne_id: $scope.resultQuery[id].carne }
         }).then(function(response){
             console.dir(response);
-            $scope.resultQuery = response.data;
+            $scope.resultQuery[id].estado = estado;
 
         }, function(error) {
             console.error(error);
@@ -41,8 +41,7 @@ app.controller('coordinadorController', function($scope, $http){
         else{
 
         }
-
-        console.dir($scope.resultQuery[id].sede_nombre);  
+ 
     
     }
 
