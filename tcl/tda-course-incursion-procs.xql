@@ -144,15 +144,15 @@
 
     <fullquery name="incl::get_cant_aceptadas.get_cant_aceptadas_query"> 
         <querytext>
-            SELECT count(i.id_inclusion) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.grupo_pk) 
-            WHERE estado_final = 'Aceptada' and i.id_modalidad = :modalidad_id and i.id_periodo = :periodo_id and i.id_anno = :anno_id;
+            SELECT count(*) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.pk_grupo) 
+            WHERE i.estado_final = 'Aceptada' and g.id_modalidad = :modalidad_id and g.id_periodo = :periodo_id and g.id_anno = :anno_id;
         </querytext>
     </fullquery> 
 
     <fullquery name="incl::get_cant_rechazadas.get_cant_rechazadas_query"> 
         <querytext>
-            SELECT count(i.id_inclusion) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.grupo_pk) 
-            WHERE estado_final = 'Rechazada' and i.id_modalidad = :modalidad_id and i.id_periodo = :periodo_id and i.id_anno = :anno_id;
+            SELECT count(*) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.grupo_pk) 
+            WHERE estado_final = 'Rechazada' and g.id_modalidad = :modalidad_id and g.id_periodo = :periodo_id and g.id_anno = :anno_id;
         </querytext>
     </fullquery> 
 

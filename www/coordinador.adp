@@ -171,7 +171,7 @@
 
 
 
-  <button id ="grafico" onclick="pintar(15,5)"> Grafico </button>
+  <button id ="grafico" ng-click="getAceptadas()"> Grafico </button>
 
 
 
@@ -200,15 +200,17 @@
 	<script src="node_modules/angular/angular.min.js"></script>
 
  
-	<script src="resources/js/coordinador.js"></script>
+	<script src="resources/js/coordinador.js"> </script>
 
 
 
 
 <script>
 
-    function pintar(aprobadas, reprobadas){
-
+    function pintar(){
+      alert($.scope.getAceptadas());
+           
+      console.dir(aprobadas)
     var visible= document.getElementById('myChart')
 
 
@@ -245,7 +247,7 @@
 
                 label: '# inclusiones',
 
-                data: [12, 40],
+                data: [reprobadas, aprobadas],
 
                 backgroundColor: [
 

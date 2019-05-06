@@ -95,6 +95,64 @@ app.controller('coordinadorController', function($scope, $http){
 
 
 
+$scope.getAceptadas = function(){
+
+
+    
+    $http({
+            method: 'POST',
+            url: 'api/get_aceptadas',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad , periodo_id: $scope.inclusion.periodos.id_periodo }
+        }).then(function(response){
+            console.dir(response);
+            return response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+    
+    }
+
+
+
+$scope.getRechazadas= function(){
+
+ $http({
+            method: 'POST',
+            url: 'api/get_rechazadas',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo  }
+        }).then(function(response){
+            console.dir(response);
+            $scope.cantidadRechazadasQuery = response.data;
+
+        }, function(error) {
+            console.error(error);
+
+        });
+
+
+}
+
+
+
+
+
 $scope.getPeriodos = function(){
 
 
@@ -167,4 +225,4 @@ $('#imprimir').click(function(){
 
 
 
-});
+}       );

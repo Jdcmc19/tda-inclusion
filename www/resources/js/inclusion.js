@@ -17,8 +17,8 @@ $scope.inclusion = {
 
     };
 
-   
-    
+    $scope.cantidadRechazadasQuery=[];
+    $scope.cantidadAceptadasQuery=[];
     $scope.sedeQuery = [];
     $scope.escuelaQuery = [];
     $scope.cursoQuery = [];
