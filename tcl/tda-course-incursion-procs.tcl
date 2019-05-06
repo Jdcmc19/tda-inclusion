@@ -839,13 +839,9 @@ ad_proc -public incl::cancelar_inclusion {
     
     }
 
-    if {[catch { db_dml cancelar_inclusion_query {} } errmsg] } {
-        
-        puts "$errmsg" 
-        return -1
-    } 
+    set res [incl::delete_inclusion -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -grupo_id $grupo_id]
 
-    return 1
+    return $res
 }
 
 
@@ -1080,12 +1076,12 @@ ad_proc -public incl::get_inclusiones_estudiante {
  
         set select_json "$select_json $json_comma \{
                     \"sede_nombre\": \"$sede_nombre\",
-                    \"escuela_nombre\": \" $escuela_nombre \",
-                    \"curso_nombre\":  \"$curso_nombre \",
-                    \"grupo_numero\":  \"$grupo_numero \",
-                    \"estado\":  \"$estado \",
-                    \"comentario_asunto\":  \"$comentario_asunto \",
-                    \"comentario_mensaje\":  \"$comentario_mensaje \",
+                    \"escuela_nombre\": \"$escuela_nombre\",
+                    \"curso_nombre\":  \"$curso_nombre\",
+                    \"grupo_numero\":  \"$grupo_numero\",
+                    \"estado\":  \"$estado\",
+                    \"comentario_asunto\":  \"$comentario_asunto\",
+                    \"comentario_mensaje\":  \"$comentario_mensaje\",
                     \"estado\": \"$estado\"
 
             \}"

@@ -36,11 +36,6 @@ app.controller('estudianteController', function($scope, $http){
 
                 });
         
-            /*var $row = $("#"+id).closest("tr"),
-                $sede = $row.find("td:nth-child(1)");
-                $escuela = $row.find("td:nth-child(2)");
-                $curso = $row.find("td:nth-child(3)");
-                $grupo = $row.find("td:nth-child(4)");*/
 
 
 

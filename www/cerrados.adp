@@ -16,9 +16,6 @@
 		<form>
 		  
 
-
-		  	
-
 	      	<div class="form-group">
 	        <label for="modalidad_select">Seleccione la Modalidad</label>
 			<select class="form-control" ng-model="inclusion.modalidades" ng-init="inclusion.modalidades = modalidadQuery[0]" ng-options="modalidad as modalidad.nombre_modalidad for modalidad in modalidadQuery track by modalidad.id_modalidad" ng-change="getPeriodos()" required>
@@ -43,19 +40,42 @@
 	      </div>
 
 	       
-	    
+	       <div class="form-group">
+	          <label for="escuela_select">Seleccione la Escuela</label>
+			<select id= "Escuelas" name="Escuelas" class="form-control" ng-model="inclusion.escuelaSeleccionada" ng-init="inclusion.escuelaSeleccionada = escuelaQuery[0]" ng-options="escuela as escuela.nombre_escuela for escuela in escuelaQuery track by escuela.id_escuela" ng-change="getCursos()" required >
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <!--<pre> {{ escuelaQuery | json }} </pre>
+	          <pre> {{ escuelaSeleccionada }} </pre>-->
+	      </div>
 
-	      <!--- La escuela deberia de traerse por debajo-->
+
+
 
 
 	      <div class="form-group">
-	          
-		<pre>	
-<label for="curso_select">Seleccione el Curso</label>
-			<select id= "Cursos" name="Cursos" class="w3-card-4 form-control " ng-model="inclusion.cursoSeleccionada" ng-init="inclusion.cursoSeleccionada = cursoQuery[0]" ng-options="curso as curso.nombre_curso for curso in cursoQuery track by curso.id_curso" ng-change="getGrupos()" required>
+	          <label for="curso_select">Seleccione el Curso</label>
+			<select id= "Cursos" name="Cursos" class="form-control" ng-model="inclusion.cursoSeleccionada" ng-init="inclusion.cursoSeleccionada = cursoQuery[0]" ng-options="curso as curso.nombre_curso for curso in cursoQuery track by curso.id_curso" ng-change="getGrupos()" required>
 			  <option value="">--Elige opcion--</option>
-			</select> 
-<button style="float: right" type="button">Cerrar Grupo</button>
+			</select>
+	          <!--<pre> {{ cursoQuery | json }} </pre>
+	          <pre> {{ cursoSeleccionada }} </pre>-->
+	      </div>
+
+<div class="form-group">
+	          <label for="grupo_select">Seleccione el Grupo</label>
+			<select id= "Grupos" name="Grupos" class="form-control" ng-model="inclusion.grupoSeleccionada" ng-init="inclusion.grupoSeleccionada = grupoQuery[0]" ng-options="grupo as grupo.numero_grupo for grupo in grupoQuery track by grupo.id_grupo">
+			  <option value="">--Elige opcion--</option>
+			</select>
+	          <!--<pre> {{ grupoQuery | json }} </pre>-->
+	          <pre> {{ inclusion }} </pre>
+	      </div>
+
+		  	<button class="btn btn-danger" type="button" ng-click="grupos(1)" >Cerrar Grupo</button><button style="float: right" class="btn btn-success" type="button" ng-click="grupos(2)" >Abrir Grupo</button>
+
+       </form>
+
+
 		</pre>
 	          <!--<pre> {{ cursoQuery | json }} </pre>
 	          <pre> {{ cursoSeleccionada }} </pre>-->
