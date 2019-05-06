@@ -26,19 +26,39 @@ app.controller('coordinadorController', function($scope, $http){
                 for(var p in obj)
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
-            },
-            data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.resultQuery[id].sede_nombre, escuela_id: $scope.resultQuery[id].escuela_nombre, curso_id: $scope.resultQuery[id].curso_nombre, grupo_id: $scope.resultQuery[id].grupo_numero, carne_id: $scope.resultQuery[id].carne }
-        }).then(function(response){
-            console.dir(response);
-            $scope.resultQuery[id].estado = estado;
+                    },
+                    data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.resultQuery[id].sede_nombre, escuela_id: $scope.resultQuery[id].escuela_nombre, curso_id: $scope.resultQuery[id].curso_nombre, grupo_id: $scope.resultQuery[id].grupo_numero, carne_id: $scope.resultQuery[id].carne }
+                }).then(function(response){
+                    console.dir(response);
+                    $scope.resultQuery[id].estado = estado;
 
-        }, function(error) {
-            console.error(error);
+                }, function(error) {
+                    console.error(error);
 
-        });
+                });
 
         }
         else{
+
+            $http({
+            method: 'POST',
+            url: 'api/rechazar_inclusion',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+                    },
+                    data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo, sede_id: $scope.resultQuery[id].sede_nombre, escuela_id: $scope.resultQuery[id].escuela_nombre, curso_id: $scope.resultQuery[id].curso_nombre, grupo_id: $scope.resultQuery[id].grupo_numero, carne_id: $scope.resultQuery[id].carne }
+                }).then(function(response){
+                    console.dir(response);
+                    $scope.resultQuery[id].estado = estado;
+
+                }, function(error) {
+                    console.error(error);
+
+                });
 
         }
  

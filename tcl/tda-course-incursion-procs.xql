@@ -13,7 +13,7 @@
     <fullquery name="incl::get_id_grupo.get_id_grupo_query"> 
         <querytext>
             SELECT pk_grupo FROM sch_tda_inclusion.grupo 
-                            WHERE id_anno = :anno_id and id_modalidad = :modalidad_nombre and id_periodo = :periodo_id and id_sede = :sede_nombre 
+                            WHERE id_anno = :anno_id and id_modalidad = :modalidad_nombre and id_periodo = :periodo_id and id_sede = :sede_nombre
                             and id_depto = :escuela_nombre and id_materia = :curso_nombre and id_grupo = :grupo_id;
         </querytext>
     </fullquery> 
