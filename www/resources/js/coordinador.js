@@ -81,6 +81,17 @@ app.controller('coordinadorController', function($scope, $http){
 
 
 
+$scope.cierreProceso = function(){
+    $http({
+        method: 'GET',
+        url: 'api/finalizar_inclusion'
+        }).then(function(response){
+            console.dir(response);
+            $scope.sedeQuery = response.data;
+        });
+        $scope.getInclusionesEstudiantes();
+
+    }
 
 
 

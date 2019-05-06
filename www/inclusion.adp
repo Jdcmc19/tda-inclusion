@@ -8,6 +8,17 @@
 
 	<div class="container" ng-app="incursionApp"> 
 
+
+	<nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link " href="http://localhost:8000/tda-inclusion/estudiante">Inclusiones </a>
+          <a class="nav-item nav-link " href="http://localhost:8000/tda-inclusion/horarios">Guia de Horarios</a>
+        </div>
+      </div>
+    </nav>
+
 		
 	<div  ng-controller="inclusionController">
 	<div class = "row">
