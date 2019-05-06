@@ -643,7 +643,9 @@ ad_proc -public incl::get_resultado_inclusiones {
     set rechazadas [lindex [incl::get_cantidad_rechazadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
 
 
-    set select_json "\{ aceptadas \{$aceptadas\} rechazadas \{$rechazadas\} \}"
+    set select_json "$select_json $json_comma \{
+                    \"aceptadas\": \"$aceptadas\",
+                    \"rechazadas\": \"$rechazadas\" \}"
 
     puts $select_json
 
