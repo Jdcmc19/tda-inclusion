@@ -973,7 +973,7 @@ ad_proc -public incl::insert_inclusion {
     set carne_id [lindex $infoEstudiante 1]
     set nombre_estudiante [lindex $infoEstudiante 3]
 
-    puts "carne_id es el $carne_id"
+    puts "nombre_estudiante es el $nombre_estudiante"
 
     set anno_id 2019
     set estado_actual "Pendiente"
