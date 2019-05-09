@@ -106,7 +106,7 @@ $scope.cierreProceso = function(){
 
 
 
-$scope.getAceptadas = function(){
+$scope.getResultados = function(){
 
 
     
@@ -120,7 +120,7 @@ $scope.getAceptadas = function(){
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad , periodo_id: $scope.inclusion.periodos.id_periodo }
+            data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad , periodo_id: $scope.inclusion.periodos.id_periodo }
         }).then(function(response){
             console.dir(response.text());
 
@@ -134,30 +134,7 @@ $scope.getAceptadas = function(){
 
 
 
-$scope.getRechazadas= function(){
 
- $http({
-            method: 'POST',
-            url: 'api/get_rechazadas',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj)
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                return str.join("&");
-            },
-            data: { modalidad_id: $scope.inclusion.modalidades.id_modalidad, periodo_id: $scope.inclusion.periodos.id_periodo  }
-        }).then(function(response){
-            console.dir(response);
-            $scope.cantidadRechazadasQuery = response.data;
-
-        }, function(error) {
-            console.error(error);
-
-        });
-
-
-}
 
 
 

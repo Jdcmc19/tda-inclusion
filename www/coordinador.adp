@@ -180,7 +180,7 @@
 
 
 
-  <button id ="grafico" ng-click="getAceptadas()"> Grafico </button>
+  <button id ="grafico" ng-click="getResultados()"> Grafico </button>
 
 
 
