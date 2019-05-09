@@ -180,7 +180,7 @@
 
 
 
-  <button id ="grafico" ng-click="getResultados()"> Grafico </button>
+  <button id ="grafico" ng-click="pintar()"> Grafico </button>
 
 
 
@@ -214,103 +214,5 @@
 
 
 
-<script>
-
-    function pintar(){
-      var aprobadas = 2
-      var reprobadas = 3
-    var visible= document.getElementById('myChart')
-
-
-
-    if (visible.style.display === "block"){
-
-        visible.style.display = "none"
-
-
-
-
-
-
-
-    }
-
-    else{
-
-        visible.style.display = "block"
-
-    }
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-
-    var myChart = new Chart(ctx, {
-
-        type: 'bar',
-
-        data: {
-
-            labels: ['Reprobadas', 'Aprobadas'],
-
-            datasets: [{
-
-                label: '# inclusiones',
-
-                data: [reprobadas, aprobadas],
-
-                backgroundColor: [
-
-                    'rgba(255, 99, 132, 0.2)',
-
-                    'rgba(54, 162, 235, 0.2)'
-
-
-
-                ],
-
-                borderColor: [
-
-                    'rgba(255, 99, 132, 1)',
-
-                    'rgba(54, 162, 235, 1)'
-
-
-
-                ],
-
-                borderWidth: 1
-
-            }]
-
-        },
-
-        options: {
-
-            scales: {
-
-                yAxes: [{
-
-                    ticks: {
-
-                        suggestedMin: 5,
-
-                        suggestedMax: 8,
-
-                        stepSize: 2,
-
-                        beginAtZero: true
-
-                    }
-
-                }]
-
-            }
-
-        }
-
-    });
-
-}
-
-    </script>
  
 	

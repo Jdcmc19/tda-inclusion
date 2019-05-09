@@ -9,7 +9,8 @@ app.controller('coordinadorController', function($scope, $http){
 
   $scope.sortType     = 'carne'; // set the default sort type
   $scope.sortReverse  = false;  // set the default sort order
-  $scope.search  = '';     
+  $scope.search  = '';    
+  $scope.inclusionResult = []; 
   
   
   $scope.OptIncl = function(id,estado){
@@ -122,7 +123,8 @@ $scope.getResultados = function(){
             },
             data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad , periodo_id: $scope.inclusion.periodos.id_periodo }
         }).then(function(response){
-            console.dir(response.text());
+            console.dir(response);
+            $scope.inclusionResult = response.data;
 
         }, function(error) {
             console.error(error);
@@ -209,6 +211,125 @@ $('#imprimir').click(function(){
     }
         
    
+
+
+
+
+$scope.pintar = function(){
+    $scope.getResultados();
+
+    var aprobadas = 0
+    var reprobadas = 0
+    var max = 0
+    if (aprobadas>reprobadas){
+        max = aprobadas;
+    }
+    else{
+        max = reprobadas;
+    }
+    
+    var visible= document.getElementById('myChart')
+
+
+
+    if (visible.style.display === "block"){
+
+        visible.style.display = "none"
+
+
+
+
+
+
+
+    }
+
+    else{
+        
+        aprobadas = $scope.inclusionResult[0].aceptadas 
+        reprobadas = $scope.inclusionResult[0].rechazadas
+
+        visible.style.display = "block"
+
+    }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels: ['Reprobadas', 'Aprobadas'],
+
+            datasets: [{
+
+                label: '# inclusiones',
+
+                data: [reprobadas, aprobadas],
+
+                backgroundColor: [
+
+                    'rgba(255, 99, 132, 0.2)',
+
+                    'rgba(54, 162, 235, 0.2)'
+
+
+
+                ],
+
+                borderColor: [
+
+                    'rgba(255, 99, 132, 1)',
+
+                    'rgba(54, 162, 235, 1)'
+
+
+
+                ],
+
+                borderWidth: 1
+
+            }]
+
+        },
+
+        options: {
+
+            scales: {
+
+                yAxes: [{
+
+                    ticks: {
+
+                        suggestedMin: max-1,
+
+                        suggestedMax: max,
+
+                        stepSize: 2,
+
+                        beginAtZero: true
+
+                    }
+
+                }]
+
+            }
+
+        }
+
+    });
+
+}
+
+
+
+
+
+
+
+
 
 
 

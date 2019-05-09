@@ -652,7 +652,9 @@ ad_proc -public incl::get_resultado_inclusiones {
 
 
 
-    set select_json "\{ \"aceptadas\": \"\{$aceptadas\}\", \"rechazadas\": \"\{$rechazadas\}\" \}"
+    set select_json "\{ \"aceptadas\": \"$aceptadas\", \"rechazadas\": \"$rechazadas\" \}"
+
+
 
     puts $select_json
 
