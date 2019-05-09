@@ -639,16 +639,16 @@ ad_proc -public incl::get_resultado_inclusiones {
     @author Jose Daniel Vega Alvarado
 } {
 
+    puts "esta es la modalidad wadafo -$modalidad_id-"
+
     set aceptadas [lindex [incl::get_cant_aceptadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
     set rechazadas [lindex [incl::get_cant_rechazadas -modalidad_id $modalidad_id -periodo_id $periodo_id] 0]
 
 
 
-    set select_json "$select_json $json_comma \{
-                        \"aceptadas\": \"$aceptadas\",
-                        \"rechazadas\": \"$rechazadas\"
+    set select_json "\{aceptadas \{$aceptadas\}
+                        rechazadas \{$rechazadas\}
                 \}"
-            set json_comma ","
 
     puts $select_json
 
@@ -746,7 +746,9 @@ ad_proc -public incl::aceptar_inclusion {
             return -1
         } 
 
-    } 
+    } else {
+        return 2
+    }
     
 
 
@@ -942,7 +944,6 @@ ad_proc -public incl::existe_inclusion {
 
 
     if {[catch { db_string existe_inclusion_query {} } errmsg] } {
-        puts "-----------------------------   $errmsg" 
         return -1
     }  
 
@@ -985,7 +986,7 @@ ad_proc -public incl::insert_inclusion {
 
     if { $exist eq -1} {
         if {[catch { db_dml insert_inclusion_query {} } errmsg] } {
-            puts "-----------------------------   $errmsg" 
+            puts "-----------eee------------------   $errmsg" 
             return -1
         }  
     } else {
@@ -1219,7 +1220,7 @@ ad_proc -public incl::get_grupos_cerrados {
  
         set select_json "$select_json $json_comma \{
                     \"sede_nombre\": \"$sede_nombre\",
-                    \"escuela_nombre\": \" $escuela_nombre \",
+                    \"escuela_nombre\": \"$escuela_nombre\",
                     \"curso_nombre\":  \"$curso_nombre \",
                     \"grupo_numero\":  \"$grupo_numero \"
             \}"

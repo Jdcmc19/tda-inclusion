@@ -75,7 +75,7 @@
     <fullquery name="incl::get_grupos_cerrados.get_grupos_cerrados_query"> 
         <querytext>
             SELECT g.id_sede, g.id_depto, g.id_materia, g.id_grupo 
-                FROM sch_tda_inclusion.cerrado c INNER JOIN sch_tda_inclusion.grupo g on (g.grupo_pk_grupo = g.pk_grupo) WHERE g.id_modalidad = :modalidad_id and g.id_periodo = :periodo_id  and g.id_anno = :anno_id;
+                FROM sch_tda_inclusion.cerrado c INNER JOIN sch_tda_inclusion.grupo g on (c.grupo_pk_grupo = g.pk_grupo) WHERE g.id_modalidad = :modalidad_id and g.id_periodo = :periodo_id  and g.id_anno = :anno_id;
         </querytext>
     </fullquery>  
 
@@ -152,7 +152,7 @@
 
     <fullquery name="incl::get_cant_rechazadas.get_cant_rechazadas_query"> 
         <querytext>
-            SELECT count(*) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.grupo_pk) 
+            SELECT count(*) FROM sch_tda_inclusion.inclusion i INNER JOIN sch_tda_inclusion.grupo g on (i.grupo_pk_grupo = g.pk_grupo) 
             WHERE estado_final = 'Rechazada' and g.id_modalidad = :modalidad_id and g.id_periodo = :periodo_id and g.id_anno = :anno_id;
         </querytext>
     </fullquery> 
