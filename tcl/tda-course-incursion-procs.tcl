@@ -254,7 +254,6 @@ ad_proc -public incl::existe_cerrado {
 
 
     if {[catch { db_string existe_cerrado_query {} } errmsg] } {
-        puts "-----------------------------   $errmsg" 
         return -1
     }  
 
@@ -263,10 +262,14 @@ ad_proc -public incl::existe_cerrado {
 
 ad_proc -public incl::get_grupos {
     -modalidad_id
+    -modalidad_nombre
     -periodo_id
     -sede_id
+    -sede_nombre
     -escuela_id
+    -escuela_nombre
     -curso_id
+    -curso_nombre
 } {
     @author Jose Daniel Vega Alvarado
 } {
@@ -293,10 +296,13 @@ ad_proc -public incl::get_grupos {
 
         if { [ lsearch $groups_id $numero ] eq -1} {
 
-            set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $numero ] 0]
+            set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $numero ] 0]
             set cerradop [incl::existe_cerrado -grupo_fk $grupo_fk]
 
+            puts "el grupofk es $grupo_fk y el cerradop es $cerradop"
+
             if { $cerradop eq -1 } {
+                puts "entro aqui"
 
                 set groups_id [ lappend groups_id $numero ]
 
@@ -646,9 +652,7 @@ ad_proc -public incl::get_resultado_inclusiones {
 
 
 
-    set select_json "\{aceptadas \{$aceptadas\}
-                        rechazadas \{$rechazadas\}
-                \}"
+    set select_json "\{ \"aceptadas\": \"\{$aceptadas\}\", \"rechazadas\": \"\{$rechazadas\}\" \}"
 
     puts $select_json
 
