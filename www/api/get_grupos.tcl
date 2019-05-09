@@ -8,11 +8,15 @@ ad_page_contract {
 	{sede_id ""}
 	{escuela_id ""}
 	{curso_id ""}
+	{modalidad_nombre ""}
+	{sede_nombre ""}
+	{escuela_nombre ""}
+	{curso_nombre ""}
 	
 }
 
 
-set answer [ incl::get_grupos  -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id ]
+set answer [ incl::get_grupos  -modalidad_id $modalidad_id -periodo_id $periodo_id -sede_id $sede_id -escuela_id $escuela_id -curso_id $curso_id -modalidad_nombre $modalidad_nombre -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre]
 
 if {$answer eq -1} {
     set answer "\{\"title\":\"Bad Request\",\"body\":\"Problem to get admin page.\"\}"
