@@ -104,8 +104,8 @@ ad_proc -public incl::get_guia_horarios {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    
-    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null" ] } errmsg ] } {
+    set anno_id [clock format [clock seconds] -format "%Y"]
+    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "$anno_id/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null" ] } errmsg ] } {
         
         puts "$errmsg" 
         return -1
@@ -206,8 +206,8 @@ ad_proc -public incl::get_cursos {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    
-    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null" ] } errmsg ] } {
+    set anno_id [clock format [clock seconds] -format "%Y"]
+    if { [ catch { set result [ info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "$anno_id/$modalidad_id/$periodo_id/$escuela_id/$sede_id/null/null" ] } errmsg ] } {
         
         puts "$errmsg" 
         return -1
@@ -239,6 +239,8 @@ ad_proc -public incl::get_cursos {
     }
 
     set select_json "$select_json\]"
+
+    
 
 
     return $select_json
@@ -273,9 +275,9 @@ ad_proc -public incl::get_grupos {
 } {
     @author Jose Daniel Vega Alvarado
 } {
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
-
-    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "$anno_id/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
@@ -296,10 +298,11 @@ ad_proc -public incl::get_grupos {
 
         if { [ lsearch $groups_id $numero ] eq -1} {
 
+
             set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $numero ] 0]
             set cerradop [incl::existe_cerrado -grupo_fk $grupo_fk]
 
-            puts "el grupofk es $grupo_fk y el cerradop es $cerradop"
+            puts "el grupofk es $grupo_fk y el cerradop es $cerradop  $modalidad_nombre $periodo_id $sede_nombre $escuela_nombre $curso_nombre"
 
             if { $cerradop eq -1 } {
                 puts "entro aqui"
@@ -333,7 +336,9 @@ ad_proc -public incl::get_infoGroup {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "2019/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
+
+    set anno_id [clock format [clock seconds] -format "%Y"]
+    if {[catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "$anno_id/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
         puts "$errmsg" 
         return -1
     }  
@@ -393,7 +398,7 @@ ad_proc -public incl::insert_grupo {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     if { [ catch { set result [info-general::webservice_api -ws_address http://tecdigital.tec.ac.cr:8082 -ws_name admision -ws_type IESCCARGAGUIAHORARIOS_Buscar -ws_parameters "$anno_id/$modalidad_id/$periodo_id/$escuela_id/$sede_id/$curso_id/null"] } errmsg] } {
         
@@ -458,7 +463,7 @@ ad_proc -public incl::get_insert_id_grupo {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
     if {[catch { set result [db_string get_insert_id_grupo_query {}] } errmsg] } {
 
 
@@ -510,7 +515,7 @@ ad_proc -public incl::get_id_grupo {
 } {
 
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
     if {[catch { set result [db_string get_id_grupo_query {}] } errmsg] } {
 
         puts "$errmsg" 
@@ -536,7 +541,7 @@ ad_proc -public incl::get_cupo_grupo {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     set grupo_pk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_id -periodo_id $periodo_id -sede_nombre $sede_id -escuela_nombre $escuela_id -curso_nombre $curso_id -grupo_id $grupo_id ] 0]
 
@@ -595,7 +600,7 @@ ad_proc -public incl::get_cant_aceptadas {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
 
     if {[catch { set result [db_string get_cant_aceptadas_query {}] } errmsg] } {
@@ -620,7 +625,7 @@ ad_proc -public incl::get_cant_rechazadas {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
 
     if {[catch { set result [db_string get_cant_rechazadas_query {}] } errmsg] } {
@@ -672,7 +677,7 @@ ad_proc -public incl::get_estado_inclusion_actual {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     set estudiante_id [ad_conn user_id]
 
@@ -704,7 +709,7 @@ ad_proc -public incl::get_estado_inclusion_final {
     @author Jose Daniel Vega Alvarado
 } {
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     set estudiante_id [ad_conn user_id]
 
@@ -903,7 +908,7 @@ ad_proc -public incl::insert_grupo_cerrado {
 } {
 
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
      
     set grupo_fk [lindex [incl::get_insert_id_grupo -modalidad_id $modalidad_id -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_id $sede_id -sede_nombre $sede_nombre -escuela_id $escuela_id -escuela_nombre $escuela_nombre -curso_id $curso_id -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
 
@@ -927,7 +932,7 @@ ad_proc -public incl::abrir_grupo_cerrado {
 } {
 
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
      
     set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
 
@@ -982,7 +987,7 @@ ad_proc -public incl::insert_inclusion {
 
     puts "nombre_estudiante es el $nombre_estudiante"
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
     set estado_actual "Pendiente"
     set estado_final "Pendiente"
      
@@ -1029,7 +1034,7 @@ ad_proc -public incl::editar_inclusion {
 
     puts "carne_id es el $carne_id"
 
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
     set estado_actual "Pendiente"
     set estado_final "Pendiente"
 
@@ -1067,7 +1072,7 @@ ad_proc -public incl::get_inclusiones_estudiante {
     @author Jose Daniel Vega Alvarado
 } {
     set estudiante_id [ad_conn user_id]
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     if {[catch { set result [db_list_of_lists get_inclusiones_estudiante_query {}] } errmsg] } {
         puts "$errmsg" 
@@ -1113,7 +1118,7 @@ ad_proc -public incl::get_inclusiones {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     if {[catch { set result [db_list_of_lists get_inclusiones_query {}] } errmsg] } {
         puts "$errmsg" 
@@ -1171,7 +1176,7 @@ ad_proc -public incl::get_comentario_inclusion {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
     set grupo_fk [lindex [incl::get_id_grupo -modalidad_nombre $modalidad_nombre -periodo_id $periodo_id -sede_nombre $sede_nombre -escuela_nombre $escuela_nombre -curso_nombre $curso_nombre -grupo_id $grupo_id ] 0]
 
 
@@ -1208,7 +1213,7 @@ ad_proc -public incl::get_grupos_cerrados {
 } {
     @author Jose Daniel Vega Alvarado
 } {
-    set anno_id 2019
+    set anno_id [clock format [clock seconds] -format "%Y"]
 
     if {[catch { set result [db_list_of_lists get_grupos_cerrados_query {}] } errmsg] } {
         puts "$errmsg" 
