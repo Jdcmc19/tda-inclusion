@@ -15,6 +15,7 @@
         <div class="navbar-nav">
           <a class="nav-item nav-link active">Inclusiones <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link" href="http://localhost:8000/tda-inclusion/cerrados">Abrir/Cerrar Cursos</a>
+          <a class="nav-item nav-link" href="http://localhost:8000/tda-inclusion/estadisticas">Estadisticas</a>
         </div>
       </div>
     </nav>
@@ -180,11 +181,10 @@
 
 
 
-  <button id ="grafico" ng-click="pintar()"> Grafico </button>
 
 
 
-  <canvas id="myChart" style="display:none" width="200" height="400" > </canvas>
+  
 	   
 
 </div>
