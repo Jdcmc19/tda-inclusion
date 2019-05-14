@@ -139,19 +139,21 @@ $scope.pintar = function(){
 
         data: {
 
-            labels: ['Reprobadas', 'Aprobadas'],
+            labels: ['Reprobadas', 'Aprobadas', 'Total'],
 
             datasets: [{
 
                 label: '# inclusiones',
 
-                data: [reprobadas, aprobadas],
+                data: [reprobadas, aprobadas, reprobadas+aprobadas],
 
                 backgroundColor: [
 
                     'rgba(255, 99, 132, 0.2)',
 
-                    'rgba(54, 162, 235, 0.2)'
+                    'rgba(54, 162, 235, 0.2)',
+
+                    'rgb(0,255,127)'
 
 
 
@@ -161,7 +163,9 @@ $scope.pintar = function(){
 
                     'rgba(255, 99, 132, 1)',
 
-                    'rgba(54, 162, 235, 1)'
+                    'rgba(54, 162, 235, 1)',
+
+                    'rgb(50,205,50)'
 
 
 
@@ -181,7 +185,7 @@ $scope.pintar = function(){
 
                     ticks: {
 
-                        suggestedMin: max-1,
+                        suggestedMin: max,
 
                         suggestedMax: max,
 
