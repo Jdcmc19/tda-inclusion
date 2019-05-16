@@ -8,7 +8,7 @@ app.controller('estadisticasController', function($scope, $http){
 
 
 
-  $scope.inclusionResult = []; 
+
   
   
 
@@ -41,7 +41,102 @@ $scope.getResultados = function(){
             data: { modalidad_id: $scope.inclusion.modalidades.nombre_modalidad , periodo_id: $scope.inclusion.periodos.id_periodo }
         }).then(function(response){
             console.dir(response);
-            $scope.inclusionResult = response.data;
+
+            var max = 0
+            var aprobadas = response.data.aceptadas
+            var reprobadas = response.data.rechazadas
+            
+            var visible= document.getElementById('myChart')
+
+
+
+            if (visible.style.display === "none"){
+
+                visible.style.display = "block"
+
+
+
+
+
+
+
+            }
+
+            
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            var myChart = new Chart(ctx, {
+
+                type: 'bar',
+
+                data: {
+
+                    labels: ['Reprobadas', 'Aprobadas', 'Total'],
+
+                    datasets: [{
+
+                        label: '# inclusiones',
+
+                        data: [reprobadas, aprobadas, parseInt(reprobadas)+parseInt(aprobadas)],
+
+                        backgroundColor: [
+
+                            'rgba(255, 99, 132, 0.2)',
+
+                            'rgba(54, 162, 235, 0.2)',
+
+                            'rgb(0,255,127)'
+
+
+
+                        ],
+
+                        borderColor: [
+
+                            'rgba(255, 99, 132, 1)',
+
+                            'rgba(54, 162, 235, 1)',
+
+                            'rgb(50,205,50)'
+
+
+
+                        ],
+
+                        borderWidth: 1
+
+                    }]
+
+                },
+
+                options: {
+
+                    scales: {
+
+                        yAxes: [{
+
+                            ticks: {
+
+                                suggestedMin: max,
+
+                                suggestedMax: max,
+
+                                stepSize: 2,
+
+                                beginAtZero: true
+
+                            }
+
+                        }]
+
+                    }
+
+                }
+
+            });
+
+
 
         }, function(error) {
             console.error(error);
@@ -85,125 +180,6 @@ $scope.getPeriodos = function(){
 
     
     }
-
-
-        
-   
-
-
-
-
-$scope.pintar = function(){
-    $scope.getResultados();
-
-    var aprobadas = 0
-    var reprobadas = 0
-    var max = 0
-    if (aprobadas>reprobadas){
-        max = aprobadas;
-    }
-    else{
-        max = reprobadas;
-    }
-    
-    var visible= document.getElementById('myChart')
-
-
-
-    if (visible.style.display === "block"){
-
-        visible.style.display = "none"
-
-
-
-
-
-
-
-    }
-
-    else{
-        
-        aprobadas = 4
-        reprobadas = 2
-
-        visible.style.display = "block"
-
-    }
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-
-    var myChart = new Chart(ctx, {
-
-        type: 'bar',
-
-        data: {
-
-            labels: ['Reprobadas', 'Aprobadas', 'Total'],
-
-            datasets: [{
-
-                label: '# inclusiones',
-
-                data: [reprobadas, aprobadas, reprobadas+aprobadas],
-
-                backgroundColor: [
-
-                    'rgba(255, 99, 132, 0.2)',
-
-                    'rgba(54, 162, 235, 0.2)',
-
-                    'rgb(0,255,127)'
-
-
-
-                ],
-
-                borderColor: [
-
-                    'rgba(255, 99, 132, 1)',
-
-                    'rgba(54, 162, 235, 1)',
-
-                    'rgb(50,205,50)'
-
-
-
-                ],
-
-                borderWidth: 1
-
-            }]
-
-        },
-
-        options: {
-
-            scales: {
-
-                yAxes: [{
-
-                    ticks: {
-
-                        suggestedMin: max,
-
-                        suggestedMax: max,
-
-                        stepSize: 2,
-
-                        beginAtZero: true
-
-                    }
-
-                }]
-
-            }
-
-        }
-
-    });
-
-}
 
 
 

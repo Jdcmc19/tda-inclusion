@@ -49,7 +49,7 @@
 
           <label for="periodo_select">Seleccione la Periodo</label>
 
-      <select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="pintar()" required>
+      <select class="form-control" ng-model="inclusion.periodos" ng-init="inclusion.periodos = periodoQuery[0]" ng-options="periodo as periodo.nombre_periodo for periodo in periodoQuery track by periodo.id_periodo" ng-change="getResultados()" required>
 
         <option value="">--Elige opcion--</option>
 
