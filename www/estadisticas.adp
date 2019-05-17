@@ -20,7 +20,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link " href="http://localhost:8000/tda-inclusion/estudiante">Inclusiones </a>
+          <a class="nav-item nav-link " href="http://localhost:8000/tda-inclusion/coordinador">Inclusiones </a>
           <a class="nav-item nav-link" href="http://localhost:8000/tda-inclusion/cerrados">Abrir/Cerrar Cursos</a>
           <a class="nav-item nav-link active" >Estadisticas<span class="sr-only">(current)</span></a>
         </div>
